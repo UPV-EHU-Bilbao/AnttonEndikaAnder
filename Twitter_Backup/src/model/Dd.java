@@ -1,3 +1,4 @@
+package model;
 
 
 import java.sql.Connection;
@@ -8,13 +9,13 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class Data {
+public class Dd {
 	
 	String user="twitterBackup";
 	String password = "twitterBackup";
 	Connection conn;
 	
-	public Data() {
+	public Dd() {
 		try{
 			Class.forName("org.gjt.mm.mysql.Driver");
 		}catch(ClassNotFoundException e) {
@@ -75,6 +76,13 @@ public class Data {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public String tweetakIkusi() throws SQLException {
+		ResultSet request = this.select("");
+		String emaitza = null;
+		request.getAsciiStream(emaitza);
+		return emaitza;
 	}
 	
 }

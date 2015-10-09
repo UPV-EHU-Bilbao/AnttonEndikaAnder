@@ -1,3 +1,4 @@
+package model;
 
 import java.util.Random;
 import javax.crypto.Cipher;
