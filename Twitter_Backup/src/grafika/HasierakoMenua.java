@@ -28,11 +28,12 @@ import model.Dd;
 
 import java.awt.GridLayout;
 import java.sql.SQLException;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class HasierakoMenua extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
-	private final JScrollBar scrollBar = new JScrollBar();
 
 	/**
 	 * Launch the application.
@@ -62,26 +63,19 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel label_1 = new JLabel("");
-		label_1.setBounds(5, 6, 220, 96);
-		contentPane.add(label_1);
-		
 		
 		JMenuItem mntmTweet = new JMenuItem("tweet");
 		mntmTweet.setBounds(12, 0, 77, 19);
 		contentPane.add(mntmTweet);
 		mntmTweet.addActionListener(this);
 		
-		JLabel label_2 = new JLabel("");
-		label_2.setBounds(5, 102, 220, 96);
-		contentPane.add(label_2);
-		scrollBar.setBounds(421, 28, 17, 216);
-		contentPane.add(scrollBar);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(26, 44, 383, 193);
+		contentPane.add(scrollPane);
 		
-		JLabel label = new JLabel();
-		label.setBounds(26, 56, 377, 188);
-		label.setBackground(Color.WHITE);
-		contentPane.add(label);
+		JTextArea textArea = new JTextArea();
+		scrollPane.setViewportView(textArea);
+		//textArea.
 	}
 
 	@Override
