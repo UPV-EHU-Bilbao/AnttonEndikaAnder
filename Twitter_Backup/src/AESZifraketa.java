@@ -17,7 +17,7 @@ public class AESZifraketa {
 			zifratu = Cipher.getInstance("AES");
 			dezifratu = Cipher.getInstance("AES");
 			int luzera = mezua.length();
-//			if (luzera<5) throw new Exception();
+			if (luzera<5) throw new Exception();
 			int bete = 0;
 			for (int i = luzera; i < mezuLuzera; i++) {
 				if (i >= mezuLuzera-2) mezua = mezua + "=";
