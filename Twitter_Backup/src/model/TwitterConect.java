@@ -1,10 +1,11 @@
 package model;
+import twitter4j.Paging;
+import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
-import twitter4j.auth.OAuth2Token;
 import twitter4j.auth.RequestToken;
 
 import java.awt.Desktop;
@@ -12,27 +13,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
 public class TwitterConect {
 	
 	Twitter twitter;
 	
 	public TwitterConect(){
-		System.out.print("proba 1");
 		twitter = new TwitterFactory().getInstance();
 		twitter.setOAuthConsumer("TSuJgYz97JvU53vCDmlH9o0TP", "WbB3ftTKbOtY9RW9Z6kozaE6fLW3kVkhOR0HCc1puwkRVldjap");
-		System.out.print("proba 2");
 	}
 	
-	public void Login(){
+	public void login(){
 		try {
             
             try {
                 // get request token.
                 // this will throw IllegalStateException if access token is already available
                 RequestToken requestToken = twitter.getOAuthRequestToken();
-                System.out.print("proba 3");
                 System.out.println("Got request token.");
                 System.out.println("Request token: " + requestToken.getToken());
                 System.out.println("Request token secret: " + requestToken.getTokenSecret());
@@ -91,16 +87,35 @@ public class TwitterConect {
         
         
 	}
-	public void updateStatus(String statusMesage){
-		Status status;
-		try {
-			status = twitter.updateStatus(statusMesage);
-			System.out.println("Successfully updated the status to [" + status.getText() + "].");
-		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        
+	public void getTwitts(){
+		Dd dataBase = new Dd();
+        try {
+        	ResponseList<Status> list = twitter.getUserTimeline();
+        	for (Status status : list) {
+        		dataBase.tweetaGorde(twitter.getScreenName(),status);
+			}
+        	getTwitts(Long.toString(list.get(list.size()-1).getId()));
+        } catch (TwitterException te) {
+            //te.printStackTrace();
+            //System.out.println("Failed to show status: " + te.getMessage());
+        }
+        dataBase.closeConnection();
+	}
+	public void getTwitts(String lastAdded){
+		Dd dataBase = new Dd();
+	    try {
+	    	ResponseList<Status> list = twitter.getUserTimeline(new Paging(1,20,Long.parseLong("1"),Long.parseLong(lastAdded)));
+	    	for (Status status : list) {
+	    		dataBase.tweetaGorde(twitter.getScreenName(),status);
+			}
+	    	getTwitts(Long.toString(list.get(list.size()-1).getId()));
+	    } catch (TwitterException te) {
+	        //te.printStackTrace();
+	        //System.out.println("Failed to show status: " + te.getMessage());
+	    }
+	    dataBase.closeConnection();
 	}
 }
+
+
 

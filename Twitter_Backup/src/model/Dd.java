@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import twitter4j.Status;
+
 public class Dd {
 	
 	String user="twitterBackup";
@@ -48,6 +50,15 @@ public class Dd {
 		}
 	}
 	
+	public void closeConnection(){
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public ResultSet select(String query){
 		
 		ResultSet request = null;
@@ -69,13 +80,24 @@ public class Dd {
 	public void update(String query){
 		try {
 			Statement statement= conn.createStatement();
-			//int erantzuna;
-			//erantzuna = statement.executeUpdate(query);
 			statement.executeUpdate(query);
+			commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void instert(String query){
+		try {
+			Statement statement= conn.createStatement();
+			statement.executeUpdate(query);
+			commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public String tweetakIkusi() throws SQLException {
@@ -85,4 +107,8 @@ public class Dd {
 		return emaitza;
 	}
 	
+	public void tweetaGorde(String userName, Status status){
+		System.out.println(userName);
+		System.out.println(status.getId()+": "+status.getText()+"    "+status.getCreatedAt());
+	}
 }
