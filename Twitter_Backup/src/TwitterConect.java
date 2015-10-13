@@ -1,3 +1,4 @@
+import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -18,13 +19,11 @@ public class TwitterConect {
 	Twitter twitter;
 	
 	public TwitterConect(){
-		System.out.print("proba 1");
 		twitter = new TwitterFactory().getInstance();
 		twitter.setOAuthConsumer("TSuJgYz97JvU53vCDmlH9o0TP", "WbB3ftTKbOtY9RW9Z6kozaE6fLW3kVkhOR0HCc1puwkRVldjap");
-		System.out.print("proba 2");
 	}
 	
-	public void Login(){
+	public void login(){
 		try {
             
             try {
@@ -99,7 +98,19 @@ public class TwitterConect {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
+	}
+	
+	public void getTwitts(){
+        try {
+        	ResponseList<Status> list = twitter.getUserTimeline();
+        	for (Status status : list) {
+				System.out.println(status.getText());
+			}
+        } catch (TwitterException te) {
+            te.printStackTrace();
+            System.out.println("Failed to show twitts: " + te.getMessage());
+            System.exit(-1);
+        }
 	}
 }
 

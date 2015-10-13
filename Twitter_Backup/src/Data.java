@@ -24,6 +24,7 @@ public class Data {
 		try{
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306",user,password);
 			conn.setAutoCommit(false);
+			System.out.println("proba");
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
