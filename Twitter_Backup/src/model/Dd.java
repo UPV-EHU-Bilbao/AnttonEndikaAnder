@@ -14,8 +14,8 @@ import twitter4j.Status;
 
 public class Dd {
 	
-	String user="TwitterBackup";
-	String password = "TwitterBackup";
+	String user="twitterBackup";
+	String password = "twitterBackup";
 	Connection conn;
 	
 	public Dd() {
@@ -109,7 +109,7 @@ public class Dd {
 //		return emaitza;
 		Stack<String> st=new Stack<String>();
 		while(request.next()){
-			st.add(request.getString(0));
+			st.add(request.getString(1));
 			}
 		return st;
 	}

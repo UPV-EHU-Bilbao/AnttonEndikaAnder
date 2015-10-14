@@ -111,7 +111,9 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			Stack<String> st=data.tweetakIkusi();
 			String mesage =null;
 			while(!st.isEmpty()){
-				mesage=st.pop()+mesage;
+				String ms=st.pop();
+				if(!ms.equals(null)){
+				mesage=ms+" "+"\n"+mesage;}
 			}
 			textArea.setText(mesage);
 			
