@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Stack;
 
+import twitter4j.Status;
+
 public class Dd {
 	
 	String user="TwitterBackup";
@@ -19,12 +21,13 @@ public class Dd {
 	public Dd() {
 		try{
 			Class.forName("org.gjt.mm.mysql.Driver");
+//			Class.forName("com.mysql.jdbc.Driver");
 		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		//Open connection
 		try{
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306",user,password);
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/TwitterBackup",user,password);
 			conn.setAutoCommit(false);
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -43,6 +46,15 @@ public class Dd {
 	public void rollback(){
 		try {
 			conn.rollback();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void closeConnection(){
+		try {
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -70,13 +82,24 @@ public class Dd {
 	public void update(String query){
 		try {
 			Statement statement= conn.createStatement();
-			//int erantzuna;
-			//erantzuna = statement.executeUpdate(query);
 			statement.executeUpdate(query);
+			commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void instert(String query){
+		try {
+			Statement statement= conn.createStatement();
+			statement.executeUpdate(query);
+			commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public Stack<String> tweetakIkusi() throws SQLException {
@@ -91,4 +114,8 @@ public class Dd {
 		return st;
 	}
 	
+	public void tweetaGorde(String userName, Status status){
+		System.out.println(userName);
+		System.out.println(status.getId()+": "+status.getText()+"    "+status.getCreatedAt());
+	}
 }
