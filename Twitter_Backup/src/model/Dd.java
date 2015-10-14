@@ -20,12 +20,13 @@ public class Dd {
 	public Dd() {
 		try{
 			Class.forName("org.gjt.mm.mysql.Driver");
+//			Class.forName("com.mysql.jdbc.Driver");
 		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		//Open connection
 		try{
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306",user,password);
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/TwitterBackup",user,password);
 			conn.setAutoCommit(false);
 		}catch(SQLException e) {
 			e.printStackTrace();
