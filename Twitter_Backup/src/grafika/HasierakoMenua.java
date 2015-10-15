@@ -82,18 +82,15 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentPane.setLayout(new BorderLayout());
 		
 		
 		
 		
 		JMenuItem mntmTweet = new JMenuItem("tweet");
-		mntmTweet.setBounds(12, 0, 77, 19);
-		contentPane.add(mntmTweet);
+		contentPane.add(mntmTweet, BorderLayout.NORTH);
 		mntmTweet.addActionListener(this);
-		
-		scrollPane.setBounds(26, 44, zabalera-70, altuera-100);
-		contentPane.add(scrollPane);
+		contentPane.add(scrollPane,BorderLayout.CENTER);
 		//scrollPane.add
 		
 		
@@ -109,11 +106,11 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		//tc.Login();
 		try {
 			Stack<String> st=data.tweetakIkusi();
-			String mesage =null;
+			String mesage =st.pop();
 			while(!st.isEmpty()){
 				String ms=st.pop();
 				if(!ms.equals(null)){
-				mesage=ms+" "+"\n"+mesage;}
+				 mesage=ms+" "+"\n"+"-"+mesage;}
 			}
 			textArea.setText(mesage);
 			
