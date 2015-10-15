@@ -10,6 +10,7 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
 import javax.swing.JProgressBar;
 import javax.swing.JSeparator;
 import javax.swing.JMenuBar;
@@ -18,6 +19,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JLabel;
 
 //import com.mysql.fabric.xmlrpc.base.Data;
+
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -45,6 +47,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 	private int zabalera=450;
 	private static HasierakoMenua frame = new HasierakoMenua();
 	private JTextArea textArea = new JTextArea();
+	private JButton gehiago=new JButton("20 twit gehiago");
 
 	/**
 	 * Launch the application.
@@ -93,6 +96,11 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		contentPane.add(scrollPane,BorderLayout.CENTER);
 		//scrollPane.add
 		
+		contentPane.add(gehiago, BorderLayout.SOUTH);
+		gehiago.setVisible(false);
+		gehiago.addActionListener(this);
+		gehiago.setActionCommand("20+");
+		
 		
 		scrollPane.setViewportView(textArea);
 		textArea.setEditable(false);
@@ -104,15 +112,30 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		Dd data =new Dd();
 		//TwitterConect tc =new TwitterConect();
 		//tc.Login();
+//		if(arg0.getActionCommand().equals("20+")){
+//			System.out.println("gehiago");
+//		}
 		try {
+			
 			Stack<String> st=data.tweetakIkusi();
-			String mesage =st.pop();
+			String mesage=new String();
+			if(arg0.getActionCommand().equals("20+")){
+				mesage=textArea.getText();
+				//System.out.println(mesage);
+				mesage =mesage+"\n"+"-"+st.pop();
+			}else{
+				mesage ="-"+st.pop();
+			}
 			while(!st.isEmpty()){
 				String ms=st.pop();
+				System.out.println(ms);
 				if(!ms.equals(null)){
 				 mesage=ms+" "+"\n"+"-"+mesage;}
 			}
 			textArea.setText(mesage);
+			gehiago.setVisible(true);
+			
+			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
