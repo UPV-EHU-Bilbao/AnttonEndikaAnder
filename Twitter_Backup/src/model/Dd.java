@@ -8,6 +8,7 @@ import java.sql.SQLException;
 //import com.mysql.jdbc.Statement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Stack;
 
 import twitter4j.Status;
 
@@ -101,11 +102,16 @@ public class Dd {
 		
 	}
 	
-	public String tweetakIkusi() throws SQLException {
-		ResultSet request = this.select("");
-		String emaitza = null;
-		request.getAsciiStream(emaitza);
-		return emaitza;
+	public Stack<String> tweetakIkusi() throws SQLException {
+		ResultSet request = this.select("SELECT mesage FROM TwitterBackup.MyTweets ");
+//		String emaitza = null;
+//		request.getAsciiStream(emaitza);
+//		return emaitza;
+		Stack<String> st=new Stack<String>();
+		while(request.next()){
+			st.add(request.getString(1));
+			}
+		return st;
 	}
 	
 	public void tweetaGorde(String userName, Status status){
