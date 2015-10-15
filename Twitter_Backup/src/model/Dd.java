@@ -103,7 +103,7 @@ public class Dd {
 	}
 	
 	public Stack<String> tweetakIkusi() throws SQLException {
-		ResultSet request = this.select("SELECT mesage FROM TwitterBackup.MyTweets ");
+		ResultSet request = this.select("SELECT id,mesage FROM MyTweets ORDER BY id DESC LIMIT 20");
 //		String emaitza = null;
 //		request.getAsciiStream(emaitza);
 //		return emaitza;
