@@ -103,7 +103,6 @@ public class Dd {
 	
 	public int getAzkenId(){
 		try {
-			String query = "SELECT id FROM MyTweets ORDER BY id DESC LIMIT 1";
 			ResultSet request = this.select("SELECT id FROM MyTweets ORDER BY id DESC LIMIT 1");			
 			request.next();
 			return request.getInt(1);
