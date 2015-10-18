@@ -99,7 +99,18 @@ public class Dd {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+	}
+	
+	public int getAzkenId(){
+		try {
+			String query = "SELECT id FROM MyTweets ORDER BY id DESC LIMIT 1";
+			ResultSet request = this.select("SELECT id FROM MyTweets ORDER BY id DESC LIMIT 1");			
+			request.next();
+			return request.getInt(1);
+		} catch (Exception e) {
+			System.out.println("Error:  "+e);
+		}
+		return -1;		//taula hutsik dagoenean
 	}
 	
 	public Stack<String> tweetakIkusi() throws SQLException {
