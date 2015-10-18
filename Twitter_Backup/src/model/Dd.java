@@ -99,11 +99,22 @@ public class Dd {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+	}
+	
+	public int getAzkenId(){
+		try {
+			ResultSet request = this.select("SELECT id FROM MyTweets ORDER BY id DESC LIMIT 1");			
+			request.next();
+			return request.getInt(1);
+		} catch (Exception e) {
+			System.out.println("Error:  "+e);
+		}
+		return -1;		//taula hutsik dagoenean
 	}
 	
 	public Stack<String> tweetakIkusi() throws SQLException {
-		ResultSet request = this.select("SELECT mesage FROM TwitterBackup.MyTweets ");
+//		ResultSet request = this.select("SELECT id,mesage FROM MyTweets WHERE id BETWEEN "+lehen+" AND "+bigarren+" ORDER BY id DESC");
+		ResultSet request = this.select("SELECT id,mesage FROM MyTweets ORDER BY id DESC LIMIT 20");
 //		String emaitza = null;
 //		request.getAsciiStream(emaitza);
 //		return emaitza;
