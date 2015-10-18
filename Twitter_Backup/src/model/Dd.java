@@ -115,11 +115,9 @@ public class Dd {
 	}
 	
 	public void tweetaGorde(String userName, Status status){
-		System.out.println(userName);
-		System.out.println(status.getId()+": "+status.getText()+"    "+status.getCreatedAt());
-		System.out.println("INSERT INTO TwitterBackup.MyTweets(`id`,`mesage`,`name`,`twitterUser`)VALUES("+status.getId()+",'"+status.getText() +"','"+status.getUser().getScreenName()+"','"+userName+"')");
-		instert("INSERT INTO TwitterBackup.MyTweets(id,mesage,name,twitterUser)VALUES('"+status.getId()+"','"+status.getText() +"','"+status.getUser().getScreenName()+"','"+userName+"')");
-		//instert("INSERT INTO TwitterBackup.MyTweets(id,mesage,name,twitterUser)VALUES("+1+",'"+status.getText() +"','"+status.getUser().getScreenName()+"','"+userName+"')");
-		
+		//System.out.println(userName);
+		//System.out.println(status.getId()+": "+status.getText()+"    "+status.getCreatedAt());
+		//System.out.println("INSERT INTO TwitterBackup.MyTweets(`id`,`mesage`,`name`,`twitterUser`)VALUES("+status.getId()+",'"+status.getText() +"','"+status.getUser().getScreenName()+"','"+userName+"')");
+		instert("INSERT INTO TwitterBackup.MyTweets(id,mesage,name,twitterUser)VALUES('"+status.getId()+"','"+status.getText() +"','"+status.getUser().getScreenName()+"','"+userName+"')");		
 	}
 }
