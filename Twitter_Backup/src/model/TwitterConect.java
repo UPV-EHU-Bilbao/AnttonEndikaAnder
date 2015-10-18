@@ -69,7 +69,7 @@ public class TwitterConect {
                 // access token is already available, or consumer key/secret is not set.
                 if (!twitter.getAuthorization().isEnabled()) {
                     System.out.println("OAuth consumer key/secret is not set.");
-                    System.exit(-1);
+                    //System.exit(-1);
                 }
             }
             
@@ -79,11 +79,11 @@ public class TwitterConect {
         } catch (TwitterException te) {
             te.printStackTrace();
             System.out.println("Failed to get timeline: " + te.getMessage());
-            System.exit(-1);
+            //System.exit(-1);
         } catch (IOException ioe) {
             ioe.printStackTrace();
             System.out.println("Failed to read the system input.");
-            System.exit(-1);
+            //System.exit(-1);
         }
         
         
@@ -95,12 +95,14 @@ public class TwitterConect {
         	for (Status status : list) {
         		dataBase.tweetaGorde(twitter.getScreenName(),status);
 			}
+        	dataBase.closeConnection();
         	getTwitts(Long.toString(list.get(list.size()-1).getId()));
         } catch (TwitterException te) {
-            //te.printStackTrace();
+            System.out.println("application's rate limit, please wait 15m a retry");
+        	//te.printStackTrace();
             //System.out.println("Failed to show status: " + te.getMessage());
         }
-        dataBase.closeConnection();
+        
 	}
 	public void getTwitts(String lastAdded){
 		Dd dataBase = new Dd();
@@ -109,12 +111,14 @@ public class TwitterConect {
 	    	for (Status status : list) {
 	    		dataBase.tweetaGorde(twitter.getScreenName(),status);
 			}
+	    	dataBase.closeConnection();
 	    	getTwitts(Long.toString(list.get(list.size()-1).getId()));
 	    } catch (TwitterException te) {
+	    	System.out.println("application's rate limit, please wait 15m a retry");
 	        //te.printStackTrace();
 	        //System.out.println("Failed to show status: " + te.getMessage());
 	    }
-	    dataBase.closeConnection();
+	    
 	}
 }
 
