@@ -21,11 +21,13 @@ import javax.swing.JLabel;
 //import com.mysql.fabric.xmlrpc.base.Data;
 
 
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Point;
 
 import javax.swing.JScrollBar;
 
@@ -56,15 +58,9 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					
+
 					frame.setVisible(true);
 					frame.setMinimumSize(new Dimension(450, 300));
-					System.out.println((frame.getWidth())+" "+(frame.getHeight()));
-//					 WindowEvent we = new WindowEvent(frame, WindowEvent.COMPONENT_RESIZED);
-//					 WindowListener wl = null;
-//					    wl.windowActivated(we);
-//					    frame.addWindowListener(wl);
-					//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -104,17 +100,18 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		
 		scrollPane.setViewportView(textArea);
 		textArea.setEditable(false);
+		textArea.setColumns(20);
+		textArea.setWrapStyleWord(true);
+		//scrollPane.getVerticalScrollBar().setValue(0);
 	} 
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		Dd data =new Dd();
-		//TwitterConect tc =new TwitterConect();
-		//tc.Login();
-//		if(arg0.getActionCommand().equals("20+")){
-//			System.out.println("gehiago");
-//		}
+//		TwitterConect tc =new TwitterConect();
+//		tc.login();
+//		tc.getTwitts();
 		try {
 			
 			Stack<String> st=data.tweetakIkusi();
@@ -122,19 +119,34 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			if(arg0.getActionCommand().equals("20+")){
 				mesage=textArea.getText();
 				//System.out.println(mesage);
-				mesage =mesage+"\n"+"-"+st.pop();
+				mesage =mesage+"\n"+"\n-*"+st.pop();
 			}else{
 				mesage ="-"+st.pop();
 			}
+			int color=0;
 			while(!st.isEmpty()){
 				String ms=st.pop();
-				System.out.println(ms);
+				//System.out.println(ms);
 				if(!ms.equals(null)){
-				 mesage=ms+" "+"\n"+"-"+mesage;}
+ 				 mesage=mesage+ms+" "+"\n"+"\n-*";}
+//				if(color%2==0){
+//					textArea.setForeground(Color.BLUE);
+//					textArea.setText(mesage);
+//				}else{
+//					textArea.setForeground(Color.RED);
+//					textArea.setText(mesage);
+//				}
+//				color++;
 			}
 			textArea.setText(mesage);
-			gehiago.setVisible(true);
 			
+			gehiago.setVisible(true);
+//			scrollPane.setCorner(scrollPane.UPPER_LEFT_CORNER, null );
+			scrollPane.getVerticalScrollBar().setValue(0);
+			///scrollPane.setC
+			//scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
+			Point p = new Point(1,1);
+			scrollPane.getViewport().setViewPosition(p); 
 			
 			
 		} catch (SQLException e) {
@@ -142,11 +154,6 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			e.printStackTrace();
 		}
 		
-	}
-	
-	public void windowIconified(WindowEvent e){
-		scrollPane.setBounds(100, 100, frame.getWidth()-70, frame.getHeight()-100);
-		System.out.println((contentPane.getWidth()-70)+" "+(contentPane.getHeight()-100));
 	}
 
 	
