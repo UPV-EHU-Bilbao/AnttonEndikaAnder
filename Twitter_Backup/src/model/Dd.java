@@ -90,7 +90,7 @@ public class Dd {
 		}
 	}
 	
-	public void instert(String query){
+	public void insert(String query){
 		try {
 			Statement statement= conn.createStatement();
 			statement.executeUpdate(query);
@@ -129,6 +129,27 @@ public class Dd {
 		//System.out.println(userName);
 		//System.out.println(status.getId()+": "+status.getText()+"    "+status.getCreatedAt());
 		//System.out.println("INSERT INTO TwitterBackup.MyTweets(`id`,`mesage`,`name`,`twitterUser`)VALUES("+status.getId()+",'"+status.getText() +"','"+status.getUser().getScreenName()+"','"+userName+"')");
-		instert("INSERT INTO TwitterBackup.MyTweets(id,mesage,name,twitterUser)VALUES('"+status.getId()+"','"+status.getText() +"','"+status.getUser().getScreenName()+"','"+userName+"')");		
+		insert("INSERT INTO TwitterBackup.MyTweets(id,mesage,name,twitterUser)VALUES('"+status.getId()+"','"+status.getText() +"','"+status.getUser().getScreenName()+"','"+userName+"')");		
+	}
+	
+	public String[] getTwitterSession(){
+		String[] session = null;
+		try {
+			ResultSet request = select("SELECT twitterUser,tokenSecret,token FROM UserTwitter");
+			if (request.next()==true){
+				session = new String[3];
+				session[0] = request.getString(1);
+				session[1] = request.getString(2);
+				session[2] = request.getString(3);
+			}
+		} catch (SQLException e) {
+			System.out.println("Error:  "+e);
+		}
+		
+		return session;
+	}
+	
+	public void newTwitterSession(String user, String tokenSecret, String token){
+		insert("INSERT INTO UserTwitter(twitterUser,tokenSecret,token)VALUES('" + user + "','" + tokenSecret + "','" + token + "')");
 	}
 }
