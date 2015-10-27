@@ -113,13 +113,15 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 //		tc.login();
 //		tc.getTwitts();
 		try {
-			
-			Stack<String> st=data.tweetakIkusi();
+			Long zenb=new Long(data.getAzkenId());
+			Stack<String> st=data.tweetakIkusi(zenb,zenb-20);
 			String mesage=new String();
 			if(arg0.getActionCommand().equals("20+")){
 				mesage=textArea.getText();
 				//System.out.println(mesage);
 				mesage =mesage+"\n"+"\n-*"+st.pop();
+				
+				
 			}else{
 				mesage ="-"+st.pop();
 			}

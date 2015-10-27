@@ -112,15 +112,15 @@ public class Dd {
 		return -1;		//taula hutsik dagoenean
 	}
 	
-	public Stack<String> tweetakIkusi() throws SQLException {
-//		ResultSet request = this.select("SELECT id,mesage FROM MyTweets WHERE id BETWEEN "+lehen+" AND "+bigarren+" ORDER BY id DESC");
-		ResultSet request = this.select("SELECT id,mesage FROM MyTweets ORDER BY id DESC LIMIT 20");
+	public Stack<String> tweetakIkusi(Long lehen, Long bigarren) throws SQLException {
+		ResultSet request = this.select("SELECT id,mesage FROM MyTweets WHERE id BETWEEN "+lehen+" AND "+bigarren+" ORDER BY id DESC");
+//		ResultSet request = this.select("SELECT id,mesage FROM MyTweets ORDER BY id DESC LIMIT 20");
 //		String emaitza = null;
 //		request.getAsciiStream(emaitza);
 //		return emaitza;
 		Stack<String> st=new Stack<String>();
 		while(request.next()){
-			st.add(request.getString(1));
+			st.add(request.getString(2));
 			}
 		return st;
 	}
