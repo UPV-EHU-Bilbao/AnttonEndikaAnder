@@ -25,54 +25,61 @@ public class TwitterConect {
 	
 	public void login(){
 		try {
-            
-            try {
-                // get request token.
-                // this will throw IllegalStateException if access token is already available
-                RequestToken requestToken = twitter.getOAuthRequestToken();
-                System.out.println("Got request token.");
-                System.out.println("Request token: " + requestToken.getToken());
-                System.out.println("Request token secret: " + requestToken.getTokenSecret());
-                AccessToken accessToken = null;
-
-                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-                while (null == accessToken) {
-                    //System.out.println("Open the following URL and grant access to your account:");
-                    //System.out.println(requestToken.getAuthorizationURL());
-                	try {
-                    	Desktop desktop = Desktop.getDesktop();
-            			desktop.browse(new URI(requestToken.getAuthorizationURL()));
-            		} catch (Exception e) {
-            			e.printStackTrace();
-            		}
-                	System.out.print("Enter the PIN(if available) and hit enter after you granted access.[PIN]:");
-                	
-                	String pin = br.readLine();
-                    try {
-                        if (pin.length() > 0) {
-                            accessToken = twitter.getOAuthAccessToken(requestToken, pin);
-                        } else {
-                            accessToken = twitter.getOAuthAccessToken(requestToken);
-                        }
-                    } catch (TwitterException te) {
-                        if (401 == te.getStatusCode()) {
-                            System.out.println("Unable to get the access token.");
-                        } else {
-                            te.printStackTrace();
-                        }
-                    }
-                }
-                System.out.println("Got access token.");
-                System.out.println("Access token: " + accessToken.getToken());
-                System.out.println("Access token secret: " + accessToken.getTokenSecret());
-            } catch (IllegalStateException ie) {
-                // access token is already available, or consumer key/secret is not set.
-                if (!twitter.getAuthorization().isEnabled()) {
-                    System.out.println("OAuth consumer key/secret is not set.");
-                    //System.exit(-1);
-                }
-            }
-            
+			Dd db = new Dd();
+			String[] session = db.getTwitterSession();
+            if(!(session==null)){
+            	AccessToken accesToken = new AccessToken(session[2], session[1]);
+            	twitter.setOAuthAccessToken(accesToken);
+            }else{
+	            try {
+	                // get request token.
+	                // this will throw IllegalStateException if access token is already available
+	                RequestToken requestToken = twitter.getOAuthRequestToken();
+	                System.out.println("Got request token.");
+	                System.out.println("Request token: " + requestToken.getToken());
+	                System.out.println("Request token secret: " + requestToken.getTokenSecret());
+	                AccessToken accessToken = null;
+	
+	                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	                while (null == accessToken) {
+	                    //System.out.println("Open the following URL and grant access to your account:");
+	                    //System.out.println(requestToken.getAuthorizationURL());
+	                	try {
+	                    	Desktop desktop = Desktop.getDesktop();
+	            			desktop.browse(new URI(requestToken.getAuthorizationURL()));
+	            		} catch (Exception e) {
+	            			e.printStackTrace();
+	            		}
+	                	System.out.print("Enter the PIN(if available) and hit enter after you granted access.[PIN]:");
+	                	
+	                	String pin = br.readLine();
+	                    try {
+	                        if (pin.length() > 0) {
+	                            accessToken = twitter.getOAuthAccessToken(requestToken, pin);
+	                        } else {
+	                            accessToken = twitter.getOAuthAccessToken(requestToken);
+	                        }
+	                    } catch (TwitterException te) {
+	                        if (401 == te.getStatusCode()) {
+	                            System.out.println("Unable to get the access token.");
+	                        } else {
+	                            te.printStackTrace();
+	                        }
+	                    }
+	                }
+	                System.out.println("Got access token.");
+	                System.out.println("Access token: " + accessToken.getToken());
+	                System.out.println("Access token secret: " + accessToken.getTokenSecret());
+	                db.newTwitterSession(twitter.getScreenName(), accessToken.getTokenSecret().toString(), accessToken.getToken().toString());
+	            } catch (IllegalStateException ie) {
+	                // access token is already available, or consumer key/secret is not set.
+	                if (!twitter.getAuthorization().isEnabled()) {
+	                    System.out.println("OAuth consumer key/secret is not set.");
+	                    //System.exit(-1);
+	                }
+	            }
+			}
+            db.closeConnection();
             //Status status = twitter.updateStatus("twitter4j proba2");
             //System.out.println("Successfully updated the status to [" + status.getText() + "].");
             //System.exit(0);
@@ -88,6 +95,18 @@ public class TwitterConect {
         
         
 	}
+	
+	public void updateStatus(String statusMesage){
+		Status status;
+		try {
+			status = twitter.updateStatus(statusMesage);
+			System.out.println("Successfully updated the status to [" + status.getText() + "].");
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void getTwitts(){
 		Dd dataBase = new Dd();
         try {
@@ -104,15 +123,18 @@ public class TwitterConect {
         }
         
 	}
+	
 	public void getTwitts(String lastAdded){
 		Dd dataBase = new Dd();
 	    try {
 	    	ResponseList<Status> list = twitter.getUserTimeline(new Paging(1,20,Long.parseLong("1"),Long.parseLong(lastAdded)));
-	    	for (Status status : list) {
-	    		dataBase.tweetaGorde(twitter.getScreenName(),status);
-			}
-	    	dataBase.closeConnection();
-	    	getTwitts(Long.toString(list.get(list.size()-1).getId()));
+	    	if(!list.get(0).equals(Long.parseLong(lastAdded))){
+		    	for (Status status : list) {
+		    		dataBase.tweetaGorde(twitter.getScreenName(),status);
+				}
+		    	dataBase.closeConnection();
+		    	getTwitts(Long.toString(list.get(list.size()-1).getId()));
+	    	}
 	    } catch (TwitterException te) {
 	    	System.out.println("application's rate limit, please wait 15m a retry");
 	        //te.printStackTrace();
