@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
+import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
 import javax.swing.JSeparator;
 import javax.swing.JMenuBar;
@@ -19,6 +20,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JLabel;
 
 //import com.mysql.fabric.xmlrpc.base.Data;
+
 
 
 
@@ -50,6 +52,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 	private static HasierakoMenua frame = new HasierakoMenua();
 	private JTextArea textArea = new JTextArea();
 	private JButton gehiago=new JButton("20 twit gehiago");
+	private final JMenuBar menuBar = new JMenuBar();
 
 	/**
 	 * Launch the application.
@@ -78,19 +81,16 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, zabalera, altuera);
+		
+		//setJMenuBar(menuBar);
+		//contentPane.add(menuBar, BorderLayout.NORTH);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout());
-		
-		
-		
-		
-		JMenuItem mntmTweet = new JMenuItem("tweet");
-		contentPane.add(mntmTweet, BorderLayout.NORTH);
-		mntmTweet.addActionListener(this);
 		contentPane.add(scrollPane,BorderLayout.CENTER);
-		//scrollPane.add
+		//menuUser.add(new JMenuItem("userproba"));
+		
 		
 		contentPane.add(gehiago, BorderLayout.SOUTH);
 		gehiago.setVisible(false);
@@ -102,6 +102,30 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		textArea.setEditable(false);
 		textArea.setColumns(20);
 		textArea.setWrapStyleWord(true);
+		
+		JPanel contentPane1 = new JPanel();
+		contentPane.add(contentPane1, BorderLayout.NORTH);
+		contentPane1.setLayout(new BorderLayout(0, 0));
+		contentPane1.add(menuBar);
+		
+		JMenuItem mntmTweet = new JMenuItem("tweet");
+		//contentPane.add(mntmTweet, BorderLayout.NORTH);
+		mntmTweet.addActionListener(this);
+		//scrollPane.add
+		JMenuItem mntmFav = new JMenuItem("fav");
+		JMenuItem mntmRetweet = new JMenuItem("Retweet");
+		JMenuItem mntmDM = new JMenuItem("Direct message");
+		mntmDM.setMinimumSize(new Dimension(120, 20));
+		menuBar.add(mntmTweet);
+		menuBar.add(mntmFav);
+		menuBar.add(mntmRetweet);
+		menuBar.add(mntmDM);
+		
+		JMenu menuUser =new JMenu("users");
+		menuUser.setMinimumSize(new Dimension(50, 20));
+		//contentPane.add(menuUser, BorderLayout.NORTH);
+		//menuUser.add(new JMenuItem("user1"));
+		menuBar.add(menuUser);
 		//scrollPane.getVerticalScrollBar().setValue(0);
 	} 
 
@@ -114,7 +138,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 //		tc.getTwitts();
 		try {
 			Long zenb=new Long(data.getAzkenId());
-			Stack<String> st=data.tweetakIkusi(zenb,zenb-20);
+			Stack<String> st=data.tweetakIkusi(zenb,zenb+200);
 			String mesage=new String();
 			if(arg0.getActionCommand().equals("20+")){
 				mesage=textArea.getText();

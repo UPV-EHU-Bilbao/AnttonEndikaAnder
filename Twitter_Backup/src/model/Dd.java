@@ -101,19 +101,20 @@ public class Dd {
 		}
 	}
 	
-	public int getAzkenId(){
+	public Long getAzkenId(){
 		try {
 			ResultSet request = this.select("SELECT id FROM MyTweets ORDER BY id DESC LIMIT 1");			
 			request.next();
-			return request.getInt(1);
+			return new Long(request.getLong(1));
+			
 		} catch (Exception e) {
 			System.out.println("Error:  "+e);
 		}
-		return -1;		//taula hutsik dagoenean
+		return new Long(-1);		//taula hutsik dagoenean
 	}
 	
 	public Stack<String> tweetakIkusi(Long lehen, Long bigarren) throws SQLException {
-		ResultSet request = this.select("SELECT id,mesage FROM MyTweets WHERE id BETWEEN "+lehen+" AND "+bigarren+" ORDER BY id DESC");
+		ResultSet request = this.select("SELECT id,mesage FROM MyTweets WHERE id BETWEEN "+getAzkenId()+" AND "+(getAzkenId()+2000)+" ORDER BY id DESC");
 //		ResultSet request = this.select("SELECT id,mesage FROM MyTweets ORDER BY id DESC LIMIT 20");
 //		String emaitza = null;
 //		request.getAsciiStream(emaitza);
@@ -151,5 +152,9 @@ public class Dd {
 	
 	public void newTwitterSession(String user, String tokenSecret, String token){
 		insert("INSERT INTO UserTwitter(twitterUser,tokenSecret,token)VALUES('" + user + "','" + tokenSecret + "','" + token + "')");
+	}
+	public boolean login(String text, String text2) {
+		// TODO Auto-generated method stub
+		return true;
 	}
 }
