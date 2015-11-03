@@ -135,7 +135,7 @@ public class Dd {
 	public String[] getTwitterSession(){
 		String[] session = null;
 		try {
-			ResultSet request = select("SELECT twitterUser,tokenSecret,token FROM UserTwitter");
+			ResultSet request = select("SELECT twitterUser,tokenSecret,token FROM UserTwitter WHERE tokenSecret!=null AND token!=null");
 			if (request.next()==true){
 				session = new String[3];
 				session[0] = request.getString(1);
@@ -147,6 +147,10 @@ public class Dd {
 		}
 		
 		return session;
+	}
+	
+	public void closeTwitterSession(String twitterUser){
+		update("UPDATE UserTwitter SET tokenSecret=null, token=null WHERE twitterUser='"+twitterUser+"'");
 	}
 	
 	public void newTwitterSession(String user, String tokenSecret, String token){
