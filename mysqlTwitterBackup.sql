@@ -1,4 +1,4 @@
-﻿-- MySQL dump 10.13  Distrib 5.6.25, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.25, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: TwitterBackup
 -- ------------------------------------------------------
@@ -14,7 +14,7 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE if not exists TwitterBackup;
+
 --
 -- Table structure for table `DirectMesage`
 --
@@ -75,8 +75,8 @@ DROP TABLE IF EXISTS `MyTweets`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `MyTweets` (
-  `id` int(11) NOT NULL,
-  `mesage` varchar(45) NOT NULL,
+  `id` varchar(20) NOT NULL,
+  `mesage` varchar(200) NOT NULL,
   `name` varchar(45) NOT NULL,
   `twitterUser` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
@@ -152,8 +152,8 @@ DROP TABLE IF EXISTS `UserTwitter`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `UserTwitter` (
   `twitterUser` varchar(45) NOT NULL,
-  `tokenSecret` varchar(45) DEFAULT NULL,
-  `token` varchar(45) DEFAULT NULL,
+  `tokenSecret` varchar(60) DEFAULT NULL,
+  `token` varchar(60) DEFAULT NULL,
   `userId` int(11) DEFAULT NULL,
   PRIMARY KEY (`twitterUser`),
   KEY `id_idx` (`userId`),
@@ -167,6 +167,7 @@ CREATE TABLE `UserTwitter` (
 
 LOCK TABLES `UserTwitter` WRITE;
 /*!40000 ALTER TABLE `UserTwitter` DISABLE KEYS */;
+INSERT INTO `UserTwitter` VALUES ('endikap100','XLSywDIEwSA5COHfi86IWj2x0B9VdsUtbZ3NYYk49ylaQ','471159702-W0xTPXZ7aqJAFqzDZ8ifudYQu8ZwYbuGRHBiIpZc',NULL);
 /*!40000 ALTER TABLE `UserTwitter` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -179,4 +180,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-09-30 11:05:29
+-- Dump completed on 2015-11-03 15:31:41
