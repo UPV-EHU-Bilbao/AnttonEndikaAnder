@@ -15,6 +15,8 @@ import java.io.InputStreamReader;
 import java.net.URI;
 
 import controller.Dd;
+import controller.TwitterController;
+import controller.TwitterSesionController;
 
 public class TwitterConect {
 	
@@ -27,8 +29,7 @@ public class TwitterConect {
 	
 	public void login(){
 		try {
-			Dd db = new Dd();
-			String[] session = db.getTwitterSession();
+			String[] session = TwitterSesionController.getTwitterSesionController().getTwitterSession();
             if(!(session==null)){
             	AccessToken accesToken = new AccessToken(session[2], session[1]);
             	twitter.setOAuthAccessToken(accesToken);
@@ -72,7 +73,7 @@ public class TwitterConect {
 	                System.out.println("Got access token.");
 	                System.out.println("Access token: " + accessToken.getToken());
 	                System.out.println("Access token secret: " + accessToken.getTokenSecret());
-	                db.newTwitterSession(twitter.getScreenName(), accessToken.getTokenSecret().toString(), accessToken.getToken().toString());
+	                TwitterSesionController.getTwitterSesionController().newTwitterSession(twitter.getScreenName(), accessToken.getTokenSecret().toString(), accessToken.getToken().toString());
 	            } catch (IllegalStateException ie) {
 	                // access token is already available, or consumer key/secret is not set.
 	                if (!twitter.getAuthorization().isEnabled()) {
@@ -81,7 +82,7 @@ public class TwitterConect {
 	                }
 	            }
 			}
-            db.closeConnection();
+           
             //Status status = twitter.updateStatus("twitter4j proba2");
             //System.out.println("Successfully updated the status to [" + status.getText() + "].");
             //System.exit(0);
@@ -110,13 +111,12 @@ public class TwitterConect {
 	}
 	
 	public void getTwitts(){
-		Dd dataBase = new Dd();
+		
         try {
         	ResponseList<Status> list = twitter.getUserTimeline();
         	for (Status status : list) {
-        		dataBase.tweetaGorde(twitter.getScreenName(),status);
+        		TwitterController.getTwitterController().tweetaGorde(twitter.getScreenName(),status);
 			}
-        	dataBase.closeConnection();
         	getTwitts(Long.toString(list.get(list.size()-1).getId()));
         } catch (TwitterException te) {
             System.out.println("application's rate limit, please wait 15m a retry");
@@ -127,14 +127,12 @@ public class TwitterConect {
 	}
 	
 	public void getTwitts(String lastAdded){
-		Dd dataBase = new Dd();
 	    try {
 	    	ResponseList<Status> list = twitter.getUserTimeline(new Paging(1,20,Long.parseLong("1"),Long.parseLong(lastAdded)));
 	    	if(!list.get(0).equals(Long.parseLong(lastAdded))){
 		    	for (Status status : list) {
-		    		dataBase.tweetaGorde(twitter.getScreenName(),status);
+		    		TwitterController.getTwitterController().tweetaGorde(twitter.getScreenName(),status);
 				}
-		    	dataBase.closeConnection();
 		    	getTwitts(Long.toString(list.get(list.size()-1).getId()));
 	    	}
 	    } catch (TwitterException te) {

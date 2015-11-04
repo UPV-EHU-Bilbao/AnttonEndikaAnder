@@ -17,8 +17,9 @@ public class Dd {
 	String user="twitterBackup";
 	String password = "twitterBackup";
 	Connection conn;
+	private static Dd instantzia=new Dd();
 	
-	public Dd() {
+	private Dd() {
 		try{
 			Class.forName("org.gjt.mm.mysql.Driver");
 //			Class.forName("com.mysql.jdbc.Driver");
@@ -33,6 +34,11 @@ public class Dd {
 			e.printStackTrace();
 		}
 	}
+	
+	public static Dd getDd(){
+		return instantzia;
+	}
+	
 	public void commit() {
 		// TODO Auto-generated method stub
 		////////to-do
@@ -101,64 +107,5 @@ public class Dd {
 		}
 	}
 	
-	public Long getAzkenId(){
-		try {
-			ResultSet request = this.select("SELECT id FROM MyTweets ORDER BY id DESC LIMIT 1");			
-			request.next();
-			return new Long(request.getLong(1));
-			
-		} catch (Exception e) {
-			System.out.println("Error:  "+e);
-		}
-		return new Long(-1);		//taula hutsik dagoenean
-	}
 	
-	public Stack<String> tweetakIkusi(Long lehen, Long bigarren) throws SQLException {
-		ResultSet request = this.select("SELECT id,mesage FROM MyTweets WHERE id BETWEEN "+getAzkenId()+" AND "+(getAzkenId()+2000)+" ORDER BY id DESC");
-//		ResultSet request = this.select("SELECT id,mesage FROM MyTweets ORDER BY id DESC LIMIT 20");
-//		String emaitza = null;
-//		request.getAsciiStream(emaitza);
-//		return emaitza;
-		Stack<String> st=new Stack<String>();
-		while(request.next()){
-			st.add(request.getString(2));
-			}
-		return st;
-	}
-	
-	public void tweetaGorde(String userName, Status status){
-		//System.out.println(userName);
-		//System.out.println(status.getId()+": "+status.getText()+"    "+status.getCreatedAt());
-		//System.out.println("INSERT INTO TwitterBackup.MyTweets(`id`,`mesage`,`name`,`twitterUser`)VALUES("+status.getId()+",'"+status.getText() +"','"+status.getUser().getScreenName()+"','"+userName+"')");
-		insert("INSERT INTO TwitterBackup.MyTweets(id,mesage,name,twitterUser)VALUES('"+status.getId()+"','"+status.getText() +"','"+status.getUser().getScreenName()+"','"+userName+"')");		
-	}
-	
-	public String[] getTwitterSession(){
-		String[] session = null;
-		try {
-			ResultSet request = select("SELECT twitterUser,tokenSecret,token FROM UserTwitter WHERE tokenSecret!=null AND token!=null");
-			if (request.next()==true){
-				session = new String[3];
-				session[0] = request.getString(1);
-				session[1] = request.getString(2);
-				session[2] = request.getString(3);
-			}
-		} catch (SQLException e) {
-			System.out.println("Error:  "+e);
-		}
-		
-		return session;
-	}
-	
-	public void closeTwitterSession(String twitterUser){
-		update("UPDATE UserTwitter SET tokenSecret=null, token=null WHERE twitterUser='"+twitterUser+"'");
-	}
-	
-	public void newTwitterSession(String user, String tokenSecret, String token){
-		insert("INSERT INTO UserTwitter(twitterUser,tokenSecret,token)VALUES('" + user + "','" + tokenSecret + "','" + token + "')");
-	}
-	public boolean login(String text, String text2) {
-		// TODO Auto-generated method stub
-		return true;
-	}
 }

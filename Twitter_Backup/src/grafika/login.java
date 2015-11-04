@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 import controller.Dd;
+import controller.TwitterSesionController;
 
 public class login extends JFrame implements ActionListener {
 
@@ -111,8 +112,7 @@ public class login extends JFrame implements ActionListener {
 			//frame.setVisible(true);
 		}
 			if (e.getActionCommand().equals("login")){
-				Dd data =new Dd();
-				boolean log=data.login(textField.getText(),passwordField.getText());
+				boolean log=TwitterSesionController.getTwitterSesionController().login(textField.getText(),passwordField.getText());
 				if (log) {
 					HasierakoMenua menua=new HasierakoMenua();
 					menua.setVisible(true);
