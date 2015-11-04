@@ -17,7 +17,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
-import model.Dd;
+import controller.Dd;
 
 public class login extends JFrame implements ActionListener {
 

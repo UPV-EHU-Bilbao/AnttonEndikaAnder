@@ -1,4 +1,4 @@
-package model;
+package controller;
 
 
 import java.sql.Connection;
@@ -114,7 +114,7 @@ public class Dd {
 	}
 	
 	public Stack<String> tweetakIkusi(Long lehen, Long bigarren) throws SQLException {
-		ResultSet request = this.select("SELECT id,mesage FROM MyTweets WHERE id BETWEEN "+getAzkenId()+" AND "+(getAzkenId()+2000)+" ORDER BY id DESC");
+		ResultSet request = this.select("SELECT id,mesage FROM MyTweets WHERE id BETWEEN "+getAzkenId()+" AND "+(getAzkenId()+2000000000)+" ORDER BY id DESC");
 //		ResultSet request = this.select("SELECT id,mesage FROM MyTweets ORDER BY id DESC LIMIT 20");
 //		String emaitza = null;
 //		request.getAsciiStream(emaitza);
