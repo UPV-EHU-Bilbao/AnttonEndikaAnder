@@ -40,11 +40,6 @@ public class TwitterSesionController {
 	
 	public void newTwitterSession(String user, String tokenSecret, String token){
 		Dd.getDd().insert("INSERT INTO UserTwitter(twitterUser,tokenSecret,token)VALUES('" + user + "','" + tokenSecret + "','" + token + "')");
-	}
-	public boolean login(String text, String text2) {
-		// TODO Auto-generated method stub
-		return true;
-	}
-	
+	}	
 	
 }
