@@ -2,9 +2,9 @@
 
 Aplikazioaren instalatzeko hurrengo pausuak jarraitu behar dira:
 
-* mysql instalatu
-* mysqlTwitterBackup.sql-en dauden sql aginduak mysql-en exekutatu
-* twitteruser.sql-en dauden sql aginduak mysql-en exekutatu
+*	mysql instalatu
+*	mysqlTwitterBackup.sql-en dauden sql aginduak mysql-en exekutatu
+*	twitteruser.sql-en dauden sql aginduak mysql-en exekutatu
 
 
 Proiektua eclipsera inportatu nahi bada liburutegien aldagaiak jarri behar dira:
