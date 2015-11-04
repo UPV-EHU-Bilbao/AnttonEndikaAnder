@@ -1,9 +1,10 @@
 # Twitter Backup
 
 Aplikazioaren instalatzeko hurrengo pausuak jarraitu behar dira:
-1. mysql instalatu
-2. mysqlTwitterBackup.sql-en dauden sql aginduak mysql-en exekutatu
-3. twitteruser.sql-en dauden sql aginduak mysql-en exekutatu
+
+* mysql instalatu
+* mysqlTwitterBackup.sql-en dauden sql aginduak mysql-en exekutatu
+* twitteruser.sql-en dauden sql aginduak mysql-en exekutatu
 
 
 Proiektua eclipsera inportatu nahi bada liburutegien aldagaiak jarri behar dira:
