@@ -2,7 +2,7 @@ package controller;
 
 public class UserController {
 	
-private static UserController instantzia = new UserController();
+	private static UserController instantzia = new UserController();
 	
 	
 	private UserController(){}
@@ -11,12 +11,14 @@ private static UserController instantzia = new UserController();
 		return instantzia;
 	}
 	
-	public boolean login(String text, String text2) {
+	public boolean login(String userName, String password) {
 		// TODO Auto-generated method stub
 		return true;
 	}
 	
-	public void newUser(String userName, String password){
+	public boolean newUser(String userName, String password){
+		boolean exist = false;
 		
+		return exist;
 	}
 }
