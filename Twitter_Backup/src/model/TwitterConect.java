@@ -7,6 +7,7 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
+import grafika.PinEnter;
 
 import java.awt.Desktop;
 import java.io.BufferedReader;
@@ -26,6 +27,8 @@ public class TwitterConect {
 		twitter = new TwitterFactory().getInstance();
 		twitter.setOAuthConsumer("TSuJgYz97JvU53vCDmlH9o0TP", "WbB3ftTKbOtY9RW9Z6kozaE6fLW3kVkhOR0HCc1puwkRVldjap");
 	}
+	
+
 	
 	public void login(){
 		try {
@@ -53,9 +56,16 @@ public class TwitterConect {
 	            		} catch (Exception e) {
 	            			e.printStackTrace();
 	            		}
-	                	System.out.print("Enter the PIN(if available) and hit enter after you granted access.[PIN]:");
+//	                	System.out.print("Enter the PIN(if available) and hit enter after you granted access.[PIN]:");
 	                	
-	                	String pin = br.readLine();
+	                	String pin = null;
+	                	
+	                	PinEnter frame = new PinEnter();
+						frame.setVisible(true);
+						while(pin.equals(null)){
+	                	pin =frame.textuaHartu();
+	                	System.out.println(pin);}
+//	                	br.readLine();
 	                    try {
 	                        if (pin.length() > 0) {
 	                            accessToken = twitter.getOAuthAccessToken(requestToken, pin);
@@ -90,11 +100,12 @@ public class TwitterConect {
             te.printStackTrace();
             System.out.println("Failed to get timeline: " + te.getMessage());
             //System.exit(-1);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            System.out.println("Failed to read the system input.");
-            //System.exit(-1);
         }
+//        } catch (IOException ioe) {
+//            ioe.printStackTrace();
+//            System.out.println("Failed to read the system input.");
+//            //System.exit(-1);
+//        }
         
         
 	}

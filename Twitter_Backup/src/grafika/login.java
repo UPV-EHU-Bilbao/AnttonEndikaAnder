@@ -17,6 +17,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
+import model.TwitterConect;
 import controller.Dd;
 import controller.TwitterSesionController;
 
@@ -100,6 +101,9 @@ public class login extends JFrame implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e){
 		//Messages msg=new Messages();
+		
+		TwitterConect tc= new TwitterConect();
+		
 		if (comboBox.getSelectedIndex()==2){
 			System.out.println(comboBox.getSelectedIndex());
 			Locale spanishLocale = new Locale("grafika.messages", "ES");
@@ -114,6 +118,7 @@ public class login extends JFrame implements ActionListener {
 			if (e.getActionCommand().equals("login")){
 				boolean log=TwitterSesionController.getTwitterSesionController().login(textField.getText(),passwordField.getText());
 				if (log) {
+					tc.login();
 					HasierakoMenua menua=new HasierakoMenua();
 					menua.setVisible(true);
 					this.dispose();
