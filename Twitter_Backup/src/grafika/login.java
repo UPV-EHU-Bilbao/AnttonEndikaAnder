@@ -1,6 +1,7 @@
 package grafika;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,12 +17,15 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
+import model.Dd;
+
 public class login extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passwordField;
-	JComboBox comboBox = new JComboBox();
+	private JComboBox comboBox = new JComboBox();
+	private JLabel oker;
 
 	/**
 	 * Launch the application.
@@ -63,6 +67,12 @@ public class login extends JFrame implements ActionListener {
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
+		oker =new JLabel("Erabiltzale edo pasahitz okerra");
+		oker.setBounds(80, 65, 300, 220);
+		oker.setForeground(Color.RED);
+		contentPane.add(oker);
+		oker.setVisible(false);
+		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(161, 120, 114, 17);
 		contentPane.add(passwordField);
@@ -70,6 +80,8 @@ public class login extends JFrame implements ActionListener {
 		JButton btnLogin = new JButton(Messages.getString("login.2")); //$NON-NLS-1$
 		btnLogin.setBounds(267, 229, 117, 25);
 		contentPane.add(btnLogin);
+		btnLogin.addActionListener(this);
+		btnLogin.setActionCommand("login");
 		
 		JButton btnNewUser = new JButton(Messages.getString("login.3")); //$NON-NLS-1$
 		btnNewUser.setBounds(55, 229, 117, 25);
@@ -98,7 +110,20 @@ public class login extends JFrame implements ActionListener {
 			//login frame = new login();
 			//frame.setVisible(true);
 		}
+			if (e.getActionCommand().equals("login")){
+				Dd data =new Dd();
+				boolean log=data.login(textField.getText(),passwordField.getText());
+				if (log) {
+					HasierakoMenua menua=new HasierakoMenua();
+					menua.setVisible(true);
+					this.dispose();
+				}else{
+					oker.setVisible(true);
+				}
+			}
+			
+		}
 		
 		
-	}
+	
 }
