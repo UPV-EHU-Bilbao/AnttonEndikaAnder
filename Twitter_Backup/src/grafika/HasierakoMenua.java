@@ -25,6 +25,7 @@ import javax.swing.JLabel;
 
 
 
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -44,6 +45,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import controller.Dd;
+import controller.TwitterController;
 
 public class HasierakoMenua extends JFrame implements ActionListener{
 
@@ -134,13 +136,13 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		Dd data =new Dd();
+		
 //		TwitterConect tc =new TwitterConect();
 //		tc.login();
 //		tc.getTwitts();
 		try {
-			Long zenb=new Long(data.getAzkenId());
-			Stack<String> st=data.tweetakIkusi(zenb,zenb+2000000000);
+			Long zenb=new Long(TwitterController.getTwitterController().getAzkenId());
+			Stack<String> st=TwitterController.getTwitterController().tweetakIkusi(zenb,zenb+2000000000);
 			String mesage=new String();
 			if(arg0.getActionCommand().equals("20+")){
 				mesage=textArea.getText();
