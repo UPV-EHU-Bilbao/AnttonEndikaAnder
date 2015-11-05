@@ -11,7 +11,7 @@ public class TwitterController {
 	private static TwitterController instantzia=new TwitterController();
 	
 	private TwitterController(){
-		
+		long azkenId;		
 	}
 	
 	public static TwitterController getTwitterController(){
@@ -19,8 +19,7 @@ public class TwitterController {
 	}
 	
 	public Long getAzkenId(){
-		try {
-			
+		try {			
 			ResultSet request = Dd.getDd().select("SELECT id FROM MyTweets ORDER BY id DESC LIMIT 1");			
 			request.next();
 			return new Long(request.getLong(1));
@@ -51,7 +50,9 @@ public class TwitterController {
 		Dd.getDd().insert("INSERT INTO TwitterBackup.MyTweets(id,mesage,name,twitterUser)VALUES('"+status.getId()+"','"+status.getText() +"','"+status.getUser().getScreenName()+"','"+userName+"')");		
 	}
 	
-	
+	public void favGorde(String userName, Status status){
+		Dd.getDd().insert("INSERT INTO TwitterBackup.Fav(id,mesage,name,twitterUser)VALUES('"+status.getId()+"','"+status.getText()+"','"+status.getUser().getScreenName()+"','"+userName+"')");
+	}
 	
 	
 }

@@ -68,18 +68,22 @@ public class PinEnter extends JDialog implements ActionListener {
 		btnAtzera.addActionListener(this);
 		btnAtzera.setActionCommand("atzera");
 	}
+	
+	public String textuaHartu(){
+		return txtPin.getText();
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getActionCommand().equals("sartu")){
-			txtPin.getText();
+			textuaHartu();
 			this.dispose();
 		}else{
 			this.dispose();
 		}
 	}
 	public String getPin(){
-		return txtPin.getText();
+		return textuaHartu();
 	}
 }
