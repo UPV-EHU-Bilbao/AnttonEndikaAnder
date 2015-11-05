@@ -13,6 +13,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import controller.Dd;
 import controller.TwitterController;
@@ -96,7 +98,6 @@ public class TwitterConect {
             //System.exit(-1);
         }
         
-        
 	}
 	
 	public void updateStatus(String statusMesage){
@@ -142,6 +143,30 @@ public class TwitterConect {
 	    }
 	    
 	}
+	
+	public void getFavs(long sinceId){
+		int pageno = 1;
+		List<Status> statuses = new ArrayList<Status>();
+		while (true) {
+			try {
+				int size = statuses.size();
+				Paging page = new Paging(pageno++, 100, sinceId);
+				statuses.addAll(twitter.getFavorites(page));
+				if (statuses.size()==size) {
+					for (Status status : statuses) {
+						TwitterController.getTwitterController().favGorde(twitter.getScreenName(), status);
+					}
+					break;
+				}
+			} catch (TwitterException te) {
+				te.printStackTrace();
+				System.out.println("Failed to get favorites: " + te.getMessage());
+				System.exit(-1);
+			}
+		}
+		
+	}
+	
 }
 
 
