@@ -1,6 +1,7 @@
 package grafika;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +25,8 @@ public class NewUser extends JDialog implements ActionListener {
 	private JPasswordField passwordField;
 	private JPasswordField passwordField_1;
 	private JTextField textField_1;
+	private JLabel labelIncorrectPass; 
+	private JLabel labelIncorrectUser; 
 
 	/**
 	 * Launch the application.
@@ -57,6 +60,18 @@ public class NewUser extends JDialog implements ActionListener {
 		JLabel label = new JLabel("Repeat Password");
 		label.setBounds(38, 105, 147, 15);
 		contentPanel.add(label);
+		
+		labelIncorrectPass= new JLabel("Password is not the same");
+		this.labelIncorrectPass.setBounds(200, 200, 300, 15);
+		contentPanel.add(labelIncorrectPass);
+		labelIncorrectPass.setForeground(Color.RED);
+		labelIncorrectPass.setVisible(false);
+		
+		labelIncorrectUser= new JLabel("User is empty");
+		this.labelIncorrectUser.setBounds(200, 175, 300, 15);
+		contentPanel.add(labelIncorrectUser);
+		labelIncorrectUser.setForeground(Color.RED);
+		labelIncorrectUser.setVisible(false);
 		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(225, 77, 114, 19);
@@ -99,9 +114,17 @@ public class NewUser extends JDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("ok")){
-			if (!passwordField.getText().isEmpty() && passwordField.getText().equals(passwordField_1.getText())){
-			User.getUser().newUser(textField.getText() , passwordField.getText());
+			if(!textField.getText().isEmpty()){
+				if (!passwordField.getText().isEmpty() && passwordField.getText().equals(passwordField_1.getText())){
+					User.getUser().newUser(textField.getText() , passwordField.getText());
+					this.dispose();
+				}else{
+					labelIncorrectPass.setVisible(true);
+				}
+			}else{
+				labelIncorrectUser.setVisible(true);
 			}
+		}else{
 			this.dispose();
 		}
 	}

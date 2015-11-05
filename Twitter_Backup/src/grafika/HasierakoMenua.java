@@ -26,6 +26,9 @@ import javax.swing.JLabel;
 
 
 
+
+
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -36,9 +39,12 @@ import java.awt.Point;
 import javax.swing.JScrollBar;
 
 import model.TwitterConect;
+import model.User;
 
 import java.awt.GridLayout;
 import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Stack;
 
 import javax.swing.JScrollPane;
@@ -61,19 +67,19 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-
-					frame.setVisible(true);
-					frame.setMinimumSize(new Dimension(450, 300));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//
+//					frame.setVisible(true);
+//					frame.setMinimumSize(new Dimension(450, 300));
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -115,6 +121,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		JMenuItem mntmTweet = new JMenuItem("tweet");
 		//contentPane.add(mntmTweet, BorderLayout.NORTH);
 		mntmTweet.addActionListener(this);
+		mntmTweet.setActionCommand("tweet");
 		//scrollPane.add
 		JMenuItem mntmFav = new JMenuItem("fav");
 		JMenuItem mntmRetweet = new JMenuItem("Retweet");
@@ -131,12 +138,32 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		//menuUser.add(new JMenuItem("user1"));
 		menuBar.add(menuUser);
 		//scrollPane.getVerticalScrollBar().setValue(0);
+		LinkedList<String> lk=User.getUser().getTwitterUsers();
+		Iterator<String> it=lk.iterator();
+		JMenuItem item=null;
+		while(it.hasNext()){
+			String str= it.next();
+			item =new JMenuItem(str);
+			menuUser.add(item);
+			item.addActionListener(this);
+			item.setActionCommand(str);
+		}
+		item=new JMenuItem("Add Twitter User");
+		menuUser.add(item);
+		item.addActionListener(this);
+		item.setActionCommand("adduser");
+		
+		
 	} 
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		
+		if (arg0.getActionCommand().equals("adduser")){
+			System.out.println("add user");
+		}
+		if (arg0.getActionCommand().equals("tweet")){
 //		TwitterConect tc =new TwitterConect();
 //		tc.login();
 //		tc.getTwitts();
@@ -183,7 +210,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		}	
 	}
 
 	

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import controller.UserController;
 
@@ -45,8 +46,8 @@ public class User {
 		return exist;
 	}
 	
-	public void getTwitterUsers(){
-		UserController.getUserController().getTwitterUsers(id);
+	public LinkedList<String> getTwitterUsers(){
+		return UserController.getUserController().getTwitterUsers(this.id);
 	}
 	
 	

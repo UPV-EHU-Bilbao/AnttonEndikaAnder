@@ -35,7 +35,7 @@ public class UserController {
 	}
 	
 	public int newUser(String userName, String password){
-		//erabiltzailea ezin da existitu 
+		//erabiltzailea ezin da existitu. izen bereko bi erabiltzaile edo gehiago egon daitezke baina pasahitz ezberdinak eduki behar dituzte
 		int exist = 0;
 		Dd.getDd().insert("INSERT UserLocal (`user`, `password`) VALUES('"+userName+"', '"+password+"')");
 		return exist;
