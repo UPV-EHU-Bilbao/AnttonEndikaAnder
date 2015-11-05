@@ -103,7 +103,7 @@ import controller.TwitterSesionController;
 		public void actionPerformed(ActionEvent e){
 			//Messages msg=new Messages();
 			
-			TwitterConect tc= new TwitterConect();
+			//TwitterConect tc= new TwitterConect();
 			
 			if (comboBox.getSelectedIndex()==2){
 				System.out.println(comboBox.getSelectedIndex());
@@ -117,9 +117,9 @@ import controller.TwitterSesionController;
 				//frame.setVisible(true);
 			}
 				if (e.getActionCommand().equals("login")){
-					boolean log=User.getUser().login(textField.getText(),passwordField.getText());
-					if (log) {
-						tc.login();
+					int log=User.getUser().login(textField.getText(),passwordField.getText());
+					if (log!=-1) {
+						//tc.login();
 						HasierakoMenua menua=new HasierakoMenua();
 						menua.setVisible(true);
 						this.dispose();
