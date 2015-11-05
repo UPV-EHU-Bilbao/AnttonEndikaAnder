@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: TwitterBackup
 -- ------------------------------------------------------
--- Server version	5.6.25-4
+-- Server version	5.6.25-0ubuntu0.15.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,14 +16,14 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
-
+-- Table structure for table `DirectMesage`
 --
 
 DROP TABLE IF EXISTS `DirectMesage`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `DirectMesage` (
-  `id` int(11) NOT NULL,
+  `id` varchar(20) NOT NULL,
   `name` varchar(45) NOT NULL,
   `mesage` varchar(200) NOT NULL,
   `twitterUser` varchar(45) NOT NULL,
@@ -48,7 +48,7 @@ DROP TABLE IF EXISTS `Fav`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Fav` (
-  `id` int(11) NOT NULL,
+  `id` varchar(20) NOT NULL,
   `mesage` varchar(140) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   `twitterUser` varchar(45) DEFAULT NULL,
@@ -100,7 +100,7 @@ DROP TABLE IF EXISTS `Retweet`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Retweet` (
-  `id` int(11) NOT NULL,
+  `id` varchar(20) NOT NULL,
   `mesage` varchar(140) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   `twitterUser` varchar(45) DEFAULT NULL,
@@ -127,7 +127,7 @@ DROP TABLE IF EXISTS `UserLocal`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `UserLocal` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO INCREMENT,
   `user` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
@@ -154,7 +154,7 @@ CREATE TABLE `UserTwitter` (
   `twitterUser` varchar(45) NOT NULL,
   `tokenSecret` varchar(60) DEFAULT NULL,
   `token` varchar(60) DEFAULT NULL,
-  `userId` int(11) DEFAULT NULL,
+  `userId` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`twitterUser`),
   KEY `id_idx` (`userId`),
   CONSTRAINT `fk_UserTwitter_1` FOREIGN KEY (`userId`) REFERENCES `UserLocal` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -167,7 +167,6 @@ CREATE TABLE `UserTwitter` (
 
 LOCK TABLES `UserTwitter` WRITE;
 /*!40000 ALTER TABLE `UserTwitter` DISABLE KEYS */;
-INSERT INTO `UserTwitter` VALUES ('endikap100','XLSywDIEwSA5COHfi86IWj2x0B9VdsUtbZ3NYYk49ylaQ','471159702-W0xTPXZ7aqJAFqzDZ8ifudYQu8ZwYbuGRHBiIpZc',NULL);
 /*!40000 ALTER TABLE `UserTwitter` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -180,4 +179,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-03 15:31:41
+-- Dump completed on 2015-11-05  9:10:46
