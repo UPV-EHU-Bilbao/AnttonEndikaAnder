@@ -7,12 +7,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
 
-public class PinEnter extends JFrame implements ActionListener {
+public class PinEnter extends JDialog implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField txtPin;
@@ -37,7 +38,9 @@ public class PinEnter extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public PinEnter() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		super((java.awt.Frame) null, true);
+		setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -71,8 +74,12 @@ public class PinEnter extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		if(e.getActionCommand().equals("sartu")){
 			txtPin.getText();
+			this.dispose();
 		}else{
 			this.dispose();
 		}
+	}
+	public String getPin(){
+		return txtPin.getText();
 	}
 }

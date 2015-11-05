@@ -1,4 +1,5 @@
 package model;
+import grafika.PinEnter;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;
@@ -13,6 +14,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+
+import javax.swing.SingleSelectionModel;
 
 import controller.Dd;
 import controller.TwitterController;
@@ -55,7 +58,11 @@ public class TwitterConect {
 	            		}
 	                	System.out.print("Enter the PIN(if available) and hit enter after you granted access.[PIN]:");
 	                	
-	                	String pin = br.readLine();
+	                	//String pin = br.readLine();
+	                	PinEnter frame = new grafika.PinEnter();
+	            		frame.setVisible(true);
+	            		String pin = frame.getPin();
+	            		System.out.println(pin);
 	                    try {
 	                        if (pin.length() > 0) {
 	                            accessToken = twitter.getOAuthAccessToken(requestToken, pin);
@@ -90,11 +97,11 @@ public class TwitterConect {
             te.printStackTrace();
             System.out.println("Failed to get timeline: " + te.getMessage());
             //System.exit(-1);
-        } catch (IOException ioe) {
+        } /*catch (IOException ioe) {
             ioe.printStackTrace();
             System.out.println("Failed to read the system input.");
             //System.exit(-1);
-        }
+        }*/
         
         
 	}
