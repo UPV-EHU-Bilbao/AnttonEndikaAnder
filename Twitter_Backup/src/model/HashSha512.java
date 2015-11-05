@@ -3,11 +3,11 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class hashSha512 {
+public class HashSha512 {
 	
 	private String hash;
 	
-	public hashSha512(String pHash){
+	public HashSha512(String pHash){
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-512");
 			md.update(pHash.getBytes(), 0, pHash.length());
