@@ -34,9 +34,10 @@ public class UserController {
 		
 	}
 	
-	public boolean newUser(String userName, String password){
-		boolean exist = false;
-		
+	public int newUser(String userName, String password){
+		//erabiltzailea ezin da existitu 
+		int exist = 0;
+		Dd.getDd().insert("INSERT UserLocal (`user`, `password`) VALUES('"+userName+"', '"+password+"')");
 		return exist;
 	}
 

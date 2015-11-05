@@ -32,12 +32,14 @@ public class User {
 		return logged;
 	}
 	
-	public boolean newUser(String pErabiltzaileIzena, String pPasahitza){
-		boolean exist;
-		exist = UserController.getUserController().newUser(pErabiltzaileIzena, new HashSha512(pPasahitza).getHash());
-		if (exist == false){
+	public int newUser(String pErabiltzaileIzena, String pPasahitza){
+		int exist;
+		UserController.getUserController().newUser(pErabiltzaileIzena, new HashSha512(pPasahitza).getHash());
+		exist =login(pErabiltzaileIzena, new HashSha512(pPasahitza).getHash());
+		if (exist != -1){
 			erabiltzaileIzena = pErabiltzaileIzena;
 			pasahitza = new HashSha512(pPasahitza).getHash();
+			this.id=exist;
 		}
 		
 		return exist;

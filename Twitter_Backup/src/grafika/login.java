@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 	import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -89,6 +90,8 @@ import controller.TwitterSesionController;
 			JButton btnNewUser = new JButton(Messages.getString("login.3")); //$NON-NLS-1$
 			btnNewUser.setBounds(55, 229, 117, 25);
 			contentPane.add(btnNewUser);
+			btnNewUser.addActionListener(this);
+			btnNewUser.setActionCommand("newuser");
 			
 			
 			comboBox.setBounds(336, 38, 102, 24);
@@ -126,6 +129,11 @@ import controller.TwitterSesionController;
 					}else{
 						oker.setVisible(true);
 					}
+				}
+				if(e.getActionCommand().equals("newuser")){
+					NewUser dialog = new NewUser();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
 				}
 				
 			}
