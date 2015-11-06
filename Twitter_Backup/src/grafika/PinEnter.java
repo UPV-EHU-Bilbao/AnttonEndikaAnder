@@ -38,7 +38,9 @@ public class PinEnter extends JDialog implements ActionListener {
 	 * Create the frame.
 	 */
 	public PinEnter() {
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		super((java.awt.Frame) null, true);
+		setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -76,8 +78,12 @@ public class PinEnter extends JDialog implements ActionListener {
 		// TODO Auto-generated method stub
 		if(e.getActionCommand().equals("sartu")){
 			textuaHartu();
+			this.dispose();
 		}else{
 			this.dispose();
 		}
+	}
+	public String getPin(){
+		return textuaHartu();
 	}
 }

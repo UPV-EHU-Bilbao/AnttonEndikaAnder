@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 	import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -89,6 +90,8 @@ import controller.TwitterSesionController;
 			JButton btnNewUser = new JButton(Messages.getString("login.3")); //$NON-NLS-1$
 			btnNewUser.setBounds(55, 229, 117, 25);
 			contentPane.add(btnNewUser);
+			btnNewUser.addActionListener(this);
+			btnNewUser.setActionCommand("newuser");
 			
 			
 			comboBox.setBounds(336, 38, 102, 24);
@@ -103,7 +106,7 @@ import controller.TwitterSesionController;
 		public void actionPerformed(ActionEvent e){
 			//Messages msg=new Messages();
 			
-			TwitterConect tc= new TwitterConect();
+			//TwitterConect tc= new TwitterConect();
 			
 			if (comboBox.getSelectedIndex()==2){
 				System.out.println(comboBox.getSelectedIndex());
@@ -117,15 +120,20 @@ import controller.TwitterSesionController;
 				//frame.setVisible(true);
 			}
 				if (e.getActionCommand().equals("login")){
-					boolean log=User.getUser().login(textField.getText(),passwordField.getText());
-					if (log) {
-						tc.login();
+					int log=User.getUser().login(textField.getText(),passwordField.getText());
+					if (log!=-1) {
+						//tc.login();
 						HasierakoMenua menua=new HasierakoMenua();
 						menua.setVisible(true);
 						this.dispose();
 					}else{
 						oker.setVisible(true);
 					}
+				}
+				if(e.getActionCommand().equals("newuser")){
+					NewUser dialog = new NewUser();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
 				}
 				
 			}
