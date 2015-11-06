@@ -9,16 +9,16 @@ import twitter4j.Status;
 public class TwitterController {
 
 	private static TwitterController instantzia=new TwitterController();
+	private long azkenTweetId;
 	
-	private TwitterController(){
-		long azkenId;		
-	}
+	private TwitterController(){	}
 	
 	public static TwitterController getTwitterController(){
 		return instantzia;
 	}
 	
-	public Long getAzkenId(){
+	public Long getAzkenTweetId(String taula){
+		//datubasean sartutako azken id-a itzultzen du gehiago egotekotan deskarga bertatik jarraitzeko
 		try {			
 			ResultSet request = Dd.getDd().select("SELECT id FROM MyTweets ORDER BY id DESC LIMIT 1");			
 			request.next();
@@ -27,15 +27,23 @@ public class TwitterController {
 		} catch (Exception e) {
 			System.out.println("Error:  "+e);
 		}
-		return new Long(-1);		//taula hutsik dagoenean
+		return null;
 	}
 	
-	public Stack<String> tweetakIkusi(Long lehen, Long bigarren) throws SQLException {
-		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE id BETWEEN "+getAzkenId()+" AND "+(getAzkenId()+2000)+" ORDER BY id DESC");
-//		ResultSet request = this.select("SELECT id,mesage FROM MyTweets ORDER BY id DESC LIMIT 20");
-//		String emaitza = null;
-//		request.getAsciiStream(emaitza);
-//		return emaitza;
+	public Stack<String> lehentweetakIkusi(Long lehen, Long bigarren) throws SQLException {
+		//Honek lehen 20-ak hartzen ditu (datubasetik), hurrengoak hartzeko beste sql sententzia bat erabili behar delako
+		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets ORDER BY id DESC LIMIT 20");
+		Stack<String> st=new Stack<String>();
+		while(request.next()){
+			st.add(request.getString(2));
+			azkenTweetId = request.getLong(1);
+			}
+		return st;
+	}
+	
+	public Stack<String> tweetakIkusi(Long lehen) throws SQLException {
+		//pantailaratutako azken id-tik abiaratuta beste 20 hartzen ditu
+		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE id < "+azkenTweetId+" ORDER BY id DESC LIMIT 20");
 		Stack<String> st=new Stack<String>();
 		while(request.next()){
 			st.add(request.getString(2));
