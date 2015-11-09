@@ -41,7 +41,7 @@ public class TwitterController {
 		return st;
 	}
 	
-	public Stack<String> tweetakIkusi(Long lehen) throws SQLException {
+	public Stack<String> tweetakIkusi() throws SQLException {
 		//pantailaratutako azken id-tik abiaratuta beste 20 hartzen ditu
 		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE id < "+azkenTweetId+" ORDER BY id DESC LIMIT 20");
 		Stack<String> st=new Stack<String>();
