@@ -30,7 +30,7 @@ public class TwitterController {
 		return null;
 	}
 	
-	public Stack<String> lehentweetakIkusi(Long lehen, Long bigarren) throws SQLException {
+	public Stack<String> lehentweetakIkusi() throws SQLException {
 		//Honek lehen 20-ak hartzen ditu (datubasetik), hurrengoak hartzeko beste sql sententzia bat erabili behar delako
 		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets ORDER BY id DESC LIMIT 20");
 		Stack<String> st=new Stack<String>();
