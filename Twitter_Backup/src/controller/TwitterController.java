@@ -30,9 +30,9 @@ public class TwitterController {
 		return null;
 	}
 	
-	public Stack<String> lehentweetakIkusi() throws SQLException {
+	public Stack<String> lehentweetakIkusi(String tUser) throws SQLException {
 		//Honek lehen 20-ak hartzen ditu (datubasetik), hurrengoak hartzeko beste sql sententzia bat erabili behar delako
-		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets ORDER BY id DESC LIMIT 20");
+		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE twitterUser='"+tUser+"' ORDER BY id DESC LIMIT 20");
 		Stack<String> st=new Stack<String>();
 		while(request.next()){
 			st.add(request.getString(2));
@@ -41,9 +41,10 @@ public class TwitterController {
 		return st;
 	}
 	
-	public Stack<String> tweetakIkusi() throws SQLException {
+	public Stack<String> tweetakIkusi(String tUser) throws SQLException {
 		//pantailaratutako azken id-tik abiaratuta beste 20 hartzen ditu
-		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE id < "+azkenTweetId+" ORDER BY id DESC LIMIT 20");
+		//
+		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE id < "+azkenTweetId+" AND twitterUser='"+tUser+"' ORDER BY id DESC LIMIT 20");
 		Stack<String> st=new Stack<String>();
 		while(request.next()){
 			st.add(request.getString(2));

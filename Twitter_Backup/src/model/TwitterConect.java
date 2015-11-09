@@ -38,6 +38,7 @@ public class TwitterConect {
 	
 	public void login(){
 		try {
+			// sesio aktibo bat badago ezingo dugu beste berririk sartu
 			String[] session = TwitterSesionController.getTwitterSesionController().getTwitterSession();
             if(!(session==null)){
             	AccessToken accesToken = new AccessToken(session[2], session[1]);
@@ -87,7 +88,7 @@ public class TwitterConect {
 	                System.out.println("Got access token.");
 	                System.out.println("Access token: " + accessToken.getToken());
 	                System.out.println("Access token secret: " + accessToken.getTokenSecret());
-	                TwitterSesionController.getTwitterSesionController().newTwitterSession(twitter.getScreenName(), accessToken.getTokenSecret().toString(), accessToken.getToken().toString());
+	                TwitterSesionController.getTwitterSesionController().newTwitterSession(twitter.getScreenName(),User.getUser().getId(), accessToken.getTokenSecret().toString(), accessToken.getToken().toString());
 	            } catch (IllegalStateException ie) {
 	                // access token is already available, or consumer key/secret is not set.
 	                if (!twitter.getAuthorization().isEnabled()) {

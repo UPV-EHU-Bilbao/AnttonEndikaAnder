@@ -49,6 +49,11 @@ public class User {
 	public LinkedList<String> getTwitterUsers(){
 		return UserController.getUserController().getTwitterUsers(this.id);
 	}
+
+	public String getId() {
+		// TODO Auto-generated method stub
+		return String.valueOf(this.id);
+	}
 	
 	
 }

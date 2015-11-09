@@ -38,8 +38,11 @@ public class TwitterSesionController {
 		Dd.getDd().update("UPDATE UserTwitter SET tokenSecret=null, token=null WHERE twitterUser='"+twitterUser+"'");
 	}
 	
-	public void newTwitterSession(String user, String tokenSecret, String token){
-		Dd.getDd().insert("INSERT INTO UserTwitter(twitterUser,tokenSecret,token)VALUES('" + user + "','" + tokenSecret + "','" + token + "')");
+	public void newTwitterSession(String tUser,String lUser, String tokenSecret, String token){
+		//db-ko usertwiter entitatea ahula izan beharko zen ezin delako egon twitterreko erabiltzailerik
+		//aplikazioko erabiltzailerik gabe horrela lortzen duguna da beti biak lotuta egotea.
+		//dagoen moduan utzita twitterreko erabiltzailak ez ditu aplikazioko erbiltzaileekin lotzen
+		Dd.getDd().insert("INSERT INTO UserTwitter(twitterUser,tokenSecret,token,`userId`)VALUES('" + tUser + "','" + tokenSecret + "','" + token + "'," +lUser+ ")");
 	}	
 	
 }
