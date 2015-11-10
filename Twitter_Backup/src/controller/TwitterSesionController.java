@@ -20,7 +20,7 @@ public class TwitterSesionController {
 	public String[] getTwitterSession(){
 		String[] session = null;
 		try {
-			ResultSet request = Dd.getDd().select("SELECT twitterUser,tokenSecret,token FROM UserTwitter WHERE tokenSecret!=null AND token!=null");
+			ResultSet request = Dd.getDd().select("SELECT twitterUser,tokenSecret,token FROM UserTwitter WHERE tokenSecret!='null' AND token!='null'");
 			if (request.next()==true){
 				session = new String[3];
 				session[0] = request.getString(1);
