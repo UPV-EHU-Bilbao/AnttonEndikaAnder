@@ -1,7 +1,9 @@
 package controller;
 
+import java.awt.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.Stack;
 
 import twitter4j.Status;
@@ -41,12 +43,13 @@ public class TwitterController {
 		return st;
 	}
 	
-	public Stack<String> tweetakIkusi() throws SQLException {
+	public LinkedList<String> tweetakIkusi() throws SQLException {
 		//pantailaratutako azken id-tik abiaratuta beste 20 hartzen ditu
 		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE id < "+azkenTweetId+" ORDER BY id DESC LIMIT 20");
-		Stack<String> st=new Stack<String>();
+		LinkedList<String> st=new LinkedList<String>();
 		while(request.next()){
 			st.add(request.getString(2));
+			azkenTweetId = request.getLong(1);
 			}
 		return st;
 	}
