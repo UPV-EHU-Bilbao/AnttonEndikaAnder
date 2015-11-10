@@ -190,22 +190,22 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			//		TwitterConect tc =new TwitterConect();
 			//		tc.login();
 			//		tc.getTwitts();
-			Stack<String> st=new Stack<String>();
+			LinkedList<String> st=new LinkedList<String>();
 			try {
 				String mesage=new String();
 				if(arg0.getActionCommand().equals("20+")){
 					TwitterController.getTwitterController().tweetakIkusi(this.twitterUser);
 					mesage=textArea.getText();
-					mesage =mesage+"\n"+"\n-*"+st.pop();
+					mesage =mesage+"\n"+"\n-*"+st.removeFirst();
 				}else{
 					st=TwitterController.getTwitterController().lehentweetakIkusi(this.twitterUser);
 					if(!st.isEmpty()){
-					mesage ="-"+st.pop();
+					mesage ="-"+st.removeFirst();
 					}
 				}
 				int color=0;
 				while(!st.isEmpty()){
-					String ms=st.pop();
+					String ms=st.removeFirst();
 					if(!ms.equals(null)){
 						mesage=mesage+ms+" "+"\n"+"\n-*";}
 				}
