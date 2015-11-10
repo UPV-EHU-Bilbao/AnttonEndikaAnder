@@ -20,7 +20,7 @@ public class TwitterSesionController {
 	public String[] getTwitterSession(){
 		String[] session = null;
 		try {
-			ResultSet request = Dd.getDd().select("SELECT twitterUser,tokenSecret,token FROM UserTwitter WHERE tokenSecret!=null AND token!=null");
+			ResultSet request = Dd.getDd().select("SELECT twitterUser,tokenSecret,token FROM UserTwitter WHERE tokenSecret!='null' AND token!='null'");
 			if (request.next()==true){
 				session = new String[3];
 				session[0] = request.getString(1);
@@ -38,8 +38,11 @@ public class TwitterSesionController {
 		Dd.getDd().update("UPDATE UserTwitter SET tokenSecret=null, token=null WHERE twitterUser='"+twitterUser+"'");
 	}
 	
-	public void newTwitterSession(String user, String tokenSecret, String token){
-		Dd.getDd().insert("INSERT INTO UserTwitter(twitterUser,tokenSecret,token)VALUES('" + user + "','" + tokenSecret + "','" + token + "')");
+	public void newTwitterSession(String tUser,String lUser, String tokenSecret, String token){
+		//db-ko usertwiter entitatea ahula izan beharko zen ezin delako egon twitterreko erabiltzailerik
+		//aplikazioko erabiltzailerik gabe horrela lortzen duguna da beti biak lotuta egotea.
+		//dagoen moduan utzita twitterreko erabiltzailak ez ditu aplikazioko erbiltzaileekin lotzen
+		Dd.getDd().insert("INSERT INTO UserTwitter(twitterUser,tokenSecret,token,`userId`)VALUES('" + tUser + "','" + tokenSecret + "','" + token + "'," +lUser+ ")");
 	}	
 	
 }

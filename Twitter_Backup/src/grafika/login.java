@@ -96,6 +96,7 @@ import controller.TwitterSesionController;
 			
 			comboBox.setBounds(336, 38, 102, 24);
 			contentPane.add(comboBox);
+			comboBox.setVisible(false);
 			comboBox.addActionListener(this);
 			comboBox.addItem(Messages.getString("login.4")); //$NON-NLS-1$
 			comboBox.addItem(Messages.getString("login.5")); //$NON-NLS-1$
