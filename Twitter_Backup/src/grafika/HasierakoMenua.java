@@ -195,7 +195,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			try {
 				String mesage=new String();
 				if(arg0.getActionCommand().equals("20+")){
-					TwitterController.getTwitterController().tweetakIkusi(this.twitterUser);
+					st = TwitterController.getTwitterController().tweetakIkusi(this.twitterUser);
 					mesage=textArea.getText();
 					mesage =mesage+"\n"+"\n-*"+st.removeFirst();
 				}else{
