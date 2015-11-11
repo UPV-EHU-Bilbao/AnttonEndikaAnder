@@ -169,6 +169,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			System.out.println("add user");
 			TwitterConect tc=new TwitterConect();
 			tc.login();
+			System.out.println("sartu da");
 			menuUser.removeAll();
 			LinkedList<String> lk=User.getUser().getTwitterUsers();
 			Iterator<String> it=lk.iterator();
@@ -200,14 +201,14 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 				}else{
 					st=TwitterController.getTwitterController().lehentweetakIkusi(this.twitterUser);
 					if(!st.isEmpty()){
-					mesage ="-"+st.removeFirst();
+					mesage ="-*"+st.removeFirst();
 					}
 				}
 				int color=0;
 				while(!st.isEmpty()){
 					String ms=st.removeFirst();
 					if(!ms.equals(null)){
-						mesage=mesage+ms+" "+"\n"+"\n-*";}
+						mesage=mesage+" "+"\n"+"\n-*"+ms;}
 				}
 				textArea.setText(mesage);
 				gehiago.setVisible(true);
