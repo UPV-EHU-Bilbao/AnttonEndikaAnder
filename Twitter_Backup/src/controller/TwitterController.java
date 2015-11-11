@@ -46,7 +46,8 @@ public class TwitterController {
 	public LinkedList<String> tweetakIkusi(String tUser) throws SQLException {
 		//pantailaratutako azken id-tik abiaratuta beste 20 hartzen ditu
 		//
-		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE id < "+azkenTweetId+" AND twitterUser='"+tUser+"' ORDER BY id DESC LIMIT 20");
+		
+		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE id < '"+azkenTweetId+"' AND twitterUser='"+tUser+"' ORDER BY id DESC LIMIT 20");
 		LinkedList<String> st=new LinkedList<String>();
 		while(request.next()){
 			st.add(request.getString(2));
