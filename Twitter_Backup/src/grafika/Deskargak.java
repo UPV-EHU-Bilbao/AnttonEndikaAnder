@@ -17,6 +17,9 @@ import model.TwitterConect;
 public class Deskargak extends JDialog implements ActionListener{
 
 	private final JPanel contentPanel = new JPanel();
+	private JCheckBox chckbxTweet;
+	private JCheckBox chckbxRetweet;
+	private JCheckBox chckbxFav;
 
 	/**
 	 * Launch the application.
@@ -41,15 +44,15 @@ public class Deskargak extends JDialog implements ActionListener{
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		JCheckBox chckbxTweet = new JCheckBox("Tweet");
+		chckbxTweet = new JCheckBox("Tweet");
 		chckbxTweet.setBounds(36, 34, 129, 23);
 		contentPanel.add(chckbxTweet);
 		
-		JCheckBox chckbxRetweet = new JCheckBox("RETweet");
+		chckbxRetweet = new JCheckBox("RETweet");
 		chckbxRetweet.setBounds(217, 34, 129, 23);
 		contentPanel.add(chckbxRetweet);
 		
-		JCheckBox chckbxFav = new JCheckBox("Fav");
+		chckbxFav = new JCheckBox("Fav");
 		chckbxFav.setBounds(36, 112, 129, 23);
 		contentPanel.add(chckbxFav);
 		{
@@ -78,7 +81,12 @@ public class Deskargak extends JDialog implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getActionCommand().equals("ok")){
 			TwitterConect tc=new TwitterConect();
-			tc.login();
+			if(chckbxTweet.isSelected()){
+				tc.getTwitts();
+			}
+			if(chckbxFav.isSelected()){
+				tc.getFavs(new Long("1"));
+			}
 		}
 		
 		

@@ -57,6 +57,8 @@ import controller.TwitterSesionController;
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 			setContentPane(contentPane);
 			contentPane.setLayout(null);
+			setTitle("Login");
+			setResizable(false);
 			
 			JLabel lblUsername = new JLabel(Messages.getString("login.0")); //$NON-NLS-1$
 			lblUsername.setBounds(45, 65, 100, 15);
