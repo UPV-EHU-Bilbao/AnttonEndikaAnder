@@ -1,3 +1,4 @@
+
 package model;
 
 import java.util.HashMap;
@@ -9,6 +10,7 @@ public class User {
 	
 	private String erabiltzaileIzena;
 	private String pasahitza;
+	private int userId;
 	private int id;
 	private HashMap<String, TwitterConect> twitterAcounts;
 	private static User instantzia = new User();
@@ -53,6 +55,10 @@ public class User {
 	public String getId() {
 		// TODO Auto-generated method stub
 		return String.valueOf(this.id);
+	}
+	public String getUserId() {
+		// TODO Auto-generated method stub
+		return String.valueOf(this.userId);
 	}
 	
 	

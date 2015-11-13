@@ -25,6 +25,7 @@ public class UserController {
 		try {
 			rd.next();
 			int id=Integer.parseInt(rd.getString(1));
+			System.out.println(id);
 			return id;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

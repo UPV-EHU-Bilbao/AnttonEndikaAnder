@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Stack;
+import java.sql.PreparedStatement;
+
+
 
 import twitter4j.Status;
 
@@ -98,8 +101,9 @@ public class Dd {
 	
 	public void insert(String query){
 		try {
-			Statement statement= conn.createStatement();
-			statement.executeUpdate(query);
+			//Statement statement= conn.createStatement();
+			PreparedStatement statement= conn.prepareStatement(query);
+			statement.executeUpdate();
 			commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -3,6 +3,8 @@ package controller;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import model.User;
+
 public class TwitterSesionController {
 
 	private static TwitterSesionController instantzia = new TwitterSesionController();
@@ -20,7 +22,7 @@ public class TwitterSesionController {
 	public String[] getTwitterSession(){
 		String[] session = null;
 		try {
-			ResultSet request = Dd.getDd().select("SELECT twitterUser,tokenSecret,token FROM UserTwitter WHERE tokenSecret!='null' AND token!='null'");
+			ResultSet request = Dd.getDd().select("SELECT twitterUser,tokenSecret,token FROM UserTwitter WHERE tokenSecret!='null' AND token!='null' AND userid=" + User.getUser().getId());
 			if (request.next()==true){
 				session = new String[3];
 				session[0] = request.getString(1);

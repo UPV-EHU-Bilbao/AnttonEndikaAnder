@@ -128,7 +128,7 @@ public class TwitterConect {
         	for (Status status : list) {
         		TwitterController.getTwitterController().tweetaGorde(twitter.getScreenName(),status);
 			}
-        	getTwitts(Long.toString(list.get(list.size()-1).getId()));
+        	getTwitts(Long.toString(list.get(list.size()-1).getId()-(new Long("1"))));
         } catch (TwitterException te) {
             System.out.println("application's rate limit, please wait 15m a retry");
         	//te.printStackTrace();
@@ -144,7 +144,7 @@ public class TwitterConect {
 		    	for (Status status : list) {
 		    		TwitterController.getTwitterController().tweetaGorde(twitter.getScreenName(),status);
 				}
-		    	getTwitts(Long.toString(list.get(list.size()-1).getId()));
+		    	getTwitts(Long.toString(list.get(list.size()-1).getId()-(new Long("1"))));
 	    	}
 	    } catch (TwitterException te) {
 	    	System.out.println("application's rate limit, please wait 15m a retry");
