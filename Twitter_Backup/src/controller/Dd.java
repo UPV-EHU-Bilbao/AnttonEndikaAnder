@@ -8,6 +8,7 @@ import java.sql.SQLException;
 //import com.mysql.jdbc.Statement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.util.Stack;
 
 import twitter4j.Status;
@@ -96,10 +97,20 @@ public class Dd {
 		}
 	}
 	
-	public void insert(String query){
+	public void insert(String query, Object[] parameters){
 		try {
-			Statement statement= conn.createStatement();
-			statement.executeUpdate(query);
+			PreparedStatement statement= conn.prepareStatement(query);
+			for (int i=0;i<parameters.length; i++){
+				if ("class java.lang.Integer".equals(parameters[i].getClass().toString())){
+		    		System.out.println("funciona");
+		    		System.out.println(parameters[i]);
+		    		statement.setInt(i+1, (int) parameters[i]);
+		    	}else if ("class java.lang.String".equals(parameters[i].getClass().toString())){
+		    		System.out.println(parameters[i]);
+		    		statement.setString(i+1,(String) parameters[i]);
+		    	}
+			}
+			statement.executeUpdate();
 			commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

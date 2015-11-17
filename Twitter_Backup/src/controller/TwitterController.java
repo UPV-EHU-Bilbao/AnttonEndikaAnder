@@ -60,11 +60,18 @@ public class TwitterController {
 		//System.out.println(userName);
 		//System.out.println(status.getId()+": "+status.getText()+"    "+status.getCreatedAt());
 		//System.out.println("INSERT INTO TwitterBackup.MyTweets(`id`,`mesage`,`name`,`twitterUser`)VALUES("+status.getId()+",'"+status.getText() +"','"+status.getUser().getScreenName()+"','"+userName+"')");
-		Dd.getDd().insert("INSERT INTO TwitterBackup.MyTweets(id,mesage,name,twitterUser)VALUES('"+status.getId()+"','"+status.getText() +"','"+status.getUser().getScreenName()+"','"+userName+"')");		
+		//Dd.getDd().insert("INSERT INTO MyTweets(id,mesage,name,twitterUser)VALUES('"+status.getId()+"','"+status.getText() +"','"+status.getUser().getScreenName()+"','"+userName+"')");		
+		Object[] params = new Object[4];
+		params[0]=Long.toString(status.getId());
+		params[1]=status.getText();
+		params[2]=status.getUser().getScreenName();
+		params[3]=userName;
+		//Dd.getDd().insert("INSERT INTO MyTweets(id,mesage,name,twitterUser)VALUES('?','?','?','?')", params);
+		Dd.getDd().insert("INSERT INTO MyTweets(id,mesage,name,twitterUser)VALUES(?,?,?,?)", params);
 	}
 	
 	public void favGorde(String userName, Status status){
-		Dd.getDd().insert("INSERT INTO TwitterBackup.Fav(id,mesage,name,twitterUser)VALUES('"+status.getId()+"','"+status.getText()+"','"+status.getUser().getScreenName()+"','"+userName+"')");
+		Dd.getDd().insert("INSERT INTO Fav(id,mesage,name,twitterUser)VALUES('"+status.getId()+"','"+status.getText()+"','"+status.getUser().getScreenName()+"','"+userName+"')");
 	}
 	
 	
