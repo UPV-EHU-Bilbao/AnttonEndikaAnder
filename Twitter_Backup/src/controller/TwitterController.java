@@ -71,7 +71,13 @@ public class TwitterController {
 	}
 	
 	public void favGorde(String userName, Status status){
-		Dd.getDd().insert("INSERT INTO Fav(id,mesage,name,twitterUser)VALUES('"+status.getId()+"','"+status.getText()+"','"+status.getUser().getScreenName()+"','"+userName+"')");
+		//Dd.getDd().insert("INSERT INTO Fav(id,mesage,name,twitterUser)VALUES('"+status.getId()+"','"+status.getText()+"','"+status.getUser().getScreenName()+"','"+userName+"')");
+		Object[] params = new Object[4];
+		params[0]=Long.toString(status.getId());
+		params[1]=status.getText();
+		params[2]=status.getUser().getScreenName();
+		params[3]=userName;
+		Dd.getDd().insert("INSERT INTO Fav(id,mesage,name,twitterUser)VALUES(?,?,?,?)", params);
 	}
 	
 	
