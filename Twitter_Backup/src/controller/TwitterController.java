@@ -22,7 +22,9 @@ public class TwitterController {
 	public Long getAzkenTweetId(String taula){
 		//datubasean sartutako azken id-a itzultzen du gehiago egotekotan deskarga bertatik jarraitzeko
 		try {			
-			ResultSet request = Dd.getDd().select("SELECT id FROM MyTweets ORDER BY id DESC LIMIT 1");			
+			//ResultSet request = Dd.getDd().select("SELECT id FROM MyTweets ORDER BY id DESC LIMIT 1");			
+			Object[] params = new Object[0];
+			ResultSet request = Dd.getDd().select("SELECT id FROM MyTweets ORDER BY id DESC LIMIT 1",params);	
 			request.next();
 			return new Long(request.getLong(1));
 			
@@ -34,7 +36,10 @@ public class TwitterController {
 	
 	public LinkedList<String> lehentweetakIkusi(String tUser) throws SQLException {
 		//Honek lehen 20-ak hartzen ditu (datubasetik), hurrengoak hartzeko beste sql sententzia bat erabili behar delako
-		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE twitterUser='"+tUser+"' ORDER BY id DESC LIMIT 20");
+		//ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE twitterUser='"+tUser+"' ORDER BY id DESC LIMIT 20");
+		Object[] params = new Object[1];
+		params[0]=tUser;
+		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE twitterUser=? ORDER BY id DESC LIMIT 20", params);
 		LinkedList<String> st=new LinkedList<String>();
 		while(request.next()){
 			st.add(request.getString(2));
@@ -47,7 +52,11 @@ public class TwitterController {
 		//pantailaratutako azken id-tik abiaratuta beste 20 hartzen ditu
 		//
 		
-		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE id < '"+azkenTweetId+"' AND twitterUser='"+tUser+"' ORDER BY id DESC LIMIT 20");
+		//ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE id < '"+azkenTweetId+"' AND twitterUser='"+tUser+"' ORDER BY id DESC LIMIT 20");
+		Object[] params = new Object[2];
+		params[0]=azkenTweetId;
+		params[1]=tUser;
+		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE id < ? AND twitterUser=? ORDER BY id DESC LIMIT 20",params);
 		LinkedList<String> st=new LinkedList<String>();
 		while(request.next()){
 			st.add(request.getString(2));

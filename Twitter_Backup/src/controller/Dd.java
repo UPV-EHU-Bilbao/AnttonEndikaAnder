@@ -68,13 +68,24 @@ public class Dd {
 		}
 	}
 	
-	public ResultSet select(String query){
+	public ResultSet select(String query, Object[] parameters){
 		
 		ResultSet request = null;
-		Statement statement;
+		//Statement statement;
 		try {
-			statement = conn.createStatement();
-			request = statement.executeQuery(query);
+			//statement = conn.createStatement();
+			//request = statement.executeQuery(query);
+			PreparedStatement statement= conn.prepareStatement(query);
+			for (int i=0;i<parameters.length; i++){
+				if ("class java.lang.Integer".equals(parameters[i].getClass().toString())){
+		    		//System.out.println(parameters[i]);
+		    		statement.setInt(i+1, (int) parameters[i]);
+		    	}else if ("class java.lang.String".equals(parameters[i].getClass().toString())){
+		    		//System.out.println(parameters[i]);
+		    		statement.setString(i+1,(String) parameters[i]);
+		    	}
+			}
+			request = statement.executeQuery();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -86,10 +97,21 @@ public class Dd {
 		}*/
 	}
 	
-	public void update(String query){
+	public void update(String query, Object[] parameters){
 		try {
-			Statement statement= conn.createStatement();
-			statement.executeUpdate(query);
+			//Statement statement= conn.createStatement();
+			//statement.executeUpdate(query);
+			PreparedStatement statement= conn.prepareStatement(query);
+			for (int i=0;i<parameters.length; i++){
+				if ("class java.lang.Integer".equals(parameters[i].getClass().toString())){
+		    		//System.out.println(parameters[i]);
+		    		statement.setInt(i+1, (int) parameters[i]);
+		    	}else if ("class java.lang.String".equals(parameters[i].getClass().toString())){
+		    		//System.out.println(parameters[i]);
+		    		statement.setString(i+1,(String) parameters[i]);
+		    	}
+			}
+			statement.executeUpdate();
 			commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -102,11 +124,10 @@ public class Dd {
 			PreparedStatement statement= conn.prepareStatement(query);
 			for (int i=0;i<parameters.length; i++){
 				if ("class java.lang.Integer".equals(parameters[i].getClass().toString())){
-		    		System.out.println("funciona");
-		    		System.out.println(parameters[i]);
+		    		//System.out.println(parameters[i]);
 		    		statement.setInt(i+1, (int) parameters[i]);
 		    	}else if ("class java.lang.String".equals(parameters[i].getClass().toString())){
-		    		System.out.println(parameters[i]);
+		    		//System.out.println(parameters[i]);
 		    		statement.setString(i+1,(String) parameters[i]);
 		    	}
 			}

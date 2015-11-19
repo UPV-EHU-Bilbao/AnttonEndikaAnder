@@ -20,7 +20,9 @@ public class TwitterSesionController {
 	public String[] getTwitterSession(){
 		String[] session = null;
 		try {
-			ResultSet request = Dd.getDd().select("SELECT twitterUser,tokenSecret,token FROM UserTwitter WHERE tokenSecret!='null' AND token!='null'");
+			//ResultSet request = Dd.getDd().select("SELECT twitterUser,tokenSecret,token FROM UserTwitter WHERE tokenSecret!='null' AND token!='null'");
+			Object[] params = new Object[0];
+			ResultSet request = Dd.getDd().select("SELECT twitterUser,tokenSecret,token FROM UserTwitter WHERE tokenSecret!='null' AND token!='null'",params);
 			if (request.next()==true){
 				session = new String[3];
 				session[0] = request.getString(1);
@@ -35,7 +37,9 @@ public class TwitterSesionController {
 	}
 	
 	public void closeTwitterSession(String twitterUser){
-		Dd.getDd().update("UPDATE UserTwitter SET tokenSecret=null, token=null WHERE twitterUser='"+twitterUser+"'");
+		Object[] params = new Object[1];
+		params[0]=twitterUser;
+		Dd.getDd().update("UPDATE UserTwitter SET tokenSecret='null', token='null' WHERE twitterUser=?", params);
 	}
 	
 	public void newTwitterSession(String tUser,String lUser, String tokenSecret, String token){
