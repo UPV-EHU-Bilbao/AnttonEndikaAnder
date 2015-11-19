@@ -10,6 +10,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.Stack;
+import java.sql.PreparedStatement;
+
+
 
 import twitter4j.Status;
 
