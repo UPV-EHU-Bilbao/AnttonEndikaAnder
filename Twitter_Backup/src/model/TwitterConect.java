@@ -140,7 +140,7 @@ public class TwitterConect {
 	public void getTwitts(String lastAdded){
 	    try {
 	    	ResponseList<Status> list = twitter.getUserTimeline(new Paging(1,20,Long.parseLong("1"),Long.parseLong(lastAdded)));
-	    	if(!list.get(0).equals(Long.parseLong(lastAdded))){
+	    	if(list.size()!=0 && !list.get(0).equals(Long.parseLong(lastAdded))){
 		    	for (Status status : list) {
 		    		TwitterController.getTwitterController().tweetaGorde(twitter.getScreenName(),status);
 				}
