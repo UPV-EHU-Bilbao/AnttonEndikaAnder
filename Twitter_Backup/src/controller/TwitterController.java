@@ -54,7 +54,7 @@ public class TwitterController {
 		
 		//ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE id < '"+azkenTweetId+"' AND twitterUser='"+tUser+"' ORDER BY id DESC LIMIT 20");
 		Object[] params = new Object[2];
-		params[0]=azkenTweetId;
+		params[0]=Long.toString(azkenTweetId);
 		params[1]=tUser;
 		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE id < ? AND twitterUser=? ORDER BY id DESC LIMIT 20",params);
 		LinkedList<String> st=new LinkedList<String>();
