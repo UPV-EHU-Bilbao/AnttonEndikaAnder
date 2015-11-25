@@ -9,5 +9,5 @@ Aplikazioaren instalatzeko hurrengo pausuak jarraitu behar dira:
 
 Proiektua eclipsera inportatu nahi bada liburutegien aldagaiak jarri behar dira:
 *	MYSQLCONNECTOR mysql-connector liburutegiarentzako (https://dev.mysql.com/downloads/connector/j/)
-*	TWITTER4J twitter4j  liburutegiarentzako (twitter4j.org/archive/twitter4j-4.0.4.zip)
+*	TWITTER4J twitter4j  liburutegiarentzako (http://twitter4j.org/archive/twitter4j-4.0.4.zip)
  
