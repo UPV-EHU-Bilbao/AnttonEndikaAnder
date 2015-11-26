@@ -189,8 +189,9 @@ public class TwitterConect {
                 ids = twitter.getFollowersIDs(cursor);
                 
                 for (long id : ids.getIDs()) {
-                    System.out.println(id);
-                    System.out.println(twitter.showUser(id).getScreenName());
+                    //System.out.println(id);
+                    //System.out.println(twitter.showUser(id).getScreenName());
+                    TwitterController.getTwitterController().followerakGorde(Long.toString(id), twitter.showUser(id).getScreenName(), twitter.getScreenName());
                     
                 }
             } while ((cursor = ids.getNextCursor()) != 0);
