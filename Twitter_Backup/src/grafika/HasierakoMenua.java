@@ -3,6 +3,7 @@ package grafika;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -16,16 +17,21 @@ import javax.swing.JMenuItem;
 //import com.mysql.fabric.xmlrpc.base.Data;
 
 import javax.swing.JTable;
+
 import java.awt.Dimension;
 import java.awt.Point;
+
 import model.MyTableModelTweet;
 import model.TwitterConect;
 import model.User;
+
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+
 import controller.TwitterController;
 
 public class HasierakoMenua extends JFrame implements ActionListener{
@@ -76,7 +82,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout());
-		contentPane.add(scrollPane,BorderLayout.CENTER);
+		contentPane.add(scrollPane, BorderLayout.CENTER);
 
 
 		contentPane.add(gehiago, BorderLayout.SOUTH);
@@ -180,11 +186,16 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			
 			try {
 				String mesage=new String();
+				TweetTaula tweetTaula=new TweetTaula(new LinkedList<String>());;
 				if(arg0.getActionCommand().equals("20+")){
 					st = TwitterController.getTwitterController().tweetakIkusi(this.twitterUser);
-					TweetTaula twt=new TweetTaula(st);
-					twt.createAndShowGUI(st);
-					mesage=textArea.getText();
+					//TweetTaula twt=new TweetTaula(st);
+					//TweetTaula.createAndShowGUI(st);
+					 tweetTaula.gehiago20(st);
+					tweetTaula.setOpaque(true);
+					scrollPane.add(tweetTaula);
+					//contentPane.add(twt, BorderLayout.CENTER);
+					//mesage=textArea.getText();
 					if(!st.isEmpty()){
 						//mesage =mesage+"\n"+"\n-*"+st.removeFirst();
 						//tableModel.kargatu(st.removeFirst());
@@ -192,8 +203,10 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 					}
 				}else{
 					st=TwitterController.getTwitterController().lehentweetakIkusi(this.twitterUser);
-					TweetTaula twt=new TweetTaula(st);
-					twt.setVisible(true);
+					//TweetTaula.createAndShowGUI(st);
+					tweetTaula =new TweetTaula(st);
+					tweetTaula.setOpaque(true);
+					scrollPane.add(tweetTaula);
 					if(!st.isEmpty()){
 //						mesage ="-*"+st.removeFirst();
 					//	tableModel.kargatu(st.removeFirst());

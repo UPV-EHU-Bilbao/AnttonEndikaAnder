@@ -12,10 +12,18 @@ import model.MyTableModelTweet;
 
 public class TweetTaula extends JPanel{
 
+	private LinkedList<String> lista;
+	private MyTableModelTweet myTable;
 	
 	public TweetTaula(LinkedList<String> st) {
 		super(new GridLayout(1, 0));
-		JTable table =new JTable(new MyTableModelTweet(st));
+		lista=new LinkedList<String>();
+		for (String tweet : st) {
+			lista.add(tweet);
+		}
+		myTable=new MyTableModelTweet();
+		myTable.kargatu(st);
+		JTable table =new JTable(myTable);
 		JScrollPane scrollpane = new JScrollPane(table);
 		this.add(scrollpane);
 	}
@@ -29,6 +37,10 @@ public class TweetTaula extends JPanel{
 		frame.setContentPane(contentpane);
 		frame.pack();
 		frame.setVisible(true);
+	}
+	
+	public void gehiago20(LinkedList<String> st) {
+		myTable.kargatu(st);
 	}
 	
 	public static void main(String[] args) {

@@ -11,14 +11,16 @@ public class MyTableModelTweet extends AbstractTableModel {
 
 	private ArrayList<String> columnNames;
 
-	public MyTableModelTweet(LinkedList<String> st) {
+	public MyTableModelTweet() {
 
 		columnNames=new ArrayList<String>();
 		hasieratuZutabeIzenak();
 		//kargatu(st);
-		while(!st.isEmpty()){
-		data.add(new Lag(st.removeFirst()));
-		}
+//		while(!st.isEmpty()){
+//			
+//		data.add(new Lag(st.removeFirst()));
+		//System.out.println(data.get(kont++).tweet);
+//		}
 
 	}
 	
@@ -51,9 +53,13 @@ public class MyTableModelTweet extends AbstractTableModel {
 
 	private Vector<Lag> data= new Vector<Lag>();
 
-	public void kargatu(String st) {
+	public void kargatu(LinkedList<String> st) {
 //		data.add(new Lag("kathy", "smith", "snow", 5, false));
-			data.add(new Lag(st));		
+		while(!st.isEmpty()){
+			
+			data.add(new Lag(st.removeFirst()));
+			//System.out.println(data.get(kont++).tweet);
+			}	
 			
 	}
 
