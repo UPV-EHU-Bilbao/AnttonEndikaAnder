@@ -169,7 +169,7 @@ public class TwitterConect {
 					break;
 				}
 			} catch (TwitterException te) {
-				te.printStackTrace();
+				//te.printStackTrace();
 				System.out.println("Failed to get favorites: " + te.getMessage());
 				System.exit(-1);
 			}

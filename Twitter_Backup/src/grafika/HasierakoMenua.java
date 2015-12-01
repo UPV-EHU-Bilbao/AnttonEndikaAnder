@@ -1,76 +1,39 @@
 package grafika;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
-import javax.management.Query;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPopupMenu;
-import javax.swing.JProgressBar;
-import javax.swing.JSeparator;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JLabel;
+
 
 //import com.mysql.fabric.xmlrpc.base.Data;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-import java.awt.Color;
+import javax.swing.JTable;
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.awt.Point;
-
-import javax.swing.JScrollBar;
-
+import model.MyTableModelTweet;
 import model.TwitterConect;
 import model.User;
-
-import java.awt.GridLayout;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
-
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
-import org.omg.CORBA.TCKind;
-
-import com.mysql.jdbc.RowData;
-
-import controller.Dd;
 import controller.TwitterController;
 
 public class HasierakoMenua extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
 	private JScrollPane scrollPane = new JScrollPane();
-	private int altuera=300;
-	private int zabalera=450;
+	private int altuera=500;
+	private int zabalera=650;
 	private static HasierakoMenua frame = new HasierakoMenua();
 	private JTextArea textArea = new JTextArea();
 	private JButton gehiago=new JButton("20 twit gehiago");
@@ -103,6 +66,8 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 
 		setTitle("Hasierako menua");
 
+		twitterUser=null;
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, zabalera, altuera);
 		setMinimumSize(new Dimension(450, 300));
@@ -119,11 +84,15 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		gehiago.addActionListener(this);
 		gehiago.setActionCommand("20+");
 
+		//text area inplementation
+		//		scrollPane.setViewportView(textArea);
+		//		textArea.setEditable(false);
+		//		textArea.setColumns(20);
+		//		textArea.setWrapStyleWord(true);
 
-		scrollPane.setViewportView(textArea);
-		textArea.setEditable(false);
-		textArea.setColumns(20);
-		textArea.setWrapStyleWord(true);
+		//jtable inplementation
+		//JTable table =new JTable(new MyTableModelTweet());
+		//scrollPane.add(table);
 
 		JPanel contentPane1 = new JPanel();
 		contentPane.add(contentPane1, BorderLayout.NORTH);
@@ -155,8 +124,14 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		LinkedList<String> lk=User.getUser().getTwitterUsers();
 		Iterator<String> it=lk.iterator();
 		JMenuItem item=null;
+		String str= it.next();
+		item =new JMenuItem("@"+str);
+		menuUser.add(item);
+		item.addActionListener(this);
+		item.setActionCommand(str);
+		twitterUser=str;
 		while(it.hasNext()){
-			String str= it.next();
+			str= it.next();
 			item =new JMenuItem("@"+str);
 			menuUser.add(item);
 			item.addActionListener(this);
@@ -167,6 +142,8 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		item.addActionListener(this);
 		item.setActionCommand("adduser");
 
+		
+		
 
 
 	} 
@@ -175,9 +152,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-
 		if (arg0.getActionCommand().equals("adduser")){
-			System.out.println("add user");
 			TwitterConect tc=new TwitterConect();
 			tc.login();
 			System.out.println("sartu da");
@@ -201,31 +176,47 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		else if (arg0.getActionCommand().equals("tweet") || arg0.getActionCommand().equals("20+")){
 			//bukaerara heltzean errorea
 			LinkedList<String> st=new LinkedList<String>();
+			//MyTableModelTweet tableModel =new MyTableModelTweet(st);
+			
 			try {
 				String mesage=new String();
 				if(arg0.getActionCommand().equals("20+")){
 					st = TwitterController.getTwitterController().tweetakIkusi(this.twitterUser);
+					TweetTaula twt=new TweetTaula(st);
+					twt.createAndShowGUI(st);
 					mesage=textArea.getText();
 					if(!st.isEmpty()){
-						mesage =mesage+"\n"+"\n-*"+st.removeFirst();
+						//mesage =mesage+"\n"+"\n-*"+st.removeFirst();
+						//tableModel.kargatu(st.removeFirst());
+
 					}
 				}else{
 					st=TwitterController.getTwitterController().lehentweetakIkusi(this.twitterUser);
+					TweetTaula twt=new TweetTaula(st);
+					twt.setVisible(true);
 					if(!st.isEmpty()){
-						mesage ="-*"+st.removeFirst();
+//						mesage ="-*"+st.removeFirst();
+					//	tableModel.kargatu(st.removeFirst());
 					}
 				}
 				int color=0;
 				while(!st.isEmpty()){
 					String ms=st.removeFirst();
 					if(!ms.equals(null)){
-						mesage=mesage+" "+"\n"+"\n-*"+ms;}
+						//mesage=mesage+" "+"\n"+"\n-*"+ms;
+						//tableModel.kargatu(ms);
+						}
 				}
 				textArea.setText(mesage);
-				gehiago.setVisible(true);
-				scrollPane.getVerticalScrollBar().setValue(0);
-				Point p = new Point(1,1);
-				scrollPane.getViewport().setViewPosition(p); 
+				//JTable table =new JTable(tableModel);
+				//scrollPane.add(table);
+				if (this.twitterUser!=null){
+					gehiago.setVisible(true);
+					
+				}
+//				scrollPane.getVerticalScrollBar().setValue(0);
+//				Point p = new Point(1,1);
+//				scrollPane.getViewport().setViewPosition(p); 
 
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

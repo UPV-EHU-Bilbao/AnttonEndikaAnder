@@ -81,6 +81,7 @@ public class Deskargak extends JDialog implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getActionCommand().equals("ok")){
 			TwitterConect tc=new TwitterConect();
+			tc.tokenakLortu();
 			if(chckbxTweet.isSelected()){
 				tc.getTwitts();
 			}
@@ -88,7 +89,5 @@ public class Deskargak extends JDialog implements ActionListener{
 				tc.getFavs(new Long("1"));
 			}
 		}
-		
-		
 	}
 }
