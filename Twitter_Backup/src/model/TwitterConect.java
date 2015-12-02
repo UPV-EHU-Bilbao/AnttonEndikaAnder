@@ -176,7 +176,7 @@ public class TwitterConect {
 			} catch (TwitterException te) {
 				te.printStackTrace();
 				System.out.println("Failed to get favorites: " + te.getMessage());
-				System.exit(-1);
+				//System.exit(-1);
 			}
 		}
 		
@@ -203,9 +203,11 @@ public class TwitterConect {
         } catch (TwitterException te) {
             te.printStackTrace();
             System.out.println("Failed to get followers' ids: " + te.getMessage());
-            System.exit(-1);
+            //System.exit(-1);
         }
 	}
+	
+	
 	
 }
 
