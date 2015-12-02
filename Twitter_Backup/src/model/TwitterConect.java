@@ -199,7 +199,7 @@ public class TwitterConect {
                     
                 }
             } while ((cursor = ids.getNextCursor()) != 0);
-            System.exit(0);
+            //System.exit(0);
         } catch (TwitterException te) {
             te.printStackTrace();
             System.out.println("Failed to get followers' ids: " + te.getMessage());
@@ -207,7 +207,30 @@ public class TwitterConect {
         }
 	}
 	
-	
+	public void getFollows(){
+try {
+            
+            long cursor = -1;
+            IDs ids;
+            System.out.println("Listing followers's ids.");
+            do {
+               
+                ids = twitter.getFriendsIDs(cursor);
+                
+                for (long id : ids.getIDs()) {
+                    //System.out.println(id);
+                    System.out.println(twitter.showUser(id).getScreenName());
+                    
+                    
+                }
+            } while ((cursor = ids.getNextCursor()) != 0);
+            //System.exit(0);
+        } catch (TwitterException te) {
+            te.printStackTrace();
+            System.out.println("Failed to get followers' ids: " + te.getMessage());
+            //System.exit(-1);
+        }
+	}
 	
 }
 
