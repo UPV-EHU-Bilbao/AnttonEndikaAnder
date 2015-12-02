@@ -7,6 +7,7 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.UserList;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import grafika.PinEnter;
@@ -203,6 +204,21 @@ public class TwitterConect {
         } catch (TwitterException te) {
             te.printStackTrace();
             System.out.println("Failed to get followers' ids: " + te.getMessage());
+            System.exit(-1);
+        }
+	}
+	
+	public void getLists(){
+		try {
+            ResponseList<UserList> lists = twitter.getUserLists(twitter.getScreenName());
+            for (UserList list : lists) {
+                System.out.println("id:" + list.getId() + ", name:" + list.getName() + ", description:"
+                        + list.getDescription() + ", slug:" + list.getSlug() + "");
+            }
+            System.exit(0);
+        } catch (TwitterException te) {
+            te.printStackTrace();
+            System.out.println("Failed to list the lists: " + te.getMessage());
             System.exit(-1);
         }
 	}
