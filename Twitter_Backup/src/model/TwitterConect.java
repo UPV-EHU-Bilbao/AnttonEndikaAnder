@@ -1,5 +1,6 @@
 package model;
 import grafika.PinEnter;
+import twitter4j.IDs;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;
@@ -154,6 +155,10 @@ public class TwitterConect {
 	    
 	}
 	
+	public void getFavs(){
+		getFavs(new Long("1"));
+	}
+	
 	public void getFavs(long sinceId){
 		int pageno = 1;
 		List<Status> statuses = new ArrayList<Status>();
@@ -175,6 +180,31 @@ public class TwitterConect {
 			}
 		}
 		
+	}
+	
+	public void getFollowers(){
+		try {
+            
+            long cursor = -1;
+            IDs ids;
+            System.out.println("Listing followers's ids.");
+            do {
+               
+                ids = twitter.getFollowersIDs(cursor);
+                
+                for (long id : ids.getIDs()) {
+                    //System.out.println(id);
+                    //System.out.println(twitter.showUser(id).getScreenName());
+                    TwitterController.getTwitterController().followerakGorde(Long.toString(id), twitter.showUser(id).getScreenName(), twitter.getScreenName());
+                    
+                }
+            } while ((cursor = ids.getNextCursor()) != 0);
+            System.exit(0);
+        } catch (TwitterException te) {
+            te.printStackTrace();
+            System.out.println("Failed to get followers' ids: " + te.getMessage());
+            System.exit(-1);
+        }
 	}
 	
 }
