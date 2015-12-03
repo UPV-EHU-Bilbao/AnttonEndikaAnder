@@ -3,6 +3,7 @@ package controller;
 import java.awt.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Stack;
 
@@ -34,13 +35,13 @@ public class TwitterController {
 		return null;
 	}
 	
-	public LinkedList<String> lehentweetakIkusi(String tUser) throws SQLException {
+	public ArrayList<String> lehentweetakIkusi(String tUser) throws SQLException {
 		//Honek lehen 20-ak hartzen ditu (datubasetik), hurrengoak hartzeko beste sql sententzia bat erabili behar delako
 		//ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE twitterUser='"+tUser+"' ORDER BY id DESC LIMIT 20");
 		Object[] params = new Object[1];
 		params[0]=tUser;
 		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE twitterUser=? ORDER BY id DESC LIMIT 20", params);
-		LinkedList<String> st=new LinkedList<String>();
+		ArrayList<String> st=new ArrayList<String>();
 		while(request.next()){
 			st.add(request.getString(2));
 			azkenTweetId = request.getLong(1);
@@ -48,7 +49,7 @@ public class TwitterController {
 		return st;
 	}
 	
-	public LinkedList<String> tweetakIkusi(String tUser) throws SQLException {
+	public ArrayList<String> tweetakIkusi(String tUser) throws SQLException {
 		//pantailaratutako azken id-tik abiaratuta beste 20 hartzen ditu
 		//
 		
@@ -57,7 +58,7 @@ public class TwitterController {
 		params[0]=Long.toString(azkenTweetId);
 		params[1]=tUser;
 		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE id < ? AND twitterUser=? ORDER BY id DESC LIMIT 20",params);
-		LinkedList<String> st=new LinkedList<String>();
+		ArrayList<String> st=new ArrayList<String>();
 		while(request.next()){
 			st.add(request.getString(2));
 			azkenTweetId = request.getLong(1);

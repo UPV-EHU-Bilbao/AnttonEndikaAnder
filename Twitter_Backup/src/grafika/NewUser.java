@@ -38,6 +38,7 @@ public class NewUser extends JDialog implements ActionListener {
 	 */
 	public NewUser() {
 		setBounds(100, 100, 450, 300);
+		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -81,14 +82,7 @@ public class NewUser extends JDialog implements ActionListener {
 		passwordField_1.setBounds(225, 103, 114, 19);
 		contentPanel.add(passwordField_1);
 		
-		JLabel label_1 = new JLabel("Twitter User");
-		label_1.setBounds(38, 132, 106, 15);
-		contentPanel.add(label_1);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(225, 130, 114, 19);
-		contentPanel.add(textField_1);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
