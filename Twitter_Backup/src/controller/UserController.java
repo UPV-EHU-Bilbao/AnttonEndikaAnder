@@ -45,7 +45,7 @@ public class UserController {
 		Object[] params = new Object[2];
 		params[0]=userName;
 		params[1]=password;
-		DB.getDb().insert("INSERT UserLocal (`user`, `password`) VALUES(?,?)", params);
+		DB.getDb().insert("INSERT into UserLocal (`user`, `password`) VALUES(?,?)", params);
 		return exist;
 	}
 
