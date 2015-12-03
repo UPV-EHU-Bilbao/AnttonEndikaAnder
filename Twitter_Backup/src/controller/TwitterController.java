@@ -90,5 +90,13 @@ public class TwitterController {
 		Dd.getDd().insert("INSERT INTO Fav(id,mesage,name,twitterUser)VALUES(?,?,?,?)", params);
 	}
 	
+	public void followerakGorde(String id, String name, String user){
+		Object[] params = new Object[3];
+		params[0] = id;
+		params[1] = name;
+		params[2] = user;
+		System.out.println(params[0]+"   "+params[1]+"    "+params[2]);
+		Dd.getDd().insert("INSERT INTO Followers(id, name, twitterUser)VALUES(?,?,?)", params);
+	}
 	
 }
