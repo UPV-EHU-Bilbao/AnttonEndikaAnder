@@ -82,7 +82,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout());
-		contentPane.add(scrollPane, BorderLayout.CENTER);
+		//contentPane.add(scrollPane, BorderLayout.CENTER);
 
 
 		contentPane.add(gehiago, BorderLayout.SOUTH);
@@ -193,8 +193,9 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 					//TweetTaula.createAndShowGUI(st);
 					 tweetTaula.gehiago20(st);
 					tweetTaula.setOpaque(true);
-					scrollPane.add(tweetTaula);
-					//contentPane.add(twt, BorderLayout.CENTER);
+					System.out.println("20+");
+					//scrollPane.add(tweetTaula);
+					contentPane.add(tweetTaula, BorderLayout.CENTER);
 					//mesage=textArea.getText();
 					if(!st.isEmpty()){
 						//mesage =mesage+"\n"+"\n-*"+st.removeFirst();
@@ -206,7 +207,8 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 					//TweetTaula.createAndShowGUI(st);
 					tweetTaula =new TweetTaula(st);
 					tweetTaula.setOpaque(true);
-					scrollPane.add(tweetTaula);
+					//scrollPane.add(tweetTaula);
+					contentPane.add(tweetTaula, BorderLayout.CENTER);
 					if(!st.isEmpty()){
 //						mesage ="-*"+st.removeFirst();
 					//	tableModel.kargatu(st.removeFirst());

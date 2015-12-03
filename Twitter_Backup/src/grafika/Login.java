@@ -23,7 +23,7 @@ import model.User;
 import controller.Dd;
 import controller.TwitterSesionController;
 	
-	public class login extends JFrame implements ActionListener {
+	public class Login extends JFrame implements ActionListener {
 	
 		private JPanel contentPane;
 		private JTextField textField;
@@ -38,7 +38,7 @@ import controller.TwitterSesionController;
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					try {
-						login frame = new login();
+						Login frame = new Login();
 						frame.setVisible(true);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -50,7 +50,7 @@ import controller.TwitterSesionController;
 		/**
 		 * Create the frame.
 		 */
-		public login() {
+		public Login() {
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setBounds(100, 100, 450, 300);
 			contentPane = new JPanel();
