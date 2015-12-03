@@ -62,7 +62,7 @@ import org.omg.CORBA.TCKind;
 
 import com.mysql.jdbc.RowData;
 
-import controller.Dd;
+import controller.DB;
 import controller.TwitterController;
 
 public class HasierakoMenua extends JFrame implements ActionListener{

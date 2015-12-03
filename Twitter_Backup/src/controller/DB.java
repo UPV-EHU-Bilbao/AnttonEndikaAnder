@@ -16,30 +16,39 @@ import java.sql.PreparedStatement;
 
 import twitter4j.Status;
 
-public class Dd {
+public class DB {
 	
-	String user="twitterBackup";
-	String password = "twitterBackup";
+//	String user="twitterBackup";
+//	String password = "twitterBackup";
+	String url = "jdbc:sqlite:TwitterBackup.db";
 	Connection conn;
-	private static Dd instantzia=new Dd();
+	private static DB instantzia=new DB();
 	
-	private Dd() {
+	private DB() {
 		try{
-			Class.forName("org.gjt.mm.mysql.Driver");
-//			Class.forName("com.mysql.jdbc.Driver");
+//			Class.forName("org.gjt.mm.mysql.Driver");
+			Class.forName("org.sqlite.JDBC").newInstance();
 		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 		//Open connection
 		try{
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/TwitterBackup",user,password);
-			conn.setAutoCommit(false);
-		}catch(SQLException e) {
+			conn = (Connection) DriverManager.getConnection(url);
+//			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/TwitterBackup",user,password);
+//			conn.setAutoCommit(false);
+		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static Dd getDd(){
+	public static DB getDb(){
 		return instantzia;
 	}
 	
@@ -121,6 +130,8 @@ public class Dd {
 			e.printStackTrace();
 		}
 	}
+	
+	
 	
 	public void insert(String query, Object[] parameters){
 		try {

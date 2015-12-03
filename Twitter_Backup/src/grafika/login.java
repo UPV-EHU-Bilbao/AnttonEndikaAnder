@@ -20,7 +20,7 @@ import javax.swing.JComboBox;
 
 	import model.TwitterConect;
 import model.User;
-import controller.Dd;
+import controller.DB;
 import controller.TwitterSesionController;
 	
 	public class login extends JFrame implements ActionListener {

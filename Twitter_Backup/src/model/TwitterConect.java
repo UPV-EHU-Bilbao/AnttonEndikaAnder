@@ -22,7 +22,7 @@ import javax.swing.SingleSelectionModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.Dd;
+import controller.DB;
 import controller.TwitterController;
 import controller.TwitterSesionController;
 

@@ -25,7 +25,7 @@ public class UserController {
 		Object[] params = new Object[2];
 		params[0]=userName;
 		params[1]=password;
-		ResultSet rd =Dd.getDd().select("SELECT id FROM TwitterBackup.UserLocal where user=? and password=?",params);
+		ResultSet rd =DB.getDb().select("SELECT id FROM UserLocal where user=? and password=?",params);
 		try {
 			rd.next();
 			int id=Integer.parseInt(rd.getString(1));
@@ -45,7 +45,7 @@ public class UserController {
 		Object[] params = new Object[2];
 		params[0]=userName;
 		params[1]=password;
-		Dd.getDd().insert("INSERT UserLocal (`user`, `password`) VALUES(?,?)", params);
+		DB.getDb().insert("INSERT UserLocal (`user`, `password`) VALUES(?,?)", params);
 		return exist;
 	}
 
@@ -53,7 +53,7 @@ public class UserController {
 		//ResultSet rd=Dd.getDd().select("SELECT twitterUser FROM UserTwitter where userId='"+id+"'");
 		Object[] params = new Object[1];
 		params[0]=id;
-		ResultSet rd=Dd.getDd().select("SELECT twitterUser FROM UserTwitter where userId=?",params);
+		ResultSet rd=DB.getDb().select("SELECT twitterUser FROM UserTwitter where userId=?",params);
 		LinkedList<String> lk =new LinkedList<String>();
 		//linked lis da endikak esan duelako
 		try {

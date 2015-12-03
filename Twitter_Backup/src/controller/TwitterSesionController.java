@@ -26,7 +26,7 @@ public class TwitterSesionController {
 			//ResultSet request = Dd.getDd().select("SELECT twitterUser,tokenSecret,token FROM UserTwitter WHERE tokenSecret!='null' AND token!='null'");
 			Object[] params = new Object[1];
 			params[0]=User.getUser().getId();
-			ResultSet request = Dd.getDd().select("SELECT twitterUser,tokenSecret,token FROM UserTwitter WHERE tokenSecret!='null' AND token!='null' AND userid=?",params);
+			ResultSet request = DB.getDb().select("SELECT twitterUser,tokenSecret,token FROM UserTwitter WHERE tokenSecret!='null' AND token!='null' AND userid=?",params);
 			if (request.next()==true){
 				session = new String[3];
 				session[0] = request.getString(1);
@@ -43,7 +43,7 @@ public class TwitterSesionController {
 	public void closeTwitterSession(String twitterUser){
 		Object[] params = new Object[1];
 		params[0]=twitterUser;
-		Dd.getDd().update("UPDATE UserTwitter SET tokenSecret='null', token='null' WHERE twitterUser=?", params);
+		DB.getDb().update("UPDATE UserTwitter SET tokenSecret='null', token='null' WHERE twitterUser=?", params);
 	}
 	
 	public void newTwitterSession(String tUser,String lUser, String tokenSecret, String token){
@@ -57,7 +57,7 @@ public class TwitterSesionController {
 		params[2]=token;
 		params[3]=lUser;
 		
-		Dd.getDd().insert("INSERT INTO UserTwitter(twitterUser,tokenSecret,token,`userId`)VALUES(?,?,?,?)", params);
+		DB.getDb().insert("INSERT INTO UserTwitter(twitterUser,tokenSecret,token,`userId`)VALUES(?,?,?,?)", params);
 	}	
 	
 }

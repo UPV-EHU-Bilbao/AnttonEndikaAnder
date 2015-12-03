@@ -24,7 +24,7 @@ public class TwitterController {
 		try {			
 			//ResultSet request = Dd.getDd().select("SELECT id FROM MyTweets ORDER BY id DESC LIMIT 1");			
 			Object[] params = new Object[0];
-			ResultSet request = Dd.getDd().select("SELECT id FROM MyTweets ORDER BY id DESC LIMIT 1",params);	
+			ResultSet request = DB.getDb().select("SELECT id FROM MyTweets ORDER BY id DESC LIMIT 1",params);	
 			request.next();
 			return new Long(request.getLong(1));
 			
@@ -39,7 +39,7 @@ public class TwitterController {
 		//ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE twitterUser='"+tUser+"' ORDER BY id DESC LIMIT 20");
 		Object[] params = new Object[1];
 		params[0]=tUser;
-		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE twitterUser=? ORDER BY id DESC LIMIT 20", params);
+		ResultSet request = DB.getDb().select("SELECT id,mesage FROM MyTweets WHERE twitterUser=? ORDER BY id DESC LIMIT 20", params);
 		LinkedList<String> st=new LinkedList<String>();
 		while(request.next()){
 			st.add(request.getString(2));
@@ -56,7 +56,7 @@ public class TwitterController {
 		Object[] params = new Object[2];
 		params[0]=Long.toString(azkenTweetId);
 		params[1]=tUser;
-		ResultSet request = Dd.getDd().select("SELECT id,mesage FROM MyTweets WHERE id < ? AND twitterUser=? ORDER BY id DESC LIMIT 20",params);
+		ResultSet request = DB.getDb().select("SELECT id,mesage FROM MyTweets WHERE id < ? AND twitterUser=? ORDER BY id DESC LIMIT 20",params);
 		LinkedList<String> st=new LinkedList<String>();
 		while(request.next()){
 			st.add(request.getString(2));
@@ -76,7 +76,7 @@ public class TwitterController {
 		params[2]=status.getUser().getScreenName();
 		params[3]=userName;
 		//Dd.getDd().insert("INSERT INTO MyTweets(id,mesage,name,twitterUser)VALUES('?','?','?','?')", params);
-		Dd.getDd().insert("INSERT INTO MyTweets(id,mesage,name,twitterUser)VALUES(?,?,?,?)", params);
+		DB.getDb().insert("INSERT INTO MyTweets(id,mesage,name,twitterUser)VALUES(?,?,?,?)", params);
 	}
 	
 	public void favGorde(String userName, Status status){
@@ -86,7 +86,7 @@ public class TwitterController {
 		params[1]=status.getText();
 		params[2]=status.getUser().getScreenName();
 		params[3]=userName;
-		Dd.getDd().insert("INSERT INTO Fav(id,mesage,name,twitterUser)VALUES(?,?,?,?)", params);
+		DB.getDb().insert("INSERT INTO Fav(id,mesage,name,twitterUser)VALUES(?,?,?,?)", params);
 	}
 	
 	public void followerakGorde(String id, String name, String user){
@@ -95,7 +95,7 @@ public class TwitterController {
 		params[1] = name;
 		params[2] = user;
 		System.out.println(params[0]+"   "+params[1]+"    "+params[2]);
-		Dd.getDd().insert("INSERT INTO Followers(id, name, twitterUser)VALUES(?,?,?)", params);
+		DB.getDb().insert("INSERT INTO Followers(id, name, twitterUser)VALUES(?,?,?)", params);
 	}
 	
 }
