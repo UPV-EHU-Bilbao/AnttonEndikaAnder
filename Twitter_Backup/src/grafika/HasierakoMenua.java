@@ -26,6 +26,7 @@ import model.TwitterConect;
 import model.User;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -46,7 +47,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 	private final JMenuBar menuBar = new JMenuBar();
 	private JMenu menuUser;
 	private String twitterUser;
-
+	private TweetPanela tweetTaula=new TweetPanela();
 	/**
 	 * Launch the application.
 	 */
@@ -82,23 +83,13 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout());
-		//contentPane.add(scrollPane, BorderLayout.CENTER);
 
 
 		contentPane.add(gehiago, BorderLayout.SOUTH);
-		gehiago.setVisible(false);
+		gehiago.setEnabled(false);
 		gehiago.addActionListener(this);
 		gehiago.setActionCommand("20+");
 
-		//text area inplementation
-		//		scrollPane.setViewportView(textArea);
-		//		textArea.setEditable(false);
-		//		textArea.setColumns(20);
-		//		textArea.setWrapStyleWord(true);
-
-		//jtable inplementation
-		//JTable table =new JTable(new MyTableModelTweet());
-		//scrollPane.add(table);
 
 		JPanel contentPane1 = new JPanel();
 		contentPane.add(contentPane1, BorderLayout.NORTH);
@@ -148,6 +139,8 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		item.addActionListener(this);
 		item.setActionCommand("adduser");
 
+		tweetTaula.setOpaque(true);
+		contentPane.add(tweetTaula, BorderLayout.CENTER);
 		
 		
 
@@ -161,7 +154,6 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		if (arg0.getActionCommand().equals("adduser")){
 			TwitterConect tc=new TwitterConect();
 			tc.login();
-			System.out.println("sartu da");
 			menuUser.removeAll();
 			LinkedList<String> lk=User.getUser().getTwitterUsers();
 			Iterator<String> it=lk.iterator();
@@ -181,58 +173,20 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		}
 		else if (arg0.getActionCommand().equals("tweet") || arg0.getActionCommand().equals("20+")){
 			//bukaerara heltzean errorea
-			LinkedList<String> st=new LinkedList<String>();
+			ArrayList<String> st=new ArrayList<String>();
 			//MyTableModelTweet tableModel =new MyTableModelTweet(st);
 			
 			try {
-				String mesage=new String();
-				TweetTaula tweetTaula=new TweetTaula(new LinkedList<String>());;
+				
 				if(arg0.getActionCommand().equals("20+")){
 					st = TwitterController.getTwitterController().tweetakIkusi(this.twitterUser);
-					//TweetTaula twt=new TweetTaula(st);
-					//TweetTaula.createAndShowGUI(st);
-					 tweetTaula.gehiago20(st);
-					tweetTaula.setOpaque(true);
-					System.out.println("20+");
-					//scrollPane.add(tweetTaula);
-					contentPane.add(tweetTaula, BorderLayout.CENTER);
-					//mesage=textArea.getText();
-					if(!st.isEmpty()){
-						//mesage =mesage+"\n"+"\n-*"+st.removeFirst();
-						//tableModel.kargatu(st.removeFirst());
-
-					}
 				}else{
 					st=TwitterController.getTwitterController().lehentweetakIkusi(this.twitterUser);
-					//TweetTaula.createAndShowGUI(st);
-					tweetTaula =new TweetTaula(st);
-					tweetTaula.setOpaque(true);
-					//scrollPane.add(tweetTaula);
-					contentPane.add(tweetTaula, BorderLayout.CENTER);
-					if(!st.isEmpty()){
-//						mesage ="-*"+st.removeFirst();
-					//	tableModel.kargatu(st.removeFirst());
-					}
+					gehiago.setEnabled(true);
 				}
-				int color=0;
-				while(!st.isEmpty()){
-					String ms=st.removeFirst();
-					if(!ms.equals(null)){
-						//mesage=mesage+" "+"\n"+"\n-*"+ms;
-						//tableModel.kargatu(ms);
-						}
-				}
-				textArea.setText(mesage);
-				//JTable table =new JTable(tableModel);
-				//scrollPane.add(table);
-				if (this.twitterUser!=null){
-					gehiago.setVisible(true);
-					
-				}
-//				scrollPane.getVerticalScrollBar().setValue(0);
-//				Point p = new Point(1,1);
-//				scrollPane.getViewport().setViewPosition(p); 
-
+				tweetTaula.gehiago20(st);
+				
+				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

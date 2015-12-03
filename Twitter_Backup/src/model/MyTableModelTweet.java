@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
@@ -53,14 +54,11 @@ public class MyTableModelTweet extends AbstractTableModel {
 
 	private Vector<Lag> data= new Vector<Lag>();
 
-	public void kargatu(LinkedList<String> st) {
-//		data.add(new Lag("kathy", "smith", "snow", 5, false));
-		while(!st.isEmpty()){
-			
-			data.add(new Lag(st.removeFirst()));
-			//System.out.println(data.get(kont++).tweet);
-			}	
-			
+	public void kargatu(List<String> st) {
+		for (String elementua : st)
+			data.add(new Lag(elementua));
+		
+		;
 	}
 
 	@Override

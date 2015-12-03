@@ -1,14 +1,11 @@
 	package grafika;
 	
-	import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
-import java.util.ResourceBundle;
-
-	import javax.swing.JFrame;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JDialog;
@@ -26,7 +23,7 @@ import controller.TwitterSesionController;
 	public class Login extends JFrame implements ActionListener {
 	
 		private JPanel contentPane;
-		private JTextField textField;
+		private JTextField erabiltzailea;
 		private JPasswordField passwordField;
 		private JComboBox comboBox = new JComboBox();
 		private JLabel oker;
@@ -68,10 +65,10 @@ import controller.TwitterSesionController;
 			lblPasword.setBounds(45, 122, 70, 15);
 			contentPane.add(lblPasword);
 			
-			textField = new JTextField();
-			textField.setBounds(161, 63, 114, 19);
-			contentPane.add(textField);
-			textField.setColumns(10);
+			erabiltzailea = new JTextField("");
+			erabiltzailea.setBounds(161, 63, 114, 19);
+			contentPane.add(erabiltzailea);
+			erabiltzailea.setColumns(10);
 			
 			oker =new JLabel("Erabiltzale edo pasahitz okerra");
 			oker.setBounds(80, 65, 300, 220);
@@ -79,7 +76,7 @@ import controller.TwitterSesionController;
 			contentPane.add(oker);
 			oker.setVisible(false);
 			
-			passwordField = new JPasswordField();
+			passwordField = new JPasswordField("");
 			passwordField.setBounds(161, 120, 114, 17);
 			contentPane.add(passwordField);
 			
@@ -107,25 +104,16 @@ import controller.TwitterSesionController;
 		}
 		
 		public void actionPerformed(ActionEvent e){
-			//Messages msg=new Messages();
-			
-			//TwitterConect tc= new TwitterConect();
 			
 			if (comboBox.getSelectedIndex()==2){
-				System.out.println(comboBox.getSelectedIndex());
 				Locale spanishLocale = new Locale("grafika.messages", "ES");
 				//ResourceBundle bundle3 = ResourceBundle.getBundle("TestBundle", spanishLocale);
 				Messages.setBundle(spanishLocale);
 				Messages.setString("grafika.messages");
-				System.out.println(Messages.getString("grafika.messages"));
-				//this.dispose();
-				//login frame = new login();
-				//frame.setVisible(true);
 			}
 				if (e.getActionCommand().equals("login")){
-					int log=User.getUser().login(textField.getText(),passwordField.getText());
+					int log=User.getUser().login(erabiltzailea.getText(),passwordField.getText());
 					if (log!=-1) {
-						//tc.login();
 						HasierakoMenua menua=new HasierakoMenua();
 						menua.setVisible(true);
 						this.dispose();
