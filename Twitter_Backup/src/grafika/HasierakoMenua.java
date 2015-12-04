@@ -3,46 +3,33 @@ package grafika;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JMenuBar;
-import javax.swing.JMenu;
+import javax.swing.JMenu; 
 import javax.swing.JMenuItem;
-
-
-//import com.mysql.fabric.xmlrpc.base.Data;
-
-import javax.swing.JTable;
-
 import java.awt.Dimension;
-import java.awt.Point;
-
-import model.MyTableModelTweet;
 import model.TwitterConect;
 import model.User;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
 import controller.TwitterController;
+
+
 
 public class HasierakoMenua extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
-	private JScrollPane scrollPane = new JScrollPane();
 	private int altuera=500;
 	private int zabalera=650;
 	private static HasierakoMenua frame = new HasierakoMenua();
-	private JTextArea textArea = new JTextArea();
 	private JButton gehiago=new JButton("20 twit gehiago");
 	private final JMenuBar menuBar = new JMenuBar();
 	private JMenu menuUser;
