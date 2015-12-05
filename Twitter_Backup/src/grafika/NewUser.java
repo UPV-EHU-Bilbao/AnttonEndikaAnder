@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -13,10 +12,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
-
-import model.HashSha512;
 import model.User;
-import controller.UserController;
 
 public class NewUser extends JDialog implements ActionListener {
 
@@ -24,7 +20,6 @@ public class NewUser extends JDialog implements ActionListener {
 	private JTextField textField;
 	private JPasswordField passwordField;
 	private JPasswordField passwordField_1;
-	private JTextField textField_1;
 	private JLabel labelIncorrectPass; 
 	private JLabel labelIncorrectUser; 
 

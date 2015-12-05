@@ -17,8 +17,6 @@ import javax.swing.JComboBox;
 
 	import model.TwitterConect;
 import model.User;
-import controller.DB;
-import controller.TwitterSesionController;
 	
 	public class Login extends JFrame implements ActionListener {
 	
@@ -130,5 +128,4 @@ import controller.TwitterSesionController;
 			}
 			
 			
-		
 	}

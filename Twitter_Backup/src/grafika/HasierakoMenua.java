@@ -18,8 +18,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import controller.TwitterController;
 
 
@@ -105,6 +103,18 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		menuUser =new JMenu("Users");
 		menuUser.setMinimumSize(new Dimension(50, 20));
 		menuBar.add(menuUser);
+		
+		//users botioaren inplementazioa
+		newUserMenua();
+
+		//tweet-en taula
+		tweetTaula.setOpaque(true);
+		contentPane.add(tweetTaula, BorderLayout.CENTER);
+		
+		
+	} 
+	
+	public void newUserMenua() {
 		LinkedList<String> lk=User.getUser().getTwitterUsers();
 		Iterator<String> it=lk.iterator();
 		JMenuItem item=null;
@@ -125,14 +135,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		menuUser.add(item);
 		item.addActionListener(this);
 		item.setActionCommand("adduser");
-
-		tweetTaula.setOpaque(true);
-		contentPane.add(tweetTaula, BorderLayout.CENTER);
-		
-		
-
-
-	} 
+	}
 
 
 
@@ -142,20 +145,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			TwitterConect tc=new TwitterConect();
 			tc.login();
 			menuUser.removeAll();
-			LinkedList<String> lk=User.getUser().getTwitterUsers();
-			Iterator<String> it=lk.iterator();
-			JMenuItem item=null;
-			while(it.hasNext()){
-				String str= it.next();
-				item =new JMenuItem("@"+str);
-				menuUser.add(item);
-				item.addActionListener(this);
-				item.setActionCommand(str);
-			}
-			item=new JMenuItem("Add Twitter User");
-			menuUser.add(item);
-			item.addActionListener(this);
-			item.setActionCommand("adduser");
+			newUserMenua();
 
 		}
 		else if (arg0.getActionCommand().equals("tweet") || arg0.getActionCommand().equals("20+")){
