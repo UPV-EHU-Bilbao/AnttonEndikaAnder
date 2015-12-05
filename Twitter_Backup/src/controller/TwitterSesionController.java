@@ -19,14 +19,15 @@ public class TwitterSesionController {
 	}
 	
 	
-	public String[] getTwitterSession(){
+	public String[] getTwitterSession(String twitterUser){
 		String[] session = null;
 		try {
 
 			//ResultSet request = Dd.getDd().select("SELECT twitterUser,tokenSecret,token FROM UserTwitter WHERE tokenSecret!='null' AND token!='null'");
-			Object[] params = new Object[1];
+			Object[] params = new Object[2];
 			params[0]=User.getUser().getId();
-			ResultSet request = DB.getDb().select("SELECT twitterUser,tokenSecret,token FROM UserTwitter WHERE tokenSecret!='null' AND token!='null' AND userid=?",params);
+			params[1]=twitterUser;
+			ResultSet request = DB.getDb().select("SELECT twitterUser,tokenSecret,token FROM UserTwitter WHERE tokenSecret!='null' AND token!='null' AND userid=? AND twitterUser=? ",params);
 			if (request.next()==true){
 				session = new String[3];
 				session[0] = request.getString(1);

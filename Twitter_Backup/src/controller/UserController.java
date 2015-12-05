@@ -1,7 +1,9 @@
 package controller;
 
+import java.awt.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.omg.CORBA.Request;
@@ -49,12 +51,12 @@ public class UserController {
 		return exist;
 	}
 
-	public LinkedList<String> getTwitterUsers(int id) {
+	public ArrayList<String> getTwitterUsers(int id) {
 		//ResultSet rd=Dd.getDd().select("SELECT twitterUser FROM UserTwitter where userId='"+id+"'");
 		Object[] params = new Object[1];
 		params[0]=id;
 		ResultSet rd=DB.getDb().select("SELECT twitterUser FROM UserTwitter where userId=?",params);
-		LinkedList<String> lk =new LinkedList<String>();
+		ArrayList<String> lk =new ArrayList<String>();
 		//linked lis da endikak esan duelako
 		try {
 			while(rd.next()){

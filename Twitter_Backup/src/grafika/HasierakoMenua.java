@@ -103,27 +103,31 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		menuUser =new JMenu("Users");
 		menuUser.setMinimumSize(new Dimension(50, 20));
 		menuBar.add(menuUser);
-		
+
 		//users botioaren inplementazioa
 		newUserMenua();
 
 		//tweet-en taula
 		tweetTaula.setOpaque(true);
 		contentPane.add(tweetTaula, BorderLayout.CENTER);
-		
-		
+
+
 	} 
-	
+
 	public void newUserMenua() {
-		LinkedList<String> lk=User.getUser().getTwitterUsers();
+		ArrayList<String> lk=User.getUser().getTwitterUsers();
 		Iterator<String> it=lk.iterator();
 		JMenuItem item=null;
-		String str= it.next();
-		item =new JMenuItem("@"+str);
-		menuUser.add(item);
-		item.addActionListener(this);
-		item.setActionCommand(str);
-		twitterUser=str;
+		String str=null;
+		if (!lk.isEmpty()){
+			str= it.next();
+			item =new JMenuItem("@"+str);
+			menuUser.add(item);
+			item.addActionListener(this);
+			item.setActionCommand(str);
+			twitterUser=str;
+			setTitle(str);
+		}
 		while(it.hasNext()){
 			str= it.next();
 			item =new JMenuItem("@"+str);
@@ -140,40 +144,41 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		if (arg0.getActionCommand().equals("adduser")){
+	public void actionPerformed(ActionEvent event) {
+		if (event.getActionCommand().equals("adduser")){
 			TwitterConect tc=new TwitterConect();
 			tc.login();
 			menuUser.removeAll();
 			newUserMenua();
 
 		}
-		else if (arg0.getActionCommand().equals("tweet") || arg0.getActionCommand().equals("20+")){
+		else if (event.getActionCommand().equals("tweet") || event.getActionCommand().equals("20+")){
 			//bukaerara heltzean errorea
 			ArrayList<String> st=new ArrayList<String>();
 			//MyTableModelTweet tableModel =new MyTableModelTweet(st);
-			
+
 			try {
 				
-				if(arg0.getActionCommand().equals("20+")){
+				if(event.getActionCommand().equals("20+")){
 					st = TwitterController.getTwitterController().tweetakIkusi(this.twitterUser);
 				}else{
 					st=TwitterController.getTwitterController().lehentweetakIkusi(this.twitterUser);
 					gehiago.setEnabled(true);
 				}
 				tweetTaula.gehiago20(st);
-				
-				
+
+
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}else if(arg0.getActionCommand().equals("deskargatu")){
-			Deskargak dialog = new Deskargak();
+		}else if(event.getActionCommand().equals("deskargatu")){
+			Deskargak dialog = new Deskargak(this.twitterUser);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		}else{
-			twitterUser=arg0.getActionCommand();
+			twitterUser=event.getActionCommand();
+			setTitle(event.getActionCommand());
 		}
 	}
 

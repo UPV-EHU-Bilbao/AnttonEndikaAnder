@@ -114,8 +114,8 @@ public class TwitterConect {
 		}
 	}
 	
-	public void tokenakLortu(){
-		String[] session = TwitterSesionController.getTwitterSesionController().getTwitterSession();
+	public void tokenakLortu(String twitterUser){
+		String[] session = TwitterSesionController.getTwitterSesionController().getTwitterSession(twitterUser);
         if(!(session==null)){
         	AccessToken accesToken = new AccessToken(session[2], session[1]);
         	twitter.setOAuthAccessToken(accesToken);

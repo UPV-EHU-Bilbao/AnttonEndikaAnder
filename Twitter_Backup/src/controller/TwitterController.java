@@ -62,6 +62,7 @@ public class TwitterController {
 	
 	public void tweetaGorde(String userName, Status status){
 		Object[] params = new Object[4];
+		
 		params[0]=Long.toString(status.getId());
 		params[1]=status.getText();
 		params[2]=status.getUser().getScreenName();

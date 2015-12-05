@@ -1,8 +1,7 @@
 
 package model;
 
-import java.util.LinkedList;
-
+import java.util.ArrayList;
 import controller.UserController;
 
 public class User {
@@ -45,7 +44,7 @@ public class User {
 		return exist;
 	}
 	
-	public LinkedList<String> getTwitterUsers(){
+	public ArrayList<String> getTwitterUsers(){
 		return UserController.getUserController().getTwitterUsers(this.id);
 	}
 

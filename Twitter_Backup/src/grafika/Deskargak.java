@@ -20,29 +20,32 @@ public class Deskargak extends JDialog implements ActionListener{
 	private JCheckBox chckbxTweet;
 	private JCheckBox chckbxRetweet;
 	private JCheckBox chckbxFav;
+	private String twitterUser;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		try {
-			Deskargak dialog = new Deskargak();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public static void main(String[] args) {
+//		try {
+//			Deskargak dialog = new Deskargak();
+//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+//			dialog.setVisible(true);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	/**
 	 * Create the dialog.
 	 */
-	public Deskargak() {
+	public Deskargak(String pTwitterUser) {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+		
+		twitterUser=pTwitterUser;
 		
 		chckbxTweet = new JCheckBox("Tweet");
 		chckbxTweet.setBounds(36, 34, 129, 23);
@@ -81,7 +84,7 @@ public class Deskargak extends JDialog implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getActionCommand().equals("ok")){
 			TwitterConect tc=new TwitterConect();
-			tc.tokenakLortu();
+			tc.tokenakLortu(twitterUser);
 			if(chckbxTweet.isSelected()){
 				tc.getTwitts();
 			}
