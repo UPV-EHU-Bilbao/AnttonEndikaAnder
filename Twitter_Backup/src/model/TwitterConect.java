@@ -1,5 +1,6 @@
 package model;
 import grafika.PinEnter;
+import twitter4j.DirectMessage;
 import twitter4j.IDs;
 import twitter4j.PagableResponseList;
 import twitter4j.Paging;
@@ -211,7 +212,7 @@ public class TwitterConect {
 	}
 	
 	public void getFollows(){
-try {
+		try {
             
             long cursor = -1;
             IDs ids;
@@ -270,6 +271,36 @@ try {
             te.printStackTrace();
             System.out.println("Failed to list the lists: " + te.getMessage());
             System.exit(-1);
+        }
+	}
+	
+	public void getDirectMessages(){
+		try {
+			//niri bidaldutakoak
+            Paging paging = new Paging(1);
+            List<DirectMessage> messages;
+            do {
+                messages = twitter.getDirectMessages(paging);
+                for (DirectMessage message : messages) {
+                    System.out.println("From: @" + message.getSenderScreenName() + " id:" + message.getId() + " - " + message.getText());
+                }
+                paging.setPage(paging.getPage() + 1);
+            } while (messages.size() > 0 /*&& paging.getPage() < 10*/);
+            
+            //nik bidalitakoak
+            Paging page = new Paging(1);
+            List<DirectMessage> directMessages;
+            do {
+                directMessages = twitter.getSentDirectMessages(page);
+                for (DirectMessage message : directMessages) {
+                    System.out.println("To: @" + message.getRecipientScreenName() + " id:" + message.getId() + " - " + message.getText());
+                }
+                page.setPage(page.getPage() + 1);
+            } while (directMessages.size() > 0 /*&& page.getPage() < 10*/);
+            
+        } catch (TwitterException te) {
+            te.printStackTrace();
+            System.out.println("Failed to get messages: " + te.getMessage()); 
         }
 	}
 	
