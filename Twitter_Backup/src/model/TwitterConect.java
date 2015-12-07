@@ -1,12 +1,15 @@
 package model;
 import grafika.PinEnter;
 import twitter4j.IDs;
+import twitter4j.PagableResponseList;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.TwitterResponse;
+import twitter4j.UserList;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import grafika.PinEnter;
@@ -229,6 +232,44 @@ try {
             te.printStackTrace();
             System.out.println("Failed to get followers' ids: " + te.getMessage());
             //System.exit(-1);
+        }
+	}
+	
+	public void getLists(){
+		try {
+            ResponseList<UserList> lists = twitter.getUserLists(twitter.getScreenName());
+            for (UserList list : lists) {
+                System.out.println("id:" + list.getId() + ", name:" + list.getName() + ", description:"
+                        + list.getDescription() + ", slug:" + list.getSlug() + "");
+                
+                //get tweets of a list
+                /*Paging page = new Paging(1);
+                ResponseList<Status> statuses;
+                do {
+                    statuses = twitter.getUserListStatuses(list.getId(), page);
+                    for (Status status : statuses) {
+                        System.out.println("@" + status.getUser().getScreenName() + " - " + status.getText());
+                    }
+                    page.setPage(page.getPage() + 1);
+                } while (statuses.size() > 0 && page.getPage() <= 10);
+                */
+                
+                //get members of a list
+                long cursor = -1;
+                PagableResponseList<twitter4j.User> usres;
+                do {
+                    usres = twitter.getUserListMembers(list.getId(), cursor);
+                    for (twitter4j.User lista : usres) {
+                        System.out.println("@" + lista.getScreenName());
+                    }
+                } while ((cursor = usres.getNextCursor()) != 0);
+                
+            }
+            
+        } catch (TwitterException te) {
+            te.printStackTrace();
+            System.out.println("Failed to list the lists: " + te.getMessage());
+            System.exit(-1);
         }
 	}
 	
