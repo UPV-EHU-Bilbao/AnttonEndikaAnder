@@ -270,7 +270,7 @@ public class TwitterConect {
         } catch (TwitterException te) {
             te.printStackTrace();
             System.out.println("Failed to list the lists: " + te.getMessage());
-            System.exit(-1);
+            //System.exit(-1);
         }
 	}
 	
