@@ -218,7 +218,7 @@ public class TwitterConect {
                         + list.getDescription() + ", slug:" + list.getSlug() + "");
                 
                 //get tweets of a list
-                Paging page = new Paging(1);
+                /*Paging page = new Paging(1);
                 ResponseList<Status> statuses;
                 do {
                     statuses = twitter.getUserListStatuses(list.getId(), page);
@@ -227,6 +227,7 @@ public class TwitterConect {
                     }
                     page.setPage(page.getPage() + 1);
                 } while (statuses.size() > 0 && page.getPage() <= 10);
+                */
                 
                 //get members of a list
                 long cursor = -1;
