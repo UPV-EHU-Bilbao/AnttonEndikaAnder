@@ -277,26 +277,25 @@ public class TwitterConect {
 	public void getDirectMessages(){
 		try {
 			//niri bidaldutakoak
-            Paging paging = new Paging(1);
+            Paging page = new Paging(1);
             List<DirectMessage> messages;
             do {
-                messages = twitter.getDirectMessages(paging);
+                messages = twitter.getDirectMessages(page);
                 for (DirectMessage message : messages) {
                     System.out.println("From: @" + message.getSenderScreenName() + " id:" + message.getId() + " - " + message.getText());
                 }
-                paging.setPage(paging.getPage() + 1);
+                page.setPage(page.getPage() + 1);
             } while (messages.size() > 0 /*&& paging.getPage() < 10*/);
             
             //nik bidalitakoak
-            Paging page = new Paging(1);
-            List<DirectMessage> directMessages;
+            page = new Paging(1);
             do {
-                directMessages = twitter.getSentDirectMessages(page);
-                for (DirectMessage message : directMessages) {
+                messages = twitter.getSentDirectMessages(page);
+                for (DirectMessage message : messages) {
                     System.out.println("To: @" + message.getRecipientScreenName() + " id:" + message.getId() + " - " + message.getText());
                 }
                 page.setPage(page.getPage() + 1);
-            } while (directMessages.size() > 0 /*&& page.getPage() < 10*/);
+            } while (messages.size() > 0 /*&& page.getPage() < 10*/);
             
         } catch (TwitterException te) {
             te.printStackTrace();
