@@ -1,12 +1,16 @@
 package model;
 import grafika.PinEnter;
+import twitter4j.DirectMessage;
 import twitter4j.IDs;
+import twitter4j.PagableResponseList;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.TwitterResponse;
+import twitter4j.UserList;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import grafika.PinEnter;
@@ -176,7 +180,7 @@ public class TwitterConect {
 			} catch (TwitterException te) {
 				//te.printStackTrace();
 				System.out.println("Failed to get favorites: " + te.getMessage());
-				System.exit(-1);
+				//System.exit(-1);
 			}
 		}
 		
@@ -199,11 +203,103 @@ public class TwitterConect {
                     
                 }
             } while ((cursor = ids.getNextCursor()) != 0);
-            System.exit(0);
+            //System.exit(0);
         } catch (TwitterException te) {
             te.printStackTrace();
             System.out.println("Failed to get followers' ids: " + te.getMessage());
-            System.exit(-1);
+            //System.exit(-1);
+        }
+	}
+	
+	public void getFollows(){
+		try {
+            
+            long cursor = -1;
+            IDs ids;
+            System.out.println("Listing followers's ids.");
+            do {
+               
+                ids = twitter.getFriendsIDs(cursor);
+                
+                for (long id : ids.getIDs()) {
+                    //System.out.println(id);
+                    System.out.println(twitter.showUser(id).getScreenName());
+                    
+                    
+                }
+            } while ((cursor = ids.getNextCursor()) != 0);
+            //System.exit(0);
+        } catch (TwitterException te) {
+            te.printStackTrace();
+            System.out.println("Failed to get followers' ids: " + te.getMessage());
+            //System.exit(-1);
+        }
+	}
+	
+	public void getLists(){
+		try {
+            ResponseList<UserList> lists = twitter.getUserLists(twitter.getScreenName());
+            for (UserList list : lists) {
+                System.out.println("id:" + list.getId() + ", name:" + list.getName() + ", description:"
+                        + list.getDescription() + ", slug:" + list.getSlug() + "");
+                
+                //get tweets of a list
+                /*Paging page = new Paging(1);
+                ResponseList<Status> statuses;
+                do {
+                    statuses = twitter.getUserListStatuses(list.getId(), page);
+                    for (Status status : statuses) {
+                        System.out.println("@" + status.getUser().getScreenName() + " - " + status.getText());
+                    }
+                    page.setPage(page.getPage() + 1);
+                } while (statuses.size() > 0 && page.getPage() <= 10);
+                */
+                
+                //get members of a list
+                long cursor = -1;
+                PagableResponseList<twitter4j.User> usres;
+                do {
+                    usres = twitter.getUserListMembers(list.getId(), cursor);
+                    for (twitter4j.User lista : usres) {
+                        System.out.println("@" + lista.getScreenName());
+                    }
+                } while ((cursor = usres.getNextCursor()) != 0);
+                
+            }
+            
+        } catch (TwitterException te) {
+            te.printStackTrace();
+            System.out.println("Failed to list the lists: " + te.getMessage());
+            //System.exit(-1);
+        }
+	}
+	
+	public void getDirectMessages(){
+		try {
+			//niri bidaldutakoak
+            Paging page = new Paging(1);
+            List<DirectMessage> messages;
+            do {
+                messages = twitter.getDirectMessages(page);
+                for (DirectMessage message : messages) {
+                    System.out.println("From: @" + message.getSenderScreenName() + " id:" + message.getId() + " - " + message.getText());
+                }
+                page.setPage(page.getPage() + 1);
+            } while (messages.size() > 0 /*&& paging.getPage() < 10*/);
+            
+            //nik bidalitakoak
+            page = new Paging(1);
+            do {
+                messages = twitter.getSentDirectMessages(page);
+                for (DirectMessage message : messages) {
+                    System.out.println("To: @" + message.getRecipientScreenName() + " id:" + message.getId() + " - " + message.getText());
+                }
+                page.setPage(page.getPage() + 1);
+            } while (messages.size() > 0 /*&& page.getPage() < 10*/);
+            
+        } catch (TwitterException te) {
+            te.printStackTrace();
+            System.out.println("Failed to get messages: " + te.getMessage()); 
         }
 	}
 	
