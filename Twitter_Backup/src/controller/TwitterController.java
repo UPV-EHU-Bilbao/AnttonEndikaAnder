@@ -6,15 +6,17 @@ import java.util.ArrayList;
 
 import twitter4j.Status;
 
+
 public class TwitterController {
 
 	private static TwitterController instantzia=new TwitterController();
-	private Long azkenTweetId;
+	private long azkenTweetId;
 	private Long azkenFavId;
+	private long azkenFollowers;
 
 	private TwitterController(){	
 		azkenFavId=new Long(0);
-		azkenTweetId=new Long(0);
+		azkenFollowers = new Long(0);
 	}
 
 	public static TwitterController getTwitterController(){
@@ -34,26 +36,6 @@ public class TwitterController {
 		}
 		return null;
 	}
-	
-//	public ArrayList<String> tweetakIkusi(String tUser) throws SQLException {
-//		//pantailaratutako azken id-tik abiaratuta beste 20 hartzen ditu
-//		Object[] params = new Object[2];
-//		params[0]=Long.toString(azkenTweetId);
-//		params[1]=tUser;
-//		ResultSet request = null;
-//		if (azkenTweetId.equals(new Long(0))) {
-//			request = DB.getDb().select("SELECT id,mesage FROM MyTweets WHERE twitterUser=? ORDER BY id DESC LIMIT 20", params);
-//		}
-//		else {
-//			request = DB.getDb().select("SELECT id,mesage FROM MyTweets WHERE id < ? AND twitterUser=? ORDER BY id DESC LIMIT 20",params); 
-//		}
-//		ArrayList<String> st=new ArrayList<String>();
-//		while(request.next()){
-//			st.add(request.getString(2));
-//			azkenTweetId = request.getLong(1);
-//		}
-//		return st;
-//	}
 
 	public ArrayList<String> lehentweetakIkusi(String tUser) throws SQLException {
 		//Honek lehen 20-ak hartzen ditu (datubasetik), hurrengoak hartzeko beste sql sententzia bat erabili behar delako
@@ -154,5 +136,31 @@ public class TwitterController {
 		System.out.println(params[0]+"   "+params[1]+"    "+params[2]);
 		DB.getDb().insert("INSERT INTO Followers(id, name, twitterUser)VALUES(?,?,?)", params);
 	}
+	
+	public ArrayList<String> followerakIkusi(String tUser){
+		ResultSet request=null;
+		if(azkenFollowers!=new Long(0)){
+			Object[] params = new Object[2];
+			params[0]=Long.toString(azkenFollowers);
+			params[1]=tUser;
+			request = DB.getDb().select("SELECT id,name FROM Followers WHERE id < ? AND twitterUser=? ORDER BY id DESC LIMIT 20",params);
+		}else{
+			Object[] params = new Object[1];
+			params[0]=tUser;
+			request = DB.getDb().select("SELECT id,name FROM Followers WHERE twitterUser=? ORDER BY id DESC LIMIT 20", params);
+		}
+		ArrayList<String> st=new ArrayList<String>();
+		
+		try {
+			while(request.next()){
+				azkenFollowers = request.getLong(1);
+				st.add("@"+request.getString(2));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return st;
+	}
+	
 
 }
