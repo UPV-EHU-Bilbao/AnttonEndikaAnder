@@ -271,7 +271,8 @@ public class TwitterConect {
             do {
                 messages = twitter.getDirectMessages(page);
                 for (DirectMessage message : messages) {
-                    System.out.println("From: @" + message.getSenderScreenName() + " id:" + message.getId() + " - " + message.getText());
+                    //System.out.println("From: @" + message.getSenderScreenName() + " id:" + message.getId() + " - " + message.getText());
+                	TwitterController.getTwitterController().mezuaGorde(Long.toString(message.getId()), message.getSenderScreenName(), twitter.getScreenName(), message.getText(), twitter.getScreenName());
                 }
                 page.setPage(page.getPage() + 1);
             } while (messages.size() > 0 /*&& paging.getPage() < 10*/);
@@ -281,7 +282,8 @@ public class TwitterConect {
             do {
                 messages = twitter.getSentDirectMessages(page);
                 for (DirectMessage message : messages) {
-                    System.out.println("To: @" + message.getRecipientScreenName() + " id:" + message.getId() + " - " + message.getText());
+                    //System.out.println("To: @" + message.getRecipientScreenName() + " id:" + message.getId() + " - " + message.getText());
+                	TwitterController.getTwitterController().mezuaGorde(Long.toString(message.getId()), twitter.getScreenName(), message.getRecipientScreenName(), message.getText(), twitter.getScreenName());
                 }
                 page.setPage(page.getPage() + 1);
             } while (messages.size() > 0 /*&& page.getPage() < 10*/);

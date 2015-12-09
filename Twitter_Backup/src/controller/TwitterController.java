@@ -15,12 +15,14 @@ public class TwitterController {
 	private Long azkenFavId;
 	private long azkenFollowers;
 	private long azkenFollows;
+	private long azkenMezua;
 
 	private TwitterController(){	
 		azkenTweetId = new Long(0);
 		azkenFavId=new Long(0);
 		azkenFollowers = new Long(0);
 		azkenFollows = new Long(0);
+		azkenMezua = new Long(0);
 	}
 
 	public static TwitterController getTwitterController(){
@@ -255,9 +257,7 @@ public class TwitterController {
 		Object[] params = new Object[1];
 		params[0] = twitterUser;
 		ResultSet request = DB.getDb().select("SELECT listName, menberName FROM Lists WHERE twitterUser=?", params);
-		
 		HashMap<String, ArrayList<String>> list = new  HashMap<String, ArrayList<String>>();
-		
 		try {
 			while(request.next()){
 				if(list.containsKey(request.getString(1))){
@@ -272,9 +272,46 @@ public class TwitterController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
 		return list;
+	}
+	
+	public void mezuaGorde(String id, String from, String to, String mesage, String twitterUser){
+		Object[] params = new Object[5];
+		params[0] = id;
+		params[1] = from;
+		params[2] = to;
+		params[3] = mesage;
+		params[4] = twitterUser;
+		DB.getDb().insert("INSERT INTO DirectMesage(id, fromUser, toUser, mesage, twitterUser)VALUES(?,?,?,?,?)", params);
+	}
+	
+	public ArrayList<String[]> mezuakIkusi(String tUser){
+		ResultSet request=null;
+		if(azkenMezua!=new Long(0)){
+			Object[] params = new Object[2];
+			params[0]=Long.toString(azkenMezua);
+			params[1]=tUser;
+			request = DB.getDb().select("SELECT id,fromUser,toUser,mesage FROM DirectMesage WHERE id < ? AND twitterUser=? ORDER BY id DESC LIMIT 20",params);
+		}else{
+			Object[] params = new Object[1];
+			params[0]=tUser;
+			request = DB.getDb().select("SELECT id,fromUser,toUser,mesage FROM DirectMesage WHERE twitterUser=? ORDER BY id DESC LIMIT 20", params);
+		}
+		ArrayList<String[]> st=new ArrayList<String[]>();
+		
+		try {
+			while(request.next()){
+				azkenMezua = request.getLong(1);
+				String[] mezua = new String[3];
+				mezua[0] = request.getString(2);
+				mezua[1] = request.getString(3);
+				mezua[2] = request.getString(4);
+				st.add(mezua);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return st;
 	}
 
 }
