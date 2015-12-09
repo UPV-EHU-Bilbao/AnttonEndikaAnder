@@ -191,7 +191,7 @@ public class TwitterConect {
             
             long cursor = -1;
             IDs ids;
-            System.out.println("Listing followers's ids.");
+            //System.out.println("Listing followers's ids.");
             do {
                
                 ids = twitter.getFollowersIDs(cursor);
@@ -202,7 +202,7 @@ public class TwitterConect {
                     TwitterController.getTwitterController().followerakGorde(Long.toString(id), twitter.showUser(id).getScreenName(), twitter.getScreenName());
                     
                 }
-            } while ((cursor = ids.getNextCursor()) != 0);
+            } while (((cursor = ids.getNextCursor()) != 0) && (ids.getIDs().length!=0));
             //System.exit(0);
         } catch (TwitterException te) {
             te.printStackTrace();
@@ -216,18 +216,19 @@ public class TwitterConect {
             
             long cursor = -1;
             IDs ids;
-            System.out.println("Listing followers's ids.");
+            //System.out.println("Listing followers's ids.");
             do {
                
                 ids = twitter.getFriendsIDs(cursor);
                 
                 for (long id : ids.getIDs()) {
                     //System.out.println(id);
-                    System.out.println(twitter.showUser(id).getScreenName());
-                    
+                    //System.out.println(twitter.showUser(id).getScreenName());
+                    TwitterController.getTwitterController().followakGorde(Long.toString(id), twitter.showUser(id).getScreenName(), twitter.getScreenName());
                     
                 }
-            } while ((cursor = ids.getNextCursor()) != 0);
+                System.out.println(ids.getIDs().length);
+            } while (((cursor = ids.getNextCursor()) != 0) && (ids.getIDs().length!=0));
             //System.exit(0);
         } catch (TwitterException te) {
             te.printStackTrace();
