@@ -11,9 +11,11 @@ public class TwitterController {
 	private static TwitterController instantzia=new TwitterController();
 	private long azkenTweetId;
 	private Long azkenFavId;
+	private long azkenFollowers;
 
 	private TwitterController(){	
 		azkenFavId=new Long(0);
+		azkenFollowers = new Long(0);
 	}
 
 	public static TwitterController getTwitterController(){
@@ -133,5 +135,31 @@ public class TwitterController {
 		System.out.println(params[0]+"   "+params[1]+"    "+params[2]);
 		DB.getDb().insert("INSERT INTO Followers(id, name, twitterUser)VALUES(?,?,?)", params);
 	}
+	
+	public ArrayList<String> followerakIkusi(String tUser){
+		ResultSet request=null;
+		if(!(azkenFavId==new Long(0))){
+			Object[] params = new Object[2];
+			params[0]=azkenFavId.toString();
+			params[1]=tUser;
+			 request = DB.getDb().select("SELECT id,name FROM Followers WHERE id < ? AND twitterUser=? ORDER BY id DESC LIMIT 20",params);
+		}else{
+			Object[] params = new Object[1];
+			params[0]=tUser;
+			 request = DB.getDb().select("SELECT id,name FROM Followers WHERE twitterUser=? ORDER BY id DESC LIMIT 20", params);
+		}
+		ArrayList<String> st=new ArrayList<String>();
+		
+		try {
+			while(request.next()){
+				azkenFavId = request.getLong(1);
+				st.add(request.getString(2));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return st;
+	}
+	
 
 }
