@@ -92,5 +92,6 @@ public class Deskargak extends JDialog implements ActionListener{
 				tc.getFavs();
 			}
 		}
+		this.dispose();
 	}
 }

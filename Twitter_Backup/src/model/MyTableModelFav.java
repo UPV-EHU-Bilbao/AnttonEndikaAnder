@@ -1,18 +1,18 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
-public class MyTableModelTweet extends AbstractTableModel {
+import model.MyTableModelTweet.Lag;
+
+public class MyTableModelFav extends AbstractTableModel {
 
 	private ArrayList<String> columnNames;
 
-	public MyTableModelTweet() {
+	public MyTableModelFav() {
 
 		columnNames=new ArrayList<String>();
 		hasieratuZutabeIzenak();
@@ -26,19 +26,24 @@ public class MyTableModelTweet extends AbstractTableModel {
 	}
 	
 	public void hasieratuZutabeIzenak() {
-		columnNames.add("Tweet");
+		columnNames.add("Twitter User");
+		columnNames.add("Fav");
 		
 	}
 
 	class Lag {
-		String tweet;
-		public Lag(String tweet) {
+		String twitterUser;
+		String fav;
+		public Lag(String pTwitterUser, String pFav) {
 			super();
-			this.tweet = tweet;
+			this.twitterUser = pTwitterUser;
+			this.fav=pFav;
 		}
 		public Object getBalioa(int i) {
 			if(i==0){
-				return tweet;
+				return twitterUser;
+			}else if(i==1){
+				return fav;
 			}else {
 				return null;
 			}
@@ -46,7 +51,9 @@ public class MyTableModelTweet extends AbstractTableModel {
 
 		public void insertElementAt(Object value, int i){
 			if(i==0){
-				tweet=(String) value;
+				twitterUser=(String) value;
+			}else if(i==1){
+				fav=(String) value;
 			}
 		}
 
@@ -54,14 +61,14 @@ public class MyTableModelTweet extends AbstractTableModel {
 
 	private Vector<Lag> data= new Vector<Lag>();
 
-	public void kargatu(List<String> st) {
-		for (String elementua : st)
-			data.add(new Lag(elementua));
-		
+	public void kargatu(List<String[]> st) {
+		for (String[] elementua : st){
+			data.add(new Lag(elementua[1], elementua[0]));
+		}
 		;
 	}
 	
-	public void ezabatu() {
+	public void ezbatu() {
 		data.removeAllElements();
 	}
 

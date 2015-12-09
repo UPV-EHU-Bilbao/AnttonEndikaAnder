@@ -1,25 +1,22 @@
-
 package grafika;
+
 import java.awt.GridLayout;
 import java.util.List;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import model.MyTableModelFav;
 
-import model.MyTableModelTweet;
-
-public class TweetPanela extends JPanel{
-
-	private MyTableModelTweet modeloa;
+public class FavPanela extends JPanel{
+	
+	private MyTableModelFav modeloa;
 	private JTable table;
 	private JScrollPane skrolla;
 
 	
-	public TweetPanela() {
+	public FavPanela() {
 		super(new GridLayout(1, 0));
-		modeloa=new MyTableModelTweet();
+		modeloa=new MyTableModelFav();
 		table =new JTable(modeloa);
 		skrolla = new JScrollPane(table);
 		this.add(skrolla);
@@ -27,7 +24,7 @@ public class TweetPanela extends JPanel{
 	}
 	
 	
-	public void gehiago20(List<String> st) {
+	public void gehiago20(List<String[]> st) {
 		
 		modeloa.kargatu(st);
 		table.revalidate();
@@ -35,12 +32,9 @@ public class TweetPanela extends JPanel{
 		
 	}
 	
-	public void ezabatuTweetak() {
-		modeloa.ezabatu();
-		
+	public void ezabatuFav() {
+		modeloa.ezbatu();
 	}
 	
 	
 }
-
-
