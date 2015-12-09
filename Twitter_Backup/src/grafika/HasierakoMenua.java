@@ -179,7 +179,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 					st = TwitterController.getTwitterController().tweetakIkusi(this.twitterUser);
 				}else{
 					tweetTaula.ezabatuTweetak();
-					st=TwitterController.getTwitterController().lehentweetakIkusi(this.twitterUser);
+					st=TwitterController.getTwitterController().tweetakIkusi(this.twitterUser);
 					gehiago.setEnabled(true);
 					gehiago.setActionCommand("20+tweet");
 				}
@@ -205,7 +205,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 					favLista = TwitterController.getTwitterController().favIkusi(this.twitterUser);
 				}else{
 					favPanela.ezabatuFav();
-					favLista=TwitterController.getTwitterController().lehenFavkIkusi(this.twitterUser);
+					favLista=TwitterController.getTwitterController().favIkusi(this.twitterUser);
 					gehiago.setEnabled(true);
 					gehiago.setActionCommand("20+fav");
 				}
