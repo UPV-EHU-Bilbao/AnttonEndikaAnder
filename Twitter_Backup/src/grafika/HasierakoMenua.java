@@ -1,8 +1,10 @@
 package grafika;
 
 import java.awt.BorderLayout;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -11,13 +13,17 @@ import javax.swing.JDialog;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu; 
 import javax.swing.JMenuItem;
+
 import java.awt.Dimension;
+
 import model.TwitterConect;
 import model.User;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+
 import controller.TwitterController;
 
 
@@ -28,11 +34,13 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 	private int altuera=500;
 	private int zabalera=650;
 	private static HasierakoMenua frame = new HasierakoMenua();
-	private JButton gehiago=new JButton("20 twit gehiago");
+	private JButton gehiago=new JButton("20 Gehiago");
 	private final JMenuBar menuBar = new JMenuBar();
 	private JMenu menuUser;
 	private String twitterUser;
 	private TweetPanela tweetTaula=new TweetPanela();
+	private FavPanela favPanela =new FavPanela();
+	private boolean panelaDago=false;
 	/**
 	 * Launch the application.
 	 */
@@ -86,6 +94,8 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		mntmTweet.setActionCommand("tweet");
 		mntmTweet.setMinimumSize(new Dimension(35, 20));
 		JMenuItem mntmFav = new JMenuItem("fav");
+		mntmFav.addActionListener(this);
+		mntmFav.setActionCommand("fav");
 		JMenuItem mntmRetweet = new JMenuItem("Retweet");
 		mntmRetweet.setMinimumSize(new Dimension(40, 20));
 		JMenuItem mntmDM = new JMenuItem("Direct message");
@@ -107,9 +117,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		//users botioaren inplementazioa
 		newUserMenua();
 
-		//tweet-en taula
-		tweetTaula.setOpaque(true);
-		contentPane.add(tweetTaula, BorderLayout.CENTER);
+		
 
 
 	} 
@@ -152,20 +160,56 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			newUserMenua();
 
 		}
-		else if (event.getActionCommand().equals("tweet") || event.getActionCommand().equals("20+")){
+		else if (event.getActionCommand().equals("tweet") || event.getActionCommand().equals("20+tweet")){
 			//bukaerara heltzean errorea
 			ArrayList<String> st=new ArrayList<String>();
 			//MyTableModelTweet tableModel =new MyTableModelTweet(st);
 
 			try {
+				if(panelaDago){
+				contentPane.remove(2);
+				}
+				//tweet-en taula
+				tweetTaula.setOpaque(true);
+				contentPane.add(tweetTaula, BorderLayout.CENTER);
+				panelaDago=true;
 				
-				if(event.getActionCommand().equals("20+")){
+				if(event.getActionCommand().equals("20+tweet")){
+					
 					st = TwitterController.getTwitterController().tweetakIkusi(this.twitterUser);
 				}else{
+					tweetTaula.ezabatuTweetak();
 					st=TwitterController.getTwitterController().lehentweetakIkusi(this.twitterUser);
 					gehiago.setEnabled(true);
+					gehiago.setActionCommand("20+tweet");
 				}
 				tweetTaula.gehiago20(st);
+
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if (event.getActionCommand().equals("fav") || event.getActionCommand().equals("20+fav")){
+			try {
+				if(panelaDago){
+					contentPane.remove(2);
+				}
+				//fav taula
+				favPanela.setOpaque(true);
+				contentPane.add(favPanela, BorderLayout.CENTER);
+				ArrayList<String[]> favLista=new ArrayList<String[]>();
+				panelaDago=true;
+				
+				if(event.getActionCommand().equals("20+fav")){
+					favLista = TwitterController.getTwitterController().favIkusi(this.twitterUser);
+				}else{
+					favPanela.ezabatuFav();
+					favLista=TwitterController.getTwitterController().lehenFavkIkusi(this.twitterUser);
+					gehiago.setEnabled(true);
+					gehiago.setActionCommand("20+fav");
+				}
+				favPanela.gehiago20(favLista);
 
 
 			} catch (SQLException e) {
