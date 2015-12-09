@@ -40,6 +40,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 	private String twitterUser;
 	private TweetPanela tweetTaula=new TweetPanela();
 	private FavPanela favPanela =new FavPanela();
+	private FollowerPanela followerPanela= new FollowerPanela();
 	private boolean panelaDago=false;
 	/**
 	 * Launch the application.
@@ -93,22 +94,40 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		mntmTweet.addActionListener(this);
 		mntmTweet.setActionCommand("tweet");
 		mntmTweet.setMinimumSize(new Dimension(35, 20));
-		JMenuItem mntmFav = new JMenuItem("fav");
+		
+		JMenuItem mntmFav = new JMenuItem("Fav");
 		mntmFav.addActionListener(this);
 		mntmFav.setActionCommand("fav");
-		JMenuItem mntmRetweet = new JMenuItem("Retweet");
-		mntmRetweet.setMinimumSize(new Dimension(40, 20));
+		
+		JMenuItem mntmFollowers = new JMenuItem("Followers");
+		mntmFollowers.setMinimumSize(new Dimension(60, 20));
+		mntmFollowers.addActionListener(this);
+		mntmFollowers.setActionCommand("followers");
+		
+		JMenuItem mntmFollowing = new JMenuItem("Following");
+		mntmFollowing.setMinimumSize(new Dimension(60, 20));
+		mntmFollowing.addActionListener(this);
+		mntmFollowing.setActionCommand("following");
+		
 		JMenuItem mntmDM = new JMenuItem("Direct message");
 		mntmDM.setMinimumSize(new Dimension(120, 20));
+		
 		JMenuItem mntmDeskargatu = new JMenuItem("Deskargatu");
 		mntmDeskargatu.setMinimumSize(new Dimension(80, 20));
 		mntmDeskargatu.addActionListener(this);
 		mntmDeskargatu.setActionCommand("deskargatu");
+		
+		JMenuItem mntmExcel = new JMenuItem("Export to Excel");
+		mntmExcel.setMinimumSize(new Dimension(120, 20));
+		
 		menuBar.add(mntmTweet);
 		menuBar.add(mntmFav);
-		menuBar.add(mntmRetweet);
+		menuBar.add(mntmFollowers);
+		menuBar.add(mntmFollowing);
 		menuBar.add(mntmDM);
 		menuBar.add(mntmDeskargatu);
+		menuBar.add(mntmExcel);
+
 
 		menuUser =new JMenu("Users");
 		menuUser.setMinimumSize(new Dimension(50, 20));
@@ -216,6 +235,26 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}else if(event.getActionCommand().equals("followers") || event.getActionCommand().equals("20+follow")){
+			if(panelaDago){
+				contentPane.remove(2);
+			}
+			//follower taula
+			followerPanela.setOpaque(true);
+			contentPane.add(followerPanela, BorderLayout.CENTER);
+			ArrayList<String> followerLista=new ArrayList<String>();
+			panelaDago=true;
+			
+			if(event.getActionCommand().equals("20+follow")){
+				followerLista = TwitterController.getTwitterController().followerakIkusi(this.twitterUser, false);
+			}else{ 
+				followerPanela.ezabatuFollowerrak();
+				followerLista=TwitterController.getTwitterController().followerakIkusi(this.twitterUser, true);
+				gehiago.setEnabled(true);
+				gehiago.setActionCommand("20+follow");
+			}
+			followerPanela.gehiago20(followerLista);
+			
 		}else if(event.getActionCommand().equals("deskargatu")){
 			Deskargak dialog = new Deskargak(this.twitterUser);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

@@ -185,8 +185,11 @@ public class TwitterController {
 		DB.getDb().insert("INSERT INTO Followers(id, name, twitterUser)VALUES(?,?,?)", params);
 	}
 	
-	public ArrayList<String> followerakIkusi(String tUser){
+	public ArrayList<String> followerakIkusi(String tUser, boolean hasieratu){
 		ResultSet request=null;
+		if(hasieratu){
+			azkenFollowers=new Long(0);
+		}
 		if(azkenFollowers!=new Long(0)){
 			Object[] params = new Object[2];
 			params[0]=Long.toString(azkenFollowers);

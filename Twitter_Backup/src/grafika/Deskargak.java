@@ -18,22 +18,14 @@ public class Deskargak extends JDialog implements ActionListener{
 
 	private final JPanel contentPanel = new JPanel();
 	private JCheckBox chckbxTweet;
-	private JCheckBox chckbxRetweet;
+	private JCheckBox chckbxFollowers;
 	private JCheckBox chckbxFav;
 	private String twitterUser;
 
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		try {
-//			Deskargak dialog = new Deskargak();
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setVisible(true);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+
 
 	/**
 	 * Create the dialog.
@@ -51,9 +43,9 @@ public class Deskargak extends JDialog implements ActionListener{
 		chckbxTweet.setBounds(36, 34, 129, 23);
 		contentPanel.add(chckbxTweet);
 		
-		chckbxRetweet = new JCheckBox("RETweet");
-		chckbxRetweet.setBounds(217, 34, 129, 23);
-		contentPanel.add(chckbxRetweet);
+		chckbxFollowers = new JCheckBox("Followers");
+		chckbxFollowers.setBounds(217, 34, 129, 23);
+		contentPanel.add(chckbxFollowers);
 		
 		chckbxFav = new JCheckBox("Fav");
 		chckbxFav.setBounds(36, 112, 129, 23);
@@ -90,6 +82,9 @@ public class Deskargak extends JDialog implements ActionListener{
 			}
 			if(chckbxFav.isSelected()){
 				tc.getFavs();
+			}
+			if(chckbxFollowers.isSelected()){
+				tc.getFollowers();
 			}
 		}
 		this.dispose();
