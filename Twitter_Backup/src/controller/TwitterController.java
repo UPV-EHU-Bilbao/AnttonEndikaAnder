@@ -176,7 +176,7 @@ public class TwitterController {
 		ResultSet request=null;
 		if(azkenFollows!=new Long(0)){
 			Object[] params = new Object[2];
-			params[0]=Long.toString(azkenFollowers);
+			params[0]=Long.toString(azkenFollows);
 			params[1]=tUser;
 			request = DB.getDb().select("SELECT id,name FROM Follows WHERE id < ? AND twitterUser=? ORDER BY id DESC LIMIT 20",params);
 		}else{
