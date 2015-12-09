@@ -3,6 +3,7 @@ package controller;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import twitter4j.Status;
 
@@ -241,5 +242,39 @@ public class TwitterController {
 		return st;
 	}
 	
+	public void listakGorde(long id, String listName, String menberOfList, String twitterUser){
+		Object[] params = new Object[4];
+		params[0] = Long.toString(id);
+		params[1] = listName;
+		params[2] = menberOfList;
+		params[3] = twitterUser;
+		DB.getDb().insert("INSERT INTO Lists(id, listName, menberName, twitterUser)VALUES(?,?,?,?)", params);
+	}
+	
+	public HashMap<String, ArrayList<String>> listakIkusi(String twitterUser){
+		Object[] params = new Object[1];
+		params[0] = twitterUser;
+		ResultSet request = DB.getDb().select("SELECT listName, menberName FROM Lists WHERE twitterUser=?", params);
+		
+		HashMap<String, ArrayList<String>> list = new  HashMap<String, ArrayList<String>>();
+		
+		try {
+			while(request.next()){
+				if(list.containsKey(request.getString(1))){
+					list.get(request.getString(1)).add(request.getString(2));
+				}
+				else{
+					ArrayList<String> users = new ArrayList<String>();
+					users.add(request.getString(2));
+					list.put(request.getString(1), (users));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return list;
+	}
 
 }

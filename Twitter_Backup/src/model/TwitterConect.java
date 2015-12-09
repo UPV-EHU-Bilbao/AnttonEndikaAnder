@@ -241,30 +241,18 @@ public class TwitterConect {
 		try {
             ResponseList<UserList> lists = twitter.getUserLists(twitter.getScreenName());
             for (UserList list : lists) {
-                System.out.println("id:" + list.getId() + ", name:" + list.getName() + ", description:"
-                        + list.getDescription() + ", slug:" + list.getSlug() + "");
-                
-                //get tweets of a list
-                /*Paging page = new Paging(1);
-                ResponseList<Status> statuses;
-                do {
-                    statuses = twitter.getUserListStatuses(list.getId(), page);
-                    for (Status status : statuses) {
-                        System.out.println("@" + status.getUser().getScreenName() + " - " + status.getText());
-                    }
-                    page.setPage(page.getPage() + 1);
-                } while (statuses.size() > 0 && page.getPage() <= 10);
-                */
-                
+                //System.out.println("id:" + list.getId() + ", name:" + list.getName() + ", description:" + list.getDescription() + ", slug:" + list.getSlug() + "");
+
                 //get members of a list
                 long cursor = -1;
                 PagableResponseList<twitter4j.User> usres;
                 do {
                     usres = twitter.getUserListMembers(list.getId(), cursor);
                     for (twitter4j.User lista : usres) {
-                        System.out.println("@" + lista.getScreenName());
+                        //System.out.println("@" + lista.getScreenName());
+                    	TwitterController.getTwitterController().listakGorde(list.getId(),list.getName(),lista.getScreenName(),twitter.getScreenName());
                     }
-                } while ((cursor = usres.getNextCursor()) != 0);
+                } while (((cursor = usres.getNextCursor()) != 0) && (!usres.isEmpty()));
                 
             }
             
