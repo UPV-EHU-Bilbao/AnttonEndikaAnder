@@ -138,22 +138,22 @@ public class TwitterController {
 	
 	public ArrayList<String> followerakIkusi(String tUser){
 		ResultSet request=null;
-		if(!(azkenFavId==new Long(0))){
+		if(azkenFollowers!=new Long(0)){
 			Object[] params = new Object[2];
-			params[0]=azkenFavId.toString();
+			params[0]=Long.toString(azkenFollowers);
 			params[1]=tUser;
-			 request = DB.getDb().select("SELECT id,name FROM Followers WHERE id < ? AND twitterUser=? ORDER BY id DESC LIMIT 20",params);
+			request = DB.getDb().select("SELECT id,name FROM Followers WHERE id < ? AND twitterUser=? ORDER BY id DESC LIMIT 20",params);
 		}else{
 			Object[] params = new Object[1];
 			params[0]=tUser;
-			 request = DB.getDb().select("SELECT id,name FROM Followers WHERE twitterUser=? ORDER BY id DESC LIMIT 20", params);
+			request = DB.getDb().select("SELECT id,name FROM Followers WHERE twitterUser=? ORDER BY id DESC LIMIT 20", params);
 		}
 		ArrayList<String> st=new ArrayList<String>();
 		
 		try {
 			while(request.next()){
-				azkenFavId = request.getLong(1);
-				st.add(request.getString(2));
+				azkenFollowers = request.getLong(1);
+				st.add("@"+request.getString(2));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
