@@ -12,10 +12,12 @@ public class TwitterController {
 	private long azkenTweetId;
 	private Long azkenFavId;
 	private long azkenFollowers;
+	private long azkenFollows;
 
 	private TwitterController(){	
 		azkenFavId=new Long(0);
 		azkenFollowers = new Long(0);
+		azkenFollows = new Long(0);
 	}
 
 	public static TwitterController getTwitterController(){
@@ -132,7 +134,7 @@ public class TwitterController {
 		params[0] = id;
 		params[1] = name;
 		params[2] = user;
-		System.out.println(params[0]+"   "+params[1]+"    "+params[2]);
+		//System.out.println(params[0]+"   "+params[1]+"    "+params[2]);
 		DB.getDb().insert("INSERT INTO Followers(id, name, twitterUser)VALUES(?,?,?)", params);
 	}
 	
@@ -153,6 +155,40 @@ public class TwitterController {
 		try {
 			while(request.next()){
 				azkenFollowers = request.getLong(1);
+				st.add("@"+request.getString(2));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return st;
+	}
+	
+	public void followakGorde(String id, String name, String user){
+		Object[] params = new Object[3];
+		params[0] = id;
+		params[1] = name;
+		params[2] = user;
+		//System.out.println(params[0]+"   "+params[1]+"    "+params[2]);
+		DB.getDb().insert("INSERT INTO Follows(id, name, twitterUser)VALUES(?,?,?)", params);
+	}
+	
+	public ArrayList<String> followakIkusi(String tUser){
+		ResultSet request=null;
+		if(azkenFollows!=new Long(0)){
+			Object[] params = new Object[2];
+			params[0]=Long.toString(azkenFollowers);
+			params[1]=tUser;
+			request = DB.getDb().select("SELECT id,name FROM Follows WHERE id < ? AND twitterUser=? ORDER BY id DESC LIMIT 20",params);
+		}else{
+			Object[] params = new Object[1];
+			params[0]=tUser;
+			request = DB.getDb().select("SELECT id,name FROM Follows WHERE twitterUser=? ORDER BY id DESC LIMIT 20", params);
+		}
+		ArrayList<String> st=new ArrayList<String>();
+		
+		try {
+			while(request.next()){
+				azkenFollows = request.getLong(1);
 				st.add("@"+request.getString(2));
 			}
 		} catch (SQLException e) {
