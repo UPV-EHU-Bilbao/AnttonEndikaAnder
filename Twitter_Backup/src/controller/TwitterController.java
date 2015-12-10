@@ -29,15 +29,16 @@ public class TwitterController {
 		return instantzia;
 	}
 	
-	public Long tweetBerriZahar(String posizioa){
+	public Long tweetBerriZahar(String tUser, String posizioa){
 		//datubasean sartutako id-a zaharrena edo berriena itzultzen du deskargak kudeatzeko
-		Object[] params = new Object[0];
-		params [0] = "DESC";
+		Object[] params = new Object[2];
+		params[0] = tUser;
+		params [1] = "DESC";
 		if (posizioa.equals("berri")) {
-			params[0] = "ASC";
+			params[1] = "ASC";
 		}
 		try {			
-			ResultSet request = DB.getDb().select("SELECT id FROM MyTweets ORDER BY id ? LIMIT 1",params);	
+			ResultSet request = DB.getDb().select("SELECT id FROM MyTweets WHERE twitterUser=? ORDER BY id ? LIMIT 1",params);	
 			request.next();
 			return new Long(request.getLong(1));
 			
@@ -47,20 +48,6 @@ public class TwitterController {
 		return (Long)null;
 	}
 
-//	public Long getAzkenTweetId(String taula){
-//		//datubasean sartutako azken id-a itzultzen du gehiago egotekotan deskarga bertatik jarraitzeko
-//		try {			
-//			Object[] params = new Object[0];
-//			ResultSet request = DB.getDb().select("SELECT id FROM MyTweets ORDER BY id DESC LIMIT 1",params);	
-//			request.next();
-//			return new Long(request.getLong(1));
-//
-//		} catch (Exception e) {
-//			System.out.println("Error:  "+e);
-//		}
-//		return null;
-//	}
-	
 	public ArrayList<String> tweetakIkusi(String tUser) throws SQLException {
 		//pantailaratutako azken id-tik abiaratuta beste 20 hartzen ditu
 		ResultSet request = null;
@@ -315,6 +302,23 @@ public class TwitterController {
 			e.printStackTrace();
 		}
 		return st;
+	}
+	
+	public void tarteaSartu(String tUser, String taula, Long etena, Long helmuga){
+		Object[] params = new Object[4];
+		params[0]=taula;
+		params[1]=etena;
+		params[2]=helmuga;
+		params[3]=tUser;
+		DB.getDb().insert("INSERT INTO tarteak(mota, etenpuntua, helmuga, UserTwitter) values(?, ?, ?, ?)", params);
+	}
+	
+	public void tarteaEzabatu(String tUser, String taula, Long etena){
+		Object[] params = new Object[3];
+		params[0]=tUser;
+		params[1]=taula;
+		params[2]=etena;
+		DB.getDb().update("DELETE FROM tarteak WHERE twitterUser=? AND mota=? AND etenpuntua=?", params);
 	}
 
 }
