@@ -241,30 +241,18 @@ public class TwitterConect {
 		try {
             ResponseList<UserList> lists = twitter.getUserLists(twitter.getScreenName());
             for (UserList list : lists) {
-                System.out.println("id:" + list.getId() + ", name:" + list.getName() + ", description:"
-                        + list.getDescription() + ", slug:" + list.getSlug() + "");
-                
-                //get tweets of a list
-                /*Paging page = new Paging(1);
-                ResponseList<Status> statuses;
-                do {
-                    statuses = twitter.getUserListStatuses(list.getId(), page);
-                    for (Status status : statuses) {
-                        System.out.println("@" + status.getUser().getScreenName() + " - " + status.getText());
-                    }
-                    page.setPage(page.getPage() + 1);
-                } while (statuses.size() > 0 && page.getPage() <= 10);
-                */
-                
+                //System.out.println("id:" + list.getId() + ", name:" + list.getName() + ", description:" + list.getDescription() + ", slug:" + list.getSlug() + "");
+
                 //get members of a list
                 long cursor = -1;
                 PagableResponseList<twitter4j.User> usres;
                 do {
                     usres = twitter.getUserListMembers(list.getId(), cursor);
                     for (twitter4j.User lista : usres) {
-                        System.out.println("@" + lista.getScreenName());
+                        //System.out.println("@" + lista.getScreenName());
+                    	TwitterController.getTwitterController().listakGorde(list.getId(),list.getName(),lista.getScreenName(),twitter.getScreenName());
                     }
-                } while ((cursor = usres.getNextCursor()) != 0);
+                } while (((cursor = usres.getNextCursor()) != 0) && (!usres.isEmpty()));
                 
             }
             
@@ -283,7 +271,8 @@ public class TwitterConect {
             do {
                 messages = twitter.getDirectMessages(page);
                 for (DirectMessage message : messages) {
-                    System.out.println("From: @" + message.getSenderScreenName() + " id:" + message.getId() + " - " + message.getText());
+                    //System.out.println("From: @" + message.getSenderScreenName() + " id:" + message.getId() + " - " + message.getText());
+                	TwitterController.getTwitterController().mezuaGorde(Long.toString(message.getId()), message.getSenderScreenName(), twitter.getScreenName(), message.getText(), twitter.getScreenName());
                 }
                 page.setPage(page.getPage() + 1);
             } while (messages.size() > 0 /*&& paging.getPage() < 10*/);
@@ -293,7 +282,8 @@ public class TwitterConect {
             do {
                 messages = twitter.getSentDirectMessages(page);
                 for (DirectMessage message : messages) {
-                    System.out.println("To: @" + message.getRecipientScreenName() + " id:" + message.getId() + " - " + message.getText());
+                    //System.out.println("To: @" + message.getRecipientScreenName() + " id:" + message.getId() + " - " + message.getText());
+                	TwitterController.getTwitterController().mezuaGorde(Long.toString(message.getId()), twitter.getScreenName(), message.getRecipientScreenName(), message.getText(), twitter.getScreenName());
                 }
                 page.setPage(page.getPage() + 1);
             } while (messages.size() > 0 /*&& page.getPage() < 10*/);

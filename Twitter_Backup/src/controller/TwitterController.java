@@ -3,6 +3,7 @@ package controller;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import twitter4j.Status;
 
@@ -14,12 +15,14 @@ public class TwitterController {
 	private Long azkenFavId;
 	private long azkenFollowers;
 	private long azkenFollows;
+	private long azkenMezua;
 
 	private TwitterController(){	
 		azkenTweetId = new Long(0);
 		azkenFavId=new Long(0);
 		azkenFollowers = new Long(0);
 		azkenFollows = new Long(0);
+		azkenMezua = new Long(0);
 	}
 
 	public static TwitterController getTwitterController(){
@@ -253,5 +256,74 @@ public class TwitterController {
 		return st;
 	}
 	
+	public void listakGorde(long id, String listName, String menberOfList, String twitterUser){
+		Object[] params = new Object[4];
+		params[0] = Long.toString(id);
+		params[1] = listName;
+		params[2] = menberOfList;
+		params[3] = twitterUser;
+		DB.getDb().insert("INSERT INTO Lists(id, listName, menberName, twitterUser)VALUES(?,?,?,?)", params);
+	}
+	
+	public HashMap<String, ArrayList<String>> listakIkusi(String twitterUser){
+		Object[] params = new Object[1];
+		params[0] = twitterUser;
+		ResultSet request = DB.getDb().select("SELECT listName, menberName FROM Lists WHERE twitterUser=?", params);
+		HashMap<String, ArrayList<String>> list = new  HashMap<String, ArrayList<String>>();
+		try {
+			while(request.next()){
+				if(list.containsKey(request.getString(1))){
+					list.get(request.getString(1)).add(request.getString(2));
+				}
+				else{
+					ArrayList<String> users = new ArrayList<String>();
+					users.add(request.getString(2));
+					list.put(request.getString(1), (users));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public void mezuaGorde(String id, String from, String to, String mesage, String twitterUser){
+		Object[] params = new Object[5];
+		params[0] = id;
+		params[1] = from;
+		params[2] = to;
+		params[3] = mesage;
+		params[4] = twitterUser;
+		DB.getDb().insert("INSERT INTO DirectMesage(id, fromUser, toUser, mesage, twitterUser)VALUES(?,?,?,?,?)", params);
+	}
+	
+	public ArrayList<String[]> mezuakIkusi(String tUser){
+		ResultSet request=null;
+		if(azkenMezua!=new Long(0)){
+			Object[] params = new Object[2];
+			params[0]=Long.toString(azkenMezua);
+			params[1]=tUser;
+			request = DB.getDb().select("SELECT id,fromUser,toUser,mesage FROM DirectMesage WHERE id < ? AND twitterUser=? ORDER BY id DESC LIMIT 20",params);
+		}else{
+			Object[] params = new Object[1];
+			params[0]=tUser;
+			request = DB.getDb().select("SELECT id,fromUser,toUser,mesage FROM DirectMesage WHERE twitterUser=? ORDER BY id DESC LIMIT 20", params);
+		}
+		ArrayList<String[]> st=new ArrayList<String[]>();
+		
+		try {
+			while(request.next()){
+				azkenMezua = request.getLong(1);
+				String[] mezua = new String[3];
+				mezua[0] = request.getString(2);
+				mezua[1] = request.getString(3);
+				mezua[2] = request.getString(4);
+				st.add(mezua);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return st;
+	}
 
 }
