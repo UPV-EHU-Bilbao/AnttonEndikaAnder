@@ -1,9 +1,11 @@
-
 package model;
 
 import java.util.ArrayList;
 import controller.UserController;
 
+/**
+ * Erabiltzaileak kudeatzeko klasea
+ */
 public class User {
 	
 	private String erabiltzaileIzena;
@@ -19,6 +21,12 @@ public class User {
 		return instantzia;
 	}
 	
+	/**
+	 * Erabiltzailea aplikazioan saioa hasi
+	 * @param pErabiltzaileIzena Erabiltzailearen izena
+	 * @param pPasahitza Erabiltzailearen pasahitza
+	 * @return Saioa hasu badu bueltatzen du
+	 */
 	public int login(String pErabiltzaileIzena, String pPasahitza) {
 		int logged=0;
 		logged = UserController.getUserController().login(pErabiltzaileIzena, new HashSha512(pPasahitza).getHash());
@@ -31,6 +39,12 @@ public class User {
 		return logged;
 	}
 	
+	/**
+	 * Erabiltzaile berria erregistratu
+	 * @param pErabiltzaileIzena Erabiltzailearen izena
+	 * @param pPasahitza Erabiltzailearen pasahitza
+	 * @return Erabiltzaile berriaren erregistroa zuzena izan den ala ez
+	 */
 	public int newUser(String pErabiltzaileIzena, String pPasahitza){
 		int exist;
 		UserController.getUserController().newUser(pErabiltzaileIzena, new HashSha512(pPasahitza).getHash());

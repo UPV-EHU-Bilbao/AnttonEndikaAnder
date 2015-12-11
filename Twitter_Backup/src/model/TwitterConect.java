@@ -9,28 +9,19 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
-import twitter4j.TwitterResponse;
 import twitter4j.UserList;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
-import grafika.PinEnter;
-
 import java.awt.Desktop;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.URI;
-
-import javax.swing.SingleSelectionModel;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import controller.DB;
 import controller.TwitterController;
 import controller.TwitterSesionController;
 
+/**
+ * Twitter api-arekin interakzioa
+ */
 public class TwitterConect {
 	
 	Twitter twitter;
@@ -40,36 +31,24 @@ public class TwitterConect {
 		twitter.setOAuthConsumer("TSuJgYz97JvU53vCDmlH9o0TP", "WbB3ftTKbOtY9RW9Z6kozaE6fLW3kVkhOR0HCc1puwkRVldjap");
 	}
 	
-
-	
+	/**
+	 * twitter-eko apian logeatu eta lortutako tokenak datu basean gorde
+	 */
 	public void login(){
 		
 	            try {
-	                // get request token.
-	                // this will throw IllegalStateException if access token is already available
 	                RequestToken requestToken = twitter.getOAuthRequestToken();
-	                System.out.println("Got request token.");
-	                System.out.println("Request token: " + requestToken.getToken());
-	                System.out.println("Request token secret: " + requestToken.getTokenSecret());
 	                AccessToken accessToken = null;
-	
-	                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	                while (null == accessToken) {
-	                    //System.out.println("Open the following URL and grant access to your account:");
-	                    //System.out.println(requestToken.getAuthorizationURL());
 	                	try {
 	                    	Desktop desktop = Desktop.getDesktop();
 	            			desktop.browse(new URI(requestToken.getAuthorizationURL()));
 	            		} catch (Exception e) {
 	            			e.printStackTrace();
 	            		}
-//	                	System.out.print("Enter the PIN(if available) and hit enter after you granted access.[PIN]:");
-	                	
-	                	//String pin = br.readLine();
 	                	PinEnter frame = new grafika.PinEnter();
 	            		frame.setVisible(true);
 	            		String pin = frame.getPin();
-	            		System.out.println(pin);
 
 	                    try {
 	                        if (pin.length() > 0) {
@@ -85,29 +64,20 @@ public class TwitterConect {
 	                        }
 	                    }
 	                }
-	                System.out.println("Got access token.");
-	                System.out.println("Access token: " + accessToken.getToken());
-	                System.out.println("Access token secret: " + accessToken.getTokenSecret());
 	                TwitterSesionController.getTwitterSesionController().newTwitterSession(twitter.getScreenName(),User.getUser().getId(), accessToken.getTokenSecret().toString(), accessToken.getToken().toString());
 	            } catch (IllegalStateException ie) {
-	                // access token is already available, or consumer key/secret is not set.
 	                if (!twitter.getAuthorization().isEnabled()) {
 	                    System.out.println("OAuth consumer key/secret is not set.");
-	                    //System.exit(-1);
 	                }
 	            } catch (TwitterException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}
-			
-           
-            //Status status = twitter.updateStatus("twitter4j proba2");
-            //System.out.println("Successfully updated the status to [" + status.getText() + "].");
-            //System.exit(0);
-       
-            
+				}        
 	}
 	
+	/**
+	 * mesu bat tweeteatzen du
+	 * @param statusMesage Tweeteatuko den mesua
+	 */
 	public void updateStatus(String statusMesage){
 		Status status;
 		try {
@@ -119,6 +89,10 @@ public class TwitterConect {
 		}
 	}
 	
+	/**
+	 * Erabiltzaile batek gordetako tokenak ezartzen ditu.
+	 * @param twitterUser Twitter erabiltzaile izena
+	 */
 	public void tokenakLortu(String twitterUser){
 		String[] session = TwitterSesionController.getTwitterSesionController().getTwitterSession(twitterUser);
         if(!(session==null)){
@@ -205,6 +179,9 @@ public class TwitterConect {
 		}
 	}
 	
+	/**
+	 * Tweetak jaitsi eta gordetzen ditu
+	 */
 	public void getTwitts(){
         try {
         	ResponseList<Status> list = twitter.getUserTimeline();
@@ -220,6 +197,10 @@ public class TwitterConect {
         
 	}
 	
+	/**
+	 * Tweetak jaitsi eta gordetzen ditu
+	 * @param lastAdded deskargatu nahi den lehen tweeta
+	 */
 	public void getTwitts(String lastAdded){
 	    try {
 	    	ResponseList<Status> list = twitter.getUserTimeline(new Paging(1,20,Long.parseLong("1"),Long.parseLong(lastAdded)));
@@ -237,10 +218,17 @@ public class TwitterConect {
 	    
 	}
 	
+	/**
+	 * Fav-ak jaitsi eta gordetzen ditu
+	 */
 	public void getFavs(){
 		getFavs(new Long("1"));
 	}
 	
+	/**
+	 * Fav-ak jaitsi eta gordetzen ditu
+	 * @param sinceId deskargatu nahi den azken tweeta
+	 */
 	public void getFavs(long sinceId){
 		int pageno = 1;
 		List<Status> statuses = new ArrayList<Status>();
@@ -264,6 +252,9 @@ public class TwitterConect {
 		
 	}
 	
+	/**
+	 * Followerrak jaitsi eta gordetzen ditu
+	 */
 	public void getFollowers(){
 		try {
             
@@ -289,6 +280,9 @@ public class TwitterConect {
         }
 	}
 	
+	/**
+	 * Followak jaitsi eta gordetzen ditu
+	 */
 	public void getFollows(){
 		try {
             
@@ -315,6 +309,9 @@ public class TwitterConect {
         }
 	}
 	
+	/**
+	 * Listak jaitsi eta gordetzen ditu
+	 */
 	public void getLists(){
 		try {
             ResponseList<UserList> lists = twitter.getUserLists(twitter.getScreenName());
@@ -341,6 +338,9 @@ public class TwitterConect {
         }
 	}
 	
+	/**
+	 * Mezu zuzenak jaitsi eta gordetzen ditu
+	 */
 	public void getDirectMessages(){
 		try {
 			//niri bidaldutakoak
