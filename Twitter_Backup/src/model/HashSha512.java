@@ -3,6 +3,10 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * sha-512 hash-a lortzeko klasea
+ * @author ander
+ */
 public class HashSha512 {
 	
 	private String hash;
