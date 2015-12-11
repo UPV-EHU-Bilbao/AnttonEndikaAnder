@@ -75,8 +75,8 @@ public class TwitterConect {
 	}
 	
 	/**
-	 * mesu bat tweeteatzen du
-	 * @param statusMesage Tweeteatuko den mesua
+	 * mezu bat tweeteatzen du
+	 * @param statusMesage Tweeteatuko den mezua
 	 */
 	public void updateStatus(String statusMesage){
 		Status status;
@@ -101,6 +101,11 @@ public class TwitterConect {
         }
 	}
 	
+	/**
+	 * Deskargatutako tweetak datubasean gordetezen ditu eta azken tweet-aren id-a itzultzen du, hurrego deskarga bertatik jarraitzeko
+	 * @param tweetak Tweet-a eta dagokion informazio(id, erabiltzaile, etab) zerrenda
+	 * @return Azken tweet-aren id-a itzultzen du
+	 */
 	private Long gorde(List<Status> tweetak){
 		String erab;
 		Long azkenDeskarga = new Long(0);
@@ -116,7 +121,10 @@ public class TwitterConect {
 		}
 		return azkenDeskarga;
 	}
-
+	
+	/**
+	 * Tweet-ak deskargatzen ditu. Berrienak lehenengo eta aurreko sesioan jeitsi gabe utzitakoak ondoren.  
+	 */
 	public void tweetakDeskargatu(){
 		List<Status> list = new ArrayList<Status>();
 		int pageno = 1;
