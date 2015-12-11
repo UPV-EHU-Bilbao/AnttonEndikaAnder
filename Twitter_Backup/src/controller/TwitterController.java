@@ -48,8 +48,25 @@ public class TwitterController {
 		return (Long)null;
 	}
 
-	public ArrayList<String> tweetakIkusi(String tUser) throws SQLException {
+//	public Long getAzkenTweetId(String taula){
+//		//datubasean sartutako azken id-a itzultzen du gehiago egotekotan deskarga bertatik jarraitzeko
+//		try {			
+//			Object[] params = new Object[0];
+//			ResultSet request = DB.getDb().select("SELECT id FROM MyTweets ORDER BY id DESC LIMIT 1",params);	
+//			request.next();
+//			return new Long(request.getLong(1));
+//
+//		} catch (Exception e) {
+//			System.out.println("Error:  "+e);
+//		}
+//		return null;
+//	}
+	
+	public ArrayList<String> tweetakIkusi(String tUser, boolean hasieratu) throws SQLException {
 		//pantailaratutako azken id-tik abiaratuta beste 20 hartzen ditu
+		if(hasieratu){
+			azkenTweetId=0;
+		}
 		ResultSet request = null;
 		if (azkenTweetId==0) {
 			Object[] params = new Object[2];
@@ -100,8 +117,11 @@ public class TwitterController {
 //		return st;
 //	}
 
-	public ArrayList<String[]> favIkusi(String tUser) throws SQLException {
+	public ArrayList<String[]> favIkusi(String tUser, boolean hasieratu) throws SQLException {
 		//pantailaratutako azken id-tik abiaratuta beste 20 hartzen ditu
+		if(hasieratu){
+			azkenFavId=new Long(0);
+		}
 		ResultSet request=null;
 		if(!azkenFavId.equals(new Long(0))){
 			Object[] params = new Object[2];
@@ -209,8 +229,11 @@ public class TwitterController {
 		DB.getDb().insert("INSERT INTO Follows(id, name, twitterUser)VALUES(?,?,?)", params);
 	}
 	
-	public ArrayList<String> followakIkusi(String tUser){
+	public ArrayList<String> followakIkusi(String tUser, boolean hasieratu){
 		ResultSet request=null;
+		if(hasieratu){
+			azkenFollows=0;
+		}
 		if(azkenFollows!=new Long(0)){
 			Object[] params = new Object[2];
 			params[0]=Long.toString(azkenFollows);

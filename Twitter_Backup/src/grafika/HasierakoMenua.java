@@ -41,6 +41,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 	private TweetPanela tweetTaula=new TweetPanela();
 	private FavPanela favPanela =new FavPanela();
 	private FollowerPanela followerPanela= new FollowerPanela();
+	private FollowingPanela followingPanela=new FollowingPanela();
 	private boolean panelaDago=false;
 	/**
 	 * Launch the application.
@@ -153,7 +154,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			item.addActionListener(this);
 			item.setActionCommand(str);
 			twitterUser=str;
-			setTitle(str);
+			setTitle("Hasierako menua: "+str);
 		}
 		while(it.hasNext()){
 			str= it.next();
@@ -182,8 +183,6 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		else if (event.getActionCommand().equals("tweet") || event.getActionCommand().equals("20+tweet")){
 			//bukaerara heltzean errorea
 			ArrayList<String> st=new ArrayList<String>();
-			//MyTableModelTweet tableModel =new MyTableModelTweet(st);
-
 			try {
 				if(panelaDago){
 				contentPane.remove(2);
@@ -195,10 +194,10 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 				
 				if(event.getActionCommand().equals("20+tweet")){
 					
-					st = TwitterController.getTwitterController().tweetakIkusi(this.twitterUser);
+					st = TwitterController.getTwitterController().tweetakIkusi(this.twitterUser, false);
 				}else{
 					tweetTaula.ezabatuTweetak();
-					st=TwitterController.getTwitterController().tweetakIkusi(this.twitterUser);
+					st=TwitterController.getTwitterController().tweetakIkusi(this.twitterUser, true);
 					gehiago.setEnabled(true);
 					gehiago.setActionCommand("20+tweet");
 				}
@@ -221,10 +220,10 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 				panelaDago=true;
 				
 				if(event.getActionCommand().equals("20+fav")){
-					favLista = TwitterController.getTwitterController().favIkusi(this.twitterUser);
+					favLista = TwitterController.getTwitterController().favIkusi(this.twitterUser, false);
 				}else{
 					favPanela.ezabatuFav();
-					favLista=TwitterController.getTwitterController().favIkusi(this.twitterUser);
+					favLista=TwitterController.getTwitterController().favIkusi(this.twitterUser, true);
 					gehiago.setEnabled(true);
 					gehiago.setActionCommand("20+fav");
 				}
@@ -255,13 +254,33 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			}
 			followerPanela.gehiago20(followerLista);
 			
+		}else if(event.getActionCommand().equals("following") || event.getActionCommand().equals("20+following")){
+			if(panelaDago){
+				contentPane.remove(2);
+			}
+			//following taula
+			followingPanela.setOpaque(true);
+			contentPane.add(followingPanela, BorderLayout.CENTER);
+			ArrayList<String> followingLista=new ArrayList<String>();
+			panelaDago=true;
+			
+			if(event.getActionCommand().equals("20+following")){
+				followingLista = TwitterController.getTwitterController().followakIkusi(this.twitterUser, false);
+			}else{ 
+				followingPanela.ezabatuFollowing();
+				followingLista=TwitterController.getTwitterController().followakIkusi(this.twitterUser, true);
+				gehiago.setEnabled(true);
+				gehiago.setActionCommand("20+following");
+			}
+			followingPanela.gehiago20(followingLista);
+			
 		}else if(event.getActionCommand().equals("deskargatu")){
 			Deskargak dialog = new Deskargak(this.twitterUser);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		}else{
 			twitterUser=event.getActionCommand();
-			setTitle(event.getActionCommand());
+			setTitle("Hasierako menua: "+event.getActionCommand());
 		}
 	}
 

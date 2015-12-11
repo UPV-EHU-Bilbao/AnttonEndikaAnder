@@ -19,6 +19,7 @@ public class Deskargak extends JDialog implements ActionListener{
 	private final JPanel contentPanel = new JPanel();
 	private JCheckBox chckbxTweet;
 	private JCheckBox chckbxFollowers;
+	private JCheckBox chckbxFollowing;
 	private JCheckBox chckbxFav;
 	private String twitterUser;
 
@@ -46,6 +47,10 @@ public class Deskargak extends JDialog implements ActionListener{
 		chckbxFollowers = new JCheckBox("Followers");
 		chckbxFollowers.setBounds(217, 34, 129, 23);
 		contentPanel.add(chckbxFollowers);
+		
+		chckbxFollowing = new JCheckBox("Following");
+		chckbxFollowing.setBounds(217, 112, 129, 23);
+		contentPanel.add(chckbxFollowing);
 		
 		chckbxFav = new JCheckBox("Fav");
 		chckbxFav.setBounds(36, 112, 129, 23);
@@ -85,6 +90,9 @@ public class Deskargak extends JDialog implements ActionListener{
 			}
 			if(chckbxFollowers.isSelected()){
 				tc.getFollowers();
+			}
+			if(chckbxFollowing.isSelected()){
+				tc.getFollows();
 			}
 		}
 		this.dispose();
