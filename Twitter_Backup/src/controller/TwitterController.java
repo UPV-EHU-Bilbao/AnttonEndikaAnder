@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.omg.CORBA.Request;
+
 import twitter4j.Status;
 
 
@@ -41,7 +43,6 @@ public class TwitterController {
 			ResultSet request = DB.getDb().select("SELECT id FROM MyTweets WHERE twitterUser=? ORDER BY id ? LIMIT 1",params);	
 			request.next();
 			return new Long(request.getLong(1));
-			
 		} catch (Exception e) {
 			System.out.println("Error:  "+e);
 		}
@@ -342,6 +343,24 @@ public class TwitterController {
 		params[1]=taula;
 		params[2]=etena;
 		DB.getDb().update("DELETE FROM tarteak WHERE twitterUser=? AND mota=? AND etenpuntua=?", params);
+	}
+	
+	public Long[] tarteaLortu(String tUser, String taula){
+		ResultSet request=null;
+		Object[] params = new Object[2];
+		params[0]= tUser;
+		params[1] = taula;
+		request = DB.getDb().select("SELECT etenpuntua, helmuga FROM tarteak WHERE twitterUser=? AND mota=? ORDER BY etenpuntua ASC", params);
+		Long[] st = new Long[2];
+		try {
+			request.next();
+			st[0] = request.getLong(0);
+			st[1] = request.getLong(1);
+			return st;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

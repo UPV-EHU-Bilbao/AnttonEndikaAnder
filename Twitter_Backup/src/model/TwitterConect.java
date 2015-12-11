@@ -19,6 +19,7 @@ import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.URI;
 
 import javax.swing.SingleSelectionModel;
@@ -126,41 +127,81 @@ public class TwitterConect {
         }
 	}
 	
-//	public void tweetakDeskargatu(){
-//		ResponseList<Status> list;
-//		Long azkenDeskarga=new Long(0);
-//		Long idBerri = TwitterController.getTwitterController().tweetBerriZahar(twitter.getScreenName(), "berri");
-//		Long idZahar = TwitterController.getTwitterController().tweetBerriZahar(twitter.getScreenName(), "zahar");
-//			if (idBerri==null) {//ez dago ezer deskargaturik
-//				try {
-//					list = twitter.getUserTimeline();
-//					for (Status status : list) {
-//						TwitterController.getTwitterController().tweetaGorde(twitter.getScreenName(), status);
-//						azkenDeskarga = status.getId();
-//					}
-//				} catch (TwitterException e) {
-//					System.out.println("application's rate limit, please wait 15m a retry");
-//					if (azkenDeskarga!=0) {//Ez dituenak deskargatu id tartea gordetzen da
-//						try {
-//							TwitterController.getTwitterController().tarteaSartu(twitter.getScreenName(), "MyTweets", azkenDeskarga-1, new Long(1));
-//						} catch (IllegalStateException | TwitterException e1) {
-//							e1.printStackTrace();
-//						}
-//					}
-//				}			
+//	public Long gorde(ArrayList<Status> tweetak){
+//		String erab;
+//		Long azkenDeskarga = new Long(0);
+//		try {
+//			erab = twitter.getScreenName();
+//			for (Status status : tweetak) {//deskargatutako tweet zerrenda datubasean sartu
+//				TwitterController.getTwitterController().tweetaGorde(erab, status);
+//				azkenDeskarga = status.getId();
 //			}
-//			else if (idBerri!=twitter.getUserTimeline(new Paging(1,1)).get(0).getId()) {//tweet berriak daude
-//				Paging page= new Paging(idBerri);
-//				try {
-//					list = twitter.getUserTimeline(page);
-//					for (Status status : list) {
-//						TwitterController.getTwitterController().tweetaGorde(twitter.getScreenName(), status);
-//						azkenDeskarga = status.getId();
-//					}
-//				} catch (Exception e) {
-//				}
-//			}
+//			return azkenDeskarga;
+//		} catch (IllegalStateException | TwitterException e) {
+//			e.printStackTrace();
+//		}
+//		return azkenDeskarga;
 //	}
+	
+	public void tweetDeskarga(){
+		List<Status> list = new ArrayList<Status>();
+		int pageno = 1;
+		Long azkenDeskarga = new Long(0);
+		Long idBerri;
+		Long helmuga = null;
+		Boolean deskargakBukatuta = true;
+		try {
+			String user = twitter.getScreenName();
+			idBerri = TwitterController.getTwitterController().tweetBerriZahar(user,"berri");//datubaseko tweet berriena
+			try {
+				if (idBerri==null) {//oraindik ez da deskargarik egin
+					while (true) {
+						int size = list.size();
+						Paging page = new Paging(pageno++, 20, new Long(1));
+						list.addAll(twitter.getUserTimeline(page)); 
+						if (list.size()==size) {break;}
+					}
+					helmuga = new Long(1);
+				}
+				else if (idBerri!=twitter.getUserTimeline(new Paging(1,1)).get(0).getId()) {//tweet berriak deskargatzeko
+					while (true) {
+						int size = list.size();
+						Paging page = new Paging(pageno++, 20, idBerri);
+						list.addAll(twitter.getUserTimeline(page));
+						if (list.size()==size) {break;}
+					}
+					helmuga = idBerri;
+				}
+				else {//tarteak deskargatu
+					Long[] tarteak = TwitterController.getTwitterController().tarteaLortu(user, "MyTweets");
+					if (tarteak==null) {
+						System.out.println("Tweet guztiak deskargatuta dituzu");
+					}else {
+						TwitterController.getTwitterController().tarteaEzabatu(user, "MyTweets", tarteak[1]);
+						while (true) {
+							int size = list.size();
+							Paging page = new Paging(pageno++, 20, tarteak[1], tarteak[0]);
+							list.addAll(twitter.getUserTimeline(page));
+							if (list.size()==size) {break;}
+						}
+						helmuga = tarteak[1];
+					}
+				}
+				for (Status status : list) {//deskargatutako tweet zerrenda datubasean sartu
+					TwitterController.getTwitterController().tweetaGorde(user, status);
+					azkenDeskarga = status.getId();
+				}
+			} catch (TwitterException e) {//tarteak datubasean gorde
+				System.out.println("application's rate limit, please wait 15m a retry");
+				deskargakBukatuta = false;	
+			}
+			if (!deskargakBukatuta) {
+				TwitterController.getTwitterController().tarteaSartu(user, "MyTweets", azkenDeskarga-1, helmuga);
+			}
+		} catch (IllegalStateException | TwitterException e) {//lehena, getscreenname
+			e.printStackTrace();
+		}
+	}
 	
 	public void getTwitts(){
         try {
