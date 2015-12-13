@@ -30,20 +30,24 @@ public class TwitterController {
 	
 	public Long tweetBerriZahar(String tUser, String posizioa){
 		//datubasean sartutako id-a zaharrena edo berriena itzultzen du deskargak kudeatzeko
-		Object[] params = new Object[2];
+		Object[] params = new Object[1];
 		params[0] = tUser;
-		params [1] = "DESC";
-		if (posizioa.equals("berri")) {
-			params[1] = "ASC";
+		//params [1] = "DESC";
+		String mota = "DESC";
+		if (!posizioa.equals("berri")) {
+			//params[1] = "ASC";
+			mota = "ASC";
 		}
 		try {			
-			ResultSet request = DB.getDb().select("SELECT id FROM MyTweets WHERE twitterUser=? ORDER BY id ? LIMIT 1",params);	
+			ResultSet request = DB.getDb().select("SELECT id FROM MyTweets WHERE twitterUser=? ORDER BY id "+mota+" LIMIT 1",params);	
 			request.next();
 			return new Long(request.getLong(1));
 		} catch (Exception e) {
 			System.out.println("Error:  "+e);
+			e.printStackTrace();
 		}
-		return (Long)null;
+		//return (Long)null;
+		return null;
 	}
 
 //	public Long getAzkenTweetId(String taula){
@@ -331,8 +335,8 @@ public class TwitterController {
 	public void tarteaSartu(String tUser, String taula, Long etena, Long helmuga){
 		Object[] params = new Object[4];
 		params[0]=taula;
-		params[1]=etena;
-		params[2]=helmuga;
+		params[1]=etena.toString();
+		params[2]=helmuga.toString();
 		params[3]=tUser;
 		DB.getDb().insert("INSERT INTO tarteak(mota, etenpuntua, helmuga, UserTwitter) values(?, ?, ?, ?)", params);
 	}
@@ -341,7 +345,7 @@ public class TwitterController {
 		Object[] params = new Object[3];
 		params[0]=tUser;
 		params[1]=taula;
-		params[2]=etena;
+		params[2]=etena.toString();
 		DB.getDb().update("DELETE FROM tarteak WHERE twitterUser=? AND mota=? AND etenpuntua=?", params);
 	}
 	
@@ -350,17 +354,19 @@ public class TwitterController {
 		Object[] params = new Object[2];
 		params[0]= tUser;
 		params[1] = taula;
-		request = DB.getDb().select("SELECT etenpuntua, helmuga FROM tarteak WHERE twitterUser=? AND mota=? ORDER BY etenpuntua ASC", params);
+		request = DB.getDb().select("SELECT etenpuntua, helmuga FROM tarteak WHERE UserTwitter=? AND mota=? ORDER BY etenpuntua ASC", params);
 		Long[] st = new Long[2];
 		try {
 			request.next();
 			st[0] = request.getLong(0);
 			st[1] = request.getLong(1);
 			return st;
+			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			return null;
 		}
-		return null;
+		
 	}
 
 }
