@@ -24,6 +24,7 @@ public class Deskargak extends JDialog implements ActionListener{
 	private JCheckBox chckbxFav;
 	private String twitterUser;
 	private JCheckBox chckbxMd;
+	private JCheckBox chckbxList;
 
 	/**
 	 * Launch the application.
@@ -43,24 +44,23 @@ public class Deskargak extends JDialog implements ActionListener{
 		twitterUser=pTwitterUser;
 		
 		chckbxTweet = new JCheckBox("Tweet");
-		//chckbxTweet.setBounds(36, 34, 129, 23);
 		contentPanel.add(chckbxTweet);
 		
 		chckbxFollowers = new JCheckBox("Followers");
-		//chckbxFollowers.setBounds(217, 34, 129, 23);
 		contentPanel.add(chckbxFollowers);
 		
 		chckbxFollowing = new JCheckBox("Following");
-		//chckbxFollowing.setBounds(217, 112, 129, 23);
 		contentPanel.add(chckbxFollowing);
 		
 		chckbxMd = new JCheckBox("Direct Mesage");
-		//chckbxMd.setBounds(217, 34, 129, 23);
 		contentPanel.add(chckbxMd);
 		
 		chckbxFav = new JCheckBox("Fav");
-		//chckbxFav.setBounds(36, 112, 129, 23);
 		contentPanel.add(chckbxFav);
+		
+		chckbxList = new JCheckBox("List");
+		contentPanel.add(chckbxList);
+		
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -102,6 +102,9 @@ public class Deskargak extends JDialog implements ActionListener{
 			}
 			if(chckbxMd.isSelected()){
 				tc.getDirectMessages();
+			}
+			if(chckbxList.isSelected()){
+				tc.getLists();
 			}
 		}
 		this.dispose();

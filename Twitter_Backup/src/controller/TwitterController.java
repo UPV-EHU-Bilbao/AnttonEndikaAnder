@@ -4,9 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import org.omg.CORBA.Request;
-
 import twitter4j.Status;
 
 
@@ -69,16 +66,16 @@ public class TwitterController {
 			azkenTweetId=0;
 		}
 		ResultSet request = null;
-		if (azkenTweetId==0) {
+		if (azkenTweetId!=0) {
 			Object[] params = new Object[2];
 			params[0]=Long.toString(azkenTweetId);
 			params[1]=tUser;
-			request = DB.getDb().select("SELECT id,mesage FROM MyTweets WHERE twitterUser=? ORDER BY id DESC LIMIT 20", params);
+			request = DB.getDb().select("SELECT id,mesage FROM MyTweets WHERE id < ? AND twitterUser=? ORDER BY id DESC LIMIT 20",params);
 		}
 		else {
 			Object[] params = new Object[1];
 			params[0]=tUser;			
-			request = DB.getDb().select("SELECT id,mesage FROM MyTweets WHERE id < ? AND twitterUser=? ORDER BY id DESC LIMIT 20",params); 
+			request = DB.getDb().select("SELECT id,mesage FROM MyTweets WHERE twitterUser=? ORDER BY id DESC LIMIT 20", params);
 		}
 		ArrayList<String> st=new ArrayList<String>();
 		while(request.next()){

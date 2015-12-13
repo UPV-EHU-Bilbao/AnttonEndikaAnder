@@ -2,6 +2,8 @@ package grafika;
 
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -10,17 +12,17 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import model.MyTableModelFav;
+import model.MyTableModelList;
 
-public class FavPanela extends JPanel {
+public class ListakPanela extends JPanel {
 
-	private MyTableModelFav modeloa;
+	private MyTableModelList modeloa;
 	private JTable table;
 	private JScrollPane skrolla;
 
-	public FavPanela() {
+	public ListakPanela() {
 		super(new GridLayout(1, 0));
-		modeloa = new MyTableModelFav();
+		modeloa = new MyTableModelList();
 		table = new JTable(modeloa);
 		
 		skrolla = new JScrollPane(table);
@@ -56,7 +58,7 @@ public class FavPanela extends JPanel {
 		}
 	}
 
-	public void gehiago20(List<String[]> st) {
+	public void gehiago20(HashMap<String, ArrayList<String>> st) {
 
 		modeloa.kargatu(st);
 		doituZutabeZabalera();
@@ -65,7 +67,7 @@ public class FavPanela extends JPanel {
 
 	}
 
-	public void ezabatuFav() {
+	public void ezabatuLista() {
 		modeloa.ezbatu();
 	}
 

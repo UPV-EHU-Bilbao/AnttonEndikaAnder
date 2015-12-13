@@ -21,6 +21,7 @@ import model.User;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -43,6 +44,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 	private FollowerPanela followerPanela= new FollowerPanela();
 	private FollowingPanela followingPanela=new FollowingPanela();
 	private MezuakPanela mezuakPanela=new MezuakPanela();
+	private ListakPanela listakPanela=new ListakPanela();
 	private boolean panelaDago=false;
 	/**
 	 * Launch the application.
@@ -73,7 +75,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, zabalera, altuera);
-		setMinimumSize(new Dimension(450, 300));
+		setMinimumSize(new Dimension(700, 300));
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -100,6 +102,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		JMenuItem mntmFav = new JMenuItem("Fav");
 		mntmFav.addActionListener(this);
 		mntmFav.setActionCommand("fav");
+		mntmFav.setMinimumSize(new Dimension(10, 20));
 		
 		JMenuItem mntmFollowers = new JMenuItem("Followers");
 		mntmFollowers.setMinimumSize(new Dimension(60, 20));
@@ -116,6 +119,11 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		mntmDM.addActionListener(this);
 		mntmDM.setActionCommand("DM");
 		
+		JMenuItem mntmList = new JMenuItem("List");
+		mntmList.addActionListener(this);
+		mntmList.setActionCommand("list");
+		mntmList.setMinimumSize(new Dimension(10, 20));
+		
 		JMenuItem mntmDeskargatu = new JMenuItem("Deskargatu");
 		mntmDeskargatu.setMinimumSize(new Dimension(80, 20));
 		mntmDeskargatu.addActionListener(this);
@@ -129,6 +137,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		menuBar.add(mntmFollowers);
 		menuBar.add(mntmFollowing);
 		menuBar.add(mntmDM);
+		menuBar.add(mntmList);
 		menuBar.add(mntmDeskargatu);
 		menuBar.add(mntmExcel);
 
@@ -281,7 +290,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			if(panelaDago){
 				contentPane.remove(2);
 			}
-			//fav taula
+			//DM taula
 			mezuakPanela.setOpaque(true);
 			contentPane.add(mezuakPanela, BorderLayout.CENTER);
 			ArrayList<String[]> dmLista=new ArrayList<String[]>();
@@ -296,6 +305,16 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 				gehiago.setActionCommand("20+dm");
 			}
 			mezuakPanela.gehiago20(dmLista);
+		}else if (event.getActionCommand().equals("list") || event.getActionCommand().equals("20+list")){
+			if(panelaDago){
+				contentPane.remove(2);
+			}
+			//lista taula
+			listakPanela.setOpaque(true);
+			contentPane.add(listakPanela, BorderLayout.CENTER);
+			panelaDago=true;
+			HashMap<String, ArrayList<String>> listLista = TwitterController.getTwitterController().listakIkusi(twitterUser);
+			listakPanela.gehiago20(listLista);
 		}else if(event.getActionCommand().equals("deskargatu")){
 			Deskargak dialog = new Deskargak(this.twitterUser);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
