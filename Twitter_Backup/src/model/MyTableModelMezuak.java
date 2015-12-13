@@ -6,47 +6,55 @@ import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
-import model.MyTableModelTweet.Lag;
+import model.MyTableModelFav.Lag;
 
-public class MyTableModelFav extends AbstractTableModel {
+public class MyTableModelMezuak extends AbstractTableModel {
 
 	private ArrayList<String> columnNames;
 
-	public MyTableModelFav() {
+	public MyTableModelMezuak() {
 
 		columnNames=new ArrayList<String>();
 		hasieratuZutabeIzenak();
+
 	}
 	
 	public void hasieratuZutabeIzenak() {
-		columnNames.add("Twitter User");
-		columnNames.add("Fav");
+		columnNames.add("From");
+		columnNames.add("To");
+		columnNames.add("Direct Mesage");
 		
 	}
 
 	class Lag {
-		String twitterUser;
-		String fav;
-		public Lag(String pTwitterUser, String pFav) {
+		String from;
+		String directMesage;
+		String to;
+		public Lag(String pFrom,String pTo, String pDirectMesage) {
 			super();
-			this.twitterUser = pTwitterUser;
-			this.fav=pFav;
+			this.from = pFrom;
+			this.directMesage=pDirectMesage;
+			this.to=pTo;
 		}
 		public Object getBalioa(int i) {
 			if(i==0){
-				return twitterUser;
+				return from;
 			}else if(i==1){
-				return fav;
-			}else {
+				return to;
+			}else if(i==2){
+				return directMesage;
+			}else{
 				return null;
 			}
 		}
 
 		public void insertElementAt(Object value, int i){
 			if(i==0){
-				twitterUser=(String) value;
+				from=(String) value;
 			}else if(i==1){
-				fav=(String) value;
+				to=(String) value;
+			}else if(i==2){
+				directMesage=(String) value;
 			}
 		}
 
@@ -56,7 +64,7 @@ public class MyTableModelFav extends AbstractTableModel {
 
 	public void kargatu(List<String[]> st) {
 		for (String[] elementua : st){
-			data.add(new Lag(elementua[1], elementua[0]));
+			data.add(new Lag(elementua[0], elementua[1], elementua[2]));
 		}
 		;
 	}

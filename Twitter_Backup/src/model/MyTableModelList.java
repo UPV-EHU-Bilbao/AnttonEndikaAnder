@@ -1,42 +1,42 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
-import model.MyTableModelTweet.Lag;
-
-public class MyTableModelFav extends AbstractTableModel {
+public class MyTableModelList extends AbstractTableModel {
 
 	private ArrayList<String> columnNames;
 
-	public MyTableModelFav() {
+	public MyTableModelList() {
 
 		columnNames=new ArrayList<String>();
 		hasieratuZutabeIzenak();
 	}
 	
 	public void hasieratuZutabeIzenak() {
-		columnNames.add("Twitter User");
-		columnNames.add("Fav");
+		columnNames.add("List Name");
+		columnNames.add("List Menbers");
 		
 	}
 
 	class Lag {
-		String twitterUser;
-		String fav;
-		public Lag(String pTwitterUser, String pFav) {
+		String listName;
+		String listMenbers;
+		public Lag(String pListname, String pListMenbers) {
 			super();
-			this.twitterUser = pTwitterUser;
-			this.fav=pFav;
+			this.listName = pListname;
+			this.listMenbers=pListMenbers;
 		}
 		public Object getBalioa(int i) {
 			if(i==0){
-				return twitterUser;
+				return listName;
 			}else if(i==1){
-				return fav;
+				return listMenbers;
 			}else {
 				return null;
 			}
@@ -44,9 +44,9 @@ public class MyTableModelFav extends AbstractTableModel {
 
 		public void insertElementAt(Object value, int i){
 			if(i==0){
-				twitterUser=(String) value;
+				listName=(String) value;
 			}else if(i==1){
-				fav=(String) value;
+				listMenbers=(String) value;
 			}
 		}
 
@@ -54,11 +54,12 @@ public class MyTableModelFav extends AbstractTableModel {
 
 	private Vector<Lag> data= new Vector<Lag>();
 
-	public void kargatu(List<String[]> st) {
-		for (String[] elementua : st){
-			data.add(new Lag(elementua[1], elementua[0]));
+	public void kargatu(HashMap<String, ArrayList<String>> st) {
+		
+		for (String menberList : st.keySet()){
+			for(String menber: st.get(menberList))
+			data.add(new Lag(menberList, menber));
 		}
-		;
 	}
 	
 	public void ezbatu() {

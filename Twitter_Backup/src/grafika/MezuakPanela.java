@@ -11,16 +11,18 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import model.MyTableModelFav;
+import model.MyTableModelMezuak;
 
-public class FavPanela extends JPanel {
+public class MezuakPanela extends JPanel {
 
-	private MyTableModelFav modeloa;
+	private static final int ZABALERAMINIMOA = 100;
+	private MyTableModelMezuak modeloa;
 	private JTable table;
 	private JScrollPane skrolla;
 
-	public FavPanela() {
+	public MezuakPanela() {
 		super(new GridLayout(1, 0));
-		modeloa = new MyTableModelFav();
+		modeloa = new MyTableModelMezuak();
 		table = new JTable(modeloa);
 		
 		skrolla = new JScrollPane(table);
