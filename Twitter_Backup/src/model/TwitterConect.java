@@ -173,6 +173,7 @@ public class TwitterConect {
 						System.out.println("Tweet guztiak deskargatuta dituzu");
 					}else {
 						helmuga = tarteak[1];
+						//azkenDeskarga = tarteak[0]; lehen buelta baino lehenago eten daiteke?
 						TwitterController.getTwitterController().tarteaEzabatu(user, "MyTweets", tarteak[1]);
 						while (true) {
 							int size = list.size();
