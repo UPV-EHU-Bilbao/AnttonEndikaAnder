@@ -2,6 +2,7 @@ package grafika;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,6 +23,7 @@ public class Deskargak extends JDialog implements ActionListener{
 	private JCheckBox chckbxFollowing;
 	private JCheckBox chckbxFav;
 	private String twitterUser;
+	private JCheckBox chckbxMd;
 
 	/**
 	 * Launch the application.
@@ -34,26 +36,30 @@ public class Deskargak extends JDialog implements ActionListener{
 	public Deskargak(String pTwitterUser) {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPanel.setBorder(new EmptyBorder(5, 20, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(null);
+		contentPanel.setLayout(new GridLayout(2,1));
 		
 		twitterUser=pTwitterUser;
 		
 		chckbxTweet = new JCheckBox("Tweet");
-		chckbxTweet.setBounds(36, 34, 129, 23);
+		//chckbxTweet.setBounds(36, 34, 129, 23);
 		contentPanel.add(chckbxTweet);
 		
 		chckbxFollowers = new JCheckBox("Followers");
-		chckbxFollowers.setBounds(217, 34, 129, 23);
+		//chckbxFollowers.setBounds(217, 34, 129, 23);
 		contentPanel.add(chckbxFollowers);
 		
 		chckbxFollowing = new JCheckBox("Following");
-		chckbxFollowing.setBounds(217, 112, 129, 23);
+		//chckbxFollowing.setBounds(217, 112, 129, 23);
 		contentPanel.add(chckbxFollowing);
 		
+		chckbxMd = new JCheckBox("Direct Mesage");
+		//chckbxMd.setBounds(217, 34, 129, 23);
+		contentPanel.add(chckbxMd);
+		
 		chckbxFav = new JCheckBox("Fav");
-		chckbxFav.setBounds(36, 112, 129, 23);
+		//chckbxFav.setBounds(36, 112, 129, 23);
 		contentPanel.add(chckbxFav);
 		{
 			JPanel buttonPane = new JPanel();
@@ -93,6 +99,9 @@ public class Deskargak extends JDialog implements ActionListener{
 			}
 			if(chckbxFollowing.isSelected()){
 				tc.getFollows();
+			}
+			if(chckbxMd.isSelected()){
+				tc.getDirectMessages();
 			}
 		}
 		this.dispose();

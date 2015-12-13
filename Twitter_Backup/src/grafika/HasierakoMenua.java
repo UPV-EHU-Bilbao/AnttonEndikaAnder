@@ -42,6 +42,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 	private FavPanela favPanela =new FavPanela();
 	private FollowerPanela followerPanela= new FollowerPanela();
 	private FollowingPanela followingPanela=new FollowingPanela();
+	private MezuakPanela mezuakPanela=new MezuakPanela();
 	private boolean panelaDago=false;
 	/**
 	 * Launch the application.
@@ -112,6 +113,8 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		
 		JMenuItem mntmDM = new JMenuItem("Direct message");
 		mntmDM.setMinimumSize(new Dimension(120, 20));
+		mntmDM.addActionListener(this);
+		mntmDM.setActionCommand("DM");
 		
 		JMenuItem mntmDeskargatu = new JMenuItem("Deskargatu");
 		mntmDeskargatu.setMinimumSize(new Dimension(80, 20));
@@ -274,6 +277,25 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			}
 			followingPanela.gehiago20(followingLista);
 			
+		}else if (event.getActionCommand().equals("DM") || event.getActionCommand().equals("20+dm")){
+			if(panelaDago){
+				contentPane.remove(2);
+			}
+			//fav taula
+			mezuakPanela.setOpaque(true);
+			contentPane.add(mezuakPanela, BorderLayout.CENTER);
+			ArrayList<String[]> dmLista=new ArrayList<String[]>();
+			panelaDago=true;
+			
+			if(event.getActionCommand().equals("20+dm")){
+				dmLista = TwitterController.getTwitterController().mezuakIkusi(this.twitterUser, false);
+			}else{
+				mezuakPanela.ezabatuFav();
+				dmLista=TwitterController.getTwitterController().mezuakIkusi(this.twitterUser, true);
+				gehiago.setEnabled(true);
+				gehiago.setActionCommand("20+dm");
+			}
+			mezuakPanela.gehiago20(dmLista);
 		}else if(event.getActionCommand().equals("deskargatu")){
 			Deskargak dialog = new Deskargak(this.twitterUser);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

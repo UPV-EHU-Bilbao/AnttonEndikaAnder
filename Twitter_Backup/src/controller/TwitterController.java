@@ -297,8 +297,11 @@ public class TwitterController {
 		DB.getDb().insert("INSERT INTO DirectMesage(id, fromUser, toUser, mesage, twitterUser)VALUES(?,?,?,?,?)", params);
 	}
 	
-	public ArrayList<String[]> mezuakIkusi(String tUser){
+	public ArrayList<String[]> mezuakIkusi(String tUser, boolean hasieratu){
 		ResultSet request=null;
+		if (hasieratu){
+			azkenMezua=0;
+		}
 		if(azkenMezua!=new Long(0)){
 			Object[] params = new Object[2];
 			params[0]=Long.toString(azkenMezua);
