@@ -73,21 +73,6 @@ public class TwitterController {
 	}
 
 
-
-//	public ArrayList<String> tweetakIkusi(String tUser) throws SQLException {
-//		//pantailaratutako azken id-tik abiaratuta beste 20 hartzen ditu
-//		Object[] params = new Object[2];
-//		params[0]=Long.toString(azkenTweetId);
-//		params[1]=tUser;
-//		ResultSet request = DB.getDb().select("SELECT id,mesage FROM MyTweets WHERE id < ? AND twitterUser=? ORDER BY id DESC LIMIT 20",params);
-//		ArrayList<String> st=new ArrayList<String>();
-//		while(request.next()){
-//			st.add(request.getString(2));
-//			azkenTweetId = request.getLong(1);
-//		}
-//		return st;
-//	}
-
 	public ArrayList<String[]> favIkusi(String tUser, boolean hasieratu) throws SQLException {
 		//pantailaratutako azken id-tik abiaratuta beste 20 hartzen ditu
 		if(hasieratu){
@@ -141,7 +126,6 @@ public class TwitterController {
 		params[0] = id;
 		params[1] = name;
 		params[2] = user;
-		//System.out.println(params[0]+"   "+params[1]+"    "+params[2]);
 		DB.getDb().insert("INSERT INTO Followers(id, name, twitterUser)VALUES(?,?,?)", params);
 	}
 	
@@ -178,7 +162,6 @@ public class TwitterController {
 		params[0] = id;
 		params[1] = name;
 		params[2] = user;
-		//System.out.println(params[0]+"   "+params[1]+"    "+params[2]);
 		DB.getDb().insert("INSERT INTO Follows(id, name, twitterUser)VALUES(?,?,?)", params);
 	}
 	

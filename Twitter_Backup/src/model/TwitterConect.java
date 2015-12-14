@@ -84,7 +84,6 @@ public class TwitterConect {
 			status = twitter.updateStatus(statusMesage);
 			System.out.println("Successfully updated the status to [" + status.getText() + "].");
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

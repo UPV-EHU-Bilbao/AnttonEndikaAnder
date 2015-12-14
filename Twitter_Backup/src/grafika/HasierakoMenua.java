@@ -1,10 +1,8 @@
 package grafika;
 
 import java.awt.BorderLayout;
-import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -13,18 +11,13 @@ import javax.swing.JDialog;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu; 
 import javax.swing.JMenuItem;
-
 import java.awt.Dimension;
-
 import model.TwitterConect;
 import model.User;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
-
 import controller.TwitterController;
 
 
@@ -34,7 +27,6 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 	private JPanel contentPane;
 	private int altuera=500;
 	private int zabalera=650;
-	private static HasierakoMenua frame = new HasierakoMenua();
 	private JButton gehiago=new JButton("20 Gehiago");
 	private final JMenuBar menuBar = new JMenuBar();
 	private JMenu menuUser;
@@ -46,22 +38,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 	private MezuakPanela mezuakPanela=new MezuakPanela();
 	private ListakPanela listakPanela=new ListakPanela();
 	private boolean panelaDago=false;
-	/**
-	 * Launch the application.
-	 */
-	//	public static void main(String[] args) {
-	//		EventQueue.invokeLater(new Runnable() {
-	//			public void run() {
-	//				try {
-	//
-	//					frame.setVisible(true);
-	//					frame.setMinimumSize(new Dimension(450, 300));
-	//				} catch (Exception e) {
-	//					e.printStackTrace();
-	//				}
-	//			}
-	//		});
-	//	}
+	
 
 	/**
 	 * Create the frame.
@@ -217,7 +194,6 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 
 
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}else if (event.getActionCommand().equals("fav") || event.getActionCommand().equals("20+fav")){
@@ -243,7 +219,6 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 
 
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}else if(event.getActionCommand().equals("followers") || event.getActionCommand().equals("20+follow")){
