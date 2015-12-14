@@ -88,8 +88,8 @@ public class Deskargak extends JDialog implements ActionListener{
 		if (arg0.getActionCommand().equals("ok")){
 			TwitterConect tc=new TwitterConect();
 			tc.tokenakLortu(twitterUser);
-			if(chckbxList.isSelected()||chckbxMd.isSelected()||chckbxFollowing.isSelected() ||
-					chckbxFollowers.isSelected()|| chckbxFav.isSelected() || chckbxTweet.isSelected()){
+			if(chckbxList.isSelected() || chckbxMd.isSelected() || chckbxFollowing.isSelected() ||
+					chckbxFollowers.isSelected() || chckbxFav.isSelected() || chckbxTweet.isSelected()){
 				deskargatzen.setVisible(true);
 			}
 			if(chckbxTweet.isSelected()){
@@ -112,6 +112,8 @@ public class Deskargak extends JDialog implements ActionListener{
 			}
 			
 		}
+		JDialog info =new InformazioMezua("Dena ondo deskargatu da!");
+		info.setVisible(true);
 		this.dispose();
 	}
 }

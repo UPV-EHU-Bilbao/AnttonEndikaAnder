@@ -1,4 +1,5 @@
 package model;
+import grafika.InformazioMezua;
 import grafika.PinEnter;
 import twitter4j.DirectMessage;
 import twitter4j.IDs;
@@ -12,10 +13,14 @@ import twitter4j.TwitterFactory;
 import twitter4j.UserList;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
+
 import java.awt.Desktop;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JDialog;
+
 import controller.TwitterController;
 import controller.TwitterSesionController;
 
@@ -189,7 +194,9 @@ public class TwitterConect {
 					}
 				}
 			} catch (TwitterException e) {//tweetak eta tarteak datubasean gorde
-				System.out.println("application's rate limit, please wait 15m a retry");
+				//System.out.println("application's rate limit, please wait 15m a retry");
+				JDialog info =new InformazioMezua("application's rate limit, please wait 15m a retry");
+				info.setVisible(true);
 				System.out.println(azkenDeskarga);
 				//azkenDeskarga = gorde(list);
 				System.out.println(azkenDeskarga);
@@ -213,7 +220,9 @@ public class TwitterConect {
 			}
         	getTwitts(Long.toString(list.get(list.size()-1).getId()-(new Long("1"))));
         } catch (TwitterException te) {
-            System.out.println("application's rate limit, please wait 15m a retry");
+            //System.out.println("application's rate limit, please wait 15m a retry");
+            JDialog info =new InformazioMezua("application's rate limit, please wait 15m a retry");
+			info.setVisible(true);
         	//te.printStackTrace();
             //System.out.println("Failed to show status: " + te.getMessage());
         }
@@ -234,7 +243,9 @@ public class TwitterConect {
 		    	getTwitts(Long.toString(list.get(list.size()-1).getId()-(new Long("1"))));
 	    	}
 	    } catch (TwitterException te) {
-	    	System.out.println("application's rate limit, please wait 15m a retry");
+//	    	System.out.println("application's rate limit, please wait 15m a retry");
+	    	JDialog info =new InformazioMezua("application's rate limit, please wait 15m a retry");
+			info.setVisible(true);
 	        //te.printStackTrace();
 	        //System.out.println("Failed to show status: " + te.getMessage());
 	    }
