@@ -61,7 +61,9 @@ public class ListakPanela extends JPanel {
 	public void gehiago20(HashMap<String, ArrayList<String>> st) {
 
 		modeloa.kargatu(st);
-		doituZutabeZabalera();
+		if(!st.isEmpty()){
+			doituZutabeZabalera();
+		}
 		table.revalidate();
 		this.revalidate();
 

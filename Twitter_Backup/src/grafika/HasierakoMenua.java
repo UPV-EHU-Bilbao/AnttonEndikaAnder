@@ -48,7 +48,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 
 		setTitle("Hasierako menua");
 
-		twitterUser=null;
+		twitterUser=new String();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, zabalera, altuera);
@@ -108,6 +108,8 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		
 		JMenuItem mntmExcel = new JMenuItem("Export to Excel");
 		mntmExcel.setMinimumSize(new Dimension(120, 20));
+		mntmExcel.addActionListener(this);
+		mntmExcel.setActionCommand("excel");
 		
 		menuBar.add(mntmTweet);
 		menuBar.add(mntmFav);
@@ -294,6 +296,10 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			Deskargak dialog = new Deskargak(this.twitterUser);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
+		}else if(event.getActionCommand().equals("excel")){
+			JDialog export=new ExportToExcel(twitterUser);
+			export.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			export.setVisible(true);
 		}else{
 			twitterUser=event.getActionCommand();
 			setTitle("Hasierako menua: "+event.getActionCommand());

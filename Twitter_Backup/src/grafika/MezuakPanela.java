@@ -61,7 +61,9 @@ public class MezuakPanela extends JPanel {
 	public void gehiago20(List<String[]> st) {
 
 		modeloa.kargatu(st);
-		doituZutabeZabalera();
+		if(!st.isEmpty()){
+			doituZutabeZabalera();
+		}
 		table.revalidate();
 		this.revalidate();
 

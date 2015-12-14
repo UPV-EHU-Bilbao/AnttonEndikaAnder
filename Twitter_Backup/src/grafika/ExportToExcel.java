@@ -5,16 +5,17 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JCheckBox;
 
-import model.TwitterConect;
+import controller.Export;
 
-public class Deskargak extends JDialog implements ActionListener{
+public class ExportToExcel extends JDialog implements ActionListener {
 
 	private final JPanel contentPanel = new JPanel();
 	private JCheckBox chckbxTweet;
@@ -27,17 +28,20 @@ public class Deskargak extends JDialog implements ActionListener{
 	private JLabel deskargatzen;
 
 
+
 	/**
 	 * Create the dialog.
+	 * @param pTwitterUser 
 	 */
-	public Deskargak(String pTwitterUser) {
+	public ExportToExcel(String pTwitterUser) {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 20, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new GridLayout(2,1));
-		setTitle("Deskargak");
-
+		setTitle("Export to Excel");
+		
+		
 		twitterUser=pTwitterUser;
 
 		chckbxTweet = new JCheckBox("Tweet");
@@ -61,7 +65,6 @@ public class Deskargak extends JDialog implements ActionListener{
 		deskargatzen=new JLabel("Deskargatzen...");
 		deskargatzen.setVisible(false);
 		contentPanel.add(deskargatzen);
-
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -71,47 +74,53 @@ public class Deskargak extends JDialog implements ActionListener{
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
-				okButton.addActionListener(this);
-				okButton.setActionCommand("ok");
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
-				cancelButton.addActionListener(this);
-				cancelButton.setActionCommand("cancel");
 			}
 		}
 	}
 
+	
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getActionCommand().equals("ok")){
-			TwitterConect tc=new TwitterConect();
-			tc.tokenakLortu(twitterUser);
+			
+			 boolean getTweet=false;
+			 boolean getFav=false;
+			 boolean getFollows=false;
+			 boolean getFollowers=false;
+			 boolean getDirectMesage=false;
+			 boolean getLists=false;
+			
 			if(chckbxList.isSelected()||chckbxMd.isSelected()||chckbxFollowing.isSelected() ||
 					chckbxFollowers.isSelected()|| chckbxFav.isSelected() || chckbxTweet.isSelected()){
 				deskargatzen.setVisible(true);
 			}
 			if(chckbxTweet.isSelected()){
-				tc.getTwitts();
+				getTweet=true;
 			}
 			if(chckbxFav.isSelected()){
-				tc.getFavs();
+				getFav=true;
 			}
 			if(chckbxFollowers.isSelected()){
-				tc.getFollowers();
+				getFollowers=true;
 			}
 			if(chckbxFollowing.isSelected()){
-				tc.getFollows();
+				getFollows=true;
 			}
 			if(chckbxMd.isSelected()){
-				tc.getDirectMessages();
+				getDirectMesage=true;
 			}
 			if(chckbxList.isSelected()){
-				tc.getLists();
+				getLists=true;
 			}
-			
+			Export export =new Export();
+			export.exportToExcel(twitterUser, getTweet, getFav, getFollows, getFollowers, getDirectMesage, getLists);
 		}
 		this.dispose();
 	}
 }
+	
+

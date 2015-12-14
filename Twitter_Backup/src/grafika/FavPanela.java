@@ -22,7 +22,7 @@ public class FavPanela extends JPanel {
 		super(new GridLayout(1, 0));
 		modeloa = new MyTableModelFav();
 		table = new JTable(modeloa);
-		
+
 		skrolla = new JScrollPane(table);
 		this.add(skrolla);
 
@@ -59,7 +59,9 @@ public class FavPanela extends JPanel {
 	public void gehiago20(List<String[]> st) {
 
 		modeloa.kargatu(st);
-		doituZutabeZabalera();
+		if(!st.isEmpty()){
+			doituZutabeZabalera();
+		}
 		table.revalidate();
 		this.revalidate();
 

@@ -63,7 +63,7 @@ import model.User;
 			lblPasword.setBounds(45, 122, 70, 15);
 			contentPane.add(lblPasword);
 			
-			erabiltzailea = new JTextField("antton");
+			erabiltzailea = new JTextField("");
 			erabiltzailea.setBounds(161, 63, 114, 19);
 			contentPane.add(erabiltzailea);
 			erabiltzailea.setColumns(10);
@@ -74,7 +74,7 @@ import model.User;
 			contentPane.add(oker);
 			oker.setVisible(false);
 			
-			passwordField = new JPasswordField("antton");
+			passwordField = new JPasswordField("");
 			passwordField.setBounds(161, 120, 114, 17);
 			contentPane.add(passwordField);
 			
