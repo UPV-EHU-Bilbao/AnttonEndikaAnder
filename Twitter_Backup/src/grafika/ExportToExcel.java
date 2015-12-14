@@ -5,11 +5,9 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -25,7 +23,6 @@ public class ExportToExcel extends JDialog implements ActionListener {
 	private String twitterUser;
 	private JCheckBox chckbxMd;
 	private JCheckBox chckbxList;
-	private JLabel deskargatzen;
 
 
 
@@ -62,9 +59,6 @@ public class ExportToExcel extends JDialog implements ActionListener {
 		chckbxList = new JCheckBox("List");
 		contentPanel.add(chckbxList);
 
-		deskargatzen=new JLabel("Deskargatzen...");
-		deskargatzen.setVisible(false);
-		contentPanel.add(deskargatzen);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -72,12 +66,14 @@ public class ExportToExcel extends JDialog implements ActionListener {
 			{
 				JButton okButton = new JButton("OK");
 				okButton.setActionCommand("OK");
+				okButton.addActionListener(this);
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.setActionCommand("Cancel");
+				cancelButton.addActionListener(this);
 				buttonPane.add(cancelButton);
 			}
 		}
@@ -85,7 +81,7 @@ public class ExportToExcel extends JDialog implements ActionListener {
 
 	
 	public void actionPerformed(ActionEvent arg0) {
-		if (arg0.getActionCommand().equals("ok")){
+		if (arg0.getActionCommand().equals("OK")){
 			
 			 boolean getTweet=false;
 			 boolean getFav=false;
@@ -94,10 +90,6 @@ public class ExportToExcel extends JDialog implements ActionListener {
 			 boolean getDirectMesage=false;
 			 boolean getLists=false;
 			
-			if(chckbxList.isSelected()||chckbxMd.isSelected()||chckbxFollowing.isSelected() ||
-					chckbxFollowers.isSelected()|| chckbxFav.isSelected() || chckbxTweet.isSelected()){
-				deskargatzen.setVisible(true);
-			}
 			if(chckbxTweet.isSelected()){
 				getTweet=true;
 			}

@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -13,9 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-
-	import model.TwitterConect;
 import model.User;
 	
 	public class Login extends JFrame implements ActionListener {
@@ -23,7 +19,6 @@ import model.User;
 		private JPanel contentPane;
 		private JTextField erabiltzailea;
 		private JPasswordField passwordField;
-		private JComboBox comboBox = new JComboBox();
 		private JLabel oker;
 	
 		/**
@@ -91,24 +86,11 @@ import model.User;
 			btnNewUser.setActionCommand("newuser");
 			
 			
-			comboBox.setBounds(336, 38, 102, 24);
-			contentPane.add(comboBox);
-			comboBox.setVisible(false);
-			comboBox.addActionListener(this);
-			comboBox.addItem(Messages.getString("login.4")); //$NON-NLS-1$
-			comboBox.addItem(Messages.getString("login.5")); //$NON-NLS-1$
-			comboBox.addItem(Messages.getString("login.6")); //$NON-NLS-1$
 			
 		}
 		
 		public void actionPerformed(ActionEvent e){
 			
-			if (comboBox.getSelectedIndex()==2){
-				Locale spanishLocale = new Locale("grafika.messages", "ES");
-				//ResourceBundle bundle3 = ResourceBundle.getBundle("TestBundle", spanishLocale);
-				Messages.setBundle(spanishLocale);
-				Messages.setString("grafika.messages");
-			}
 				if (e.getActionCommand().equals("login")){
 					int log=User.getUser().login(erabiltzailea.getText(),passwordField.getText());
 					if (log!=-1) {

@@ -68,7 +68,6 @@ public class Deskargak extends JDialog implements ActionListener{
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 				okButton.addActionListener(this);

@@ -25,8 +25,8 @@ import controller.TwitterController;
 public class HasierakoMenua extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
-	private int altuera=500;
-	private int zabalera=650;
+	private static int ALTUERA=500;
+	private static int ZABALERA=650;
 	private JButton gehiago=new JButton("20 Gehiago");
 	private final JMenuBar menuBar = new JMenuBar();
 	private JMenu menuUser;
@@ -38,7 +38,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 	private MezuakPanela mezuakPanela=new MezuakPanela();
 	private ListakPanela listakPanela=new ListakPanela();
 	private boolean panelaDago=false;
-	
+
 
 	/**
 	 * Create the frame.
@@ -51,7 +51,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		twitterUser=new String();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, zabalera, altuera);
+		setBounds(100, 100, ZABALERA, ALTUERA);
 		setMinimumSize(new Dimension(700, 300));
 
 		contentPane = new JPanel();
@@ -75,42 +75,42 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		mntmTweet.addActionListener(this);
 		mntmTweet.setActionCommand("tweet");
 		mntmTweet.setMinimumSize(new Dimension(35, 20));
-		
+
 		JMenuItem mntmFav = new JMenuItem("Fav");
 		mntmFav.addActionListener(this);
 		mntmFav.setActionCommand("fav");
 		mntmFav.setMinimumSize(new Dimension(10, 20));
-		
+
 		JMenuItem mntmFollowers = new JMenuItem("Followers");
 		mntmFollowers.setMinimumSize(new Dimension(60, 20));
 		mntmFollowers.addActionListener(this);
 		mntmFollowers.setActionCommand("followers");
-		
+
 		JMenuItem mntmFollowing = new JMenuItem("Following");
 		mntmFollowing.setMinimumSize(new Dimension(60, 20));
 		mntmFollowing.addActionListener(this);
 		mntmFollowing.setActionCommand("following");
-		
+
 		JMenuItem mntmDM = new JMenuItem("Direct message");
 		mntmDM.setMinimumSize(new Dimension(120, 20));
 		mntmDM.addActionListener(this);
 		mntmDM.setActionCommand("DM");
-		
+
 		JMenuItem mntmList = new JMenuItem("List");
 		mntmList.addActionListener(this);
 		mntmList.setActionCommand("list");
 		mntmList.setMinimumSize(new Dimension(10, 20));
-		
+
 		JMenuItem mntmDeskargatu = new JMenuItem("Deskargatu");
 		mntmDeskargatu.setMinimumSize(new Dimension(80, 20));
 		mntmDeskargatu.addActionListener(this);
 		mntmDeskargatu.setActionCommand("deskargatu");
-		
+
 		JMenuItem mntmExcel = new JMenuItem("Export to Excel");
 		mntmExcel.setMinimumSize(new Dimension(120, 20));
 		mntmExcel.addActionListener(this);
 		mntmExcel.setActionCommand("excel");
-		
+
 		menuBar.add(mntmTweet);
 		menuBar.add(mntmFav);
 		menuBar.add(mntmFollowers);
@@ -128,11 +128,14 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		//users botioaren inplementazioa
 		newUserMenua();
 
-		
+
 
 
 	} 
-
+	
+	/**
+	 * erabiltzaileen menua kargatzen du
+	 */
 	public void newUserMenua() {
 		ArrayList<String> lk=User.getUser().getTwitterUsers();
 		Iterator<String> it=lk.iterator();
@@ -172,19 +175,18 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 
 		}
 		else if (event.getActionCommand().equals("tweet") || event.getActionCommand().equals("20+tweet")){
-			//bukaerara heltzean errorea
 			ArrayList<String> st=new ArrayList<String>();
 			try {
 				if(panelaDago){
-				contentPane.remove(2);
+					contentPane.remove(2);
 				}
 				//tweet-en taula
 				tweetTaula.setOpaque(true);
 				contentPane.add(tweetTaula, BorderLayout.CENTER);
 				panelaDago=true;
-				
+
 				if(event.getActionCommand().equals("20+tweet")){
-					
+
 					st = TwitterController.getTwitterController().tweetakIkusi(this.twitterUser, false);
 				}else{
 					tweetTaula.ezabatuTweetak();
@@ -208,7 +210,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 				contentPane.add(favPanela, BorderLayout.CENTER);
 				ArrayList<String[]> favLista=new ArrayList<String[]>();
 				panelaDago=true;
-				
+
 				if(event.getActionCommand().equals("20+fav")){
 					favLista = TwitterController.getTwitterController().favIkusi(this.twitterUser, false);
 				}else{
@@ -232,7 +234,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			contentPane.add(followerPanela, BorderLayout.CENTER);
 			ArrayList<String> followerLista=new ArrayList<String>();
 			panelaDago=true;
-			
+
 			if(event.getActionCommand().equals("20+follow")){
 				followerLista = TwitterController.getTwitterController().followerakIkusi(this.twitterUser, false);
 			}else{ 
@@ -242,7 +244,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 				gehiago.setActionCommand("20+follow");
 			}
 			followerPanela.gehiago20(followerLista);
-			
+
 		}else if(event.getActionCommand().equals("following") || event.getActionCommand().equals("20+following")){
 			if(panelaDago){
 				contentPane.remove(2);
@@ -252,7 +254,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			contentPane.add(followingPanela, BorderLayout.CENTER);
 			ArrayList<String> followingLista=new ArrayList<String>();
 			panelaDago=true;
-			
+
 			if(event.getActionCommand().equals("20+following")){
 				followingLista = TwitterController.getTwitterController().followakIkusi(this.twitterUser, false);
 			}else{ 
@@ -262,7 +264,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 				gehiago.setActionCommand("20+following");
 			}
 			followingPanela.gehiago20(followingLista);
-			
+
 		}else if (event.getActionCommand().equals("DM") || event.getActionCommand().equals("20+dm")){
 			if(panelaDago){
 				contentPane.remove(2);
@@ -272,7 +274,7 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			contentPane.add(mezuakPanela, BorderLayout.CENTER);
 			ArrayList<String[]> dmLista=new ArrayList<String[]>();
 			panelaDago=true;
-			
+
 			if(event.getActionCommand().equals("20+dm")){
 				dmLista = TwitterController.getTwitterController().mezuakIkusi(this.twitterUser, false);
 			}else{
@@ -293,9 +295,11 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 			HashMap<String, ArrayList<String>> listLista = TwitterController.getTwitterController().listakIkusi(twitterUser);
 			listakPanela.gehiago20(listLista);
 		}else if(event.getActionCommand().equals("deskargatu")){
-			Deskargak dialog = new Deskargak(this.twitterUser);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
+			if(!twitterUser.equals("")){
+				Deskargak dialog = new Deskargak(this.twitterUser);
+				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				dialog.setVisible(true);
+			}
 		}else if(event.getActionCommand().equals("excel")){
 			JDialog export=new ExportToExcel(twitterUser);
 			export.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
