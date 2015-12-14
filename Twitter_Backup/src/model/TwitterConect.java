@@ -113,6 +113,7 @@ public class TwitterConect {
 			for (Status status : tweetak) {//deskargatutako tweet zerrenda datubasean sartu
 				TwitterController.getTwitterController().tweetaGorde(erab, status);
 				azkenDeskarga = status.getId();
+				System.out.println(azkenDeskarga);
 			}
 			return azkenDeskarga;
 		} catch (IllegalStateException | TwitterException e) {
@@ -139,9 +140,12 @@ public class TwitterConect {
 					while (true) {
 						int size = list.size();
 						Paging page = new Paging(pageno++, 20, new Long(1));
-						list.addAll(twitter.getUserTimeline(page));
-						if (list.size()==size) {
-							azkenDeskarga = gorde(list);
+						//list.addAll(twitter.getUserTimeline(page));
+						list = twitter.getUserTimeline(page);
+						azkenDeskarga = gorde(list);
+						if (list.size()==0) {
+							//azkenDeskarga = gorde(list);
+							System.out.println("Tweet guztiak deskargatuta dituzu");
 							break;
 						}
 					}
@@ -149,11 +153,15 @@ public class TwitterConect {
 				else if (idBerri!=twitter.getUserTimeline(new Paging(1,1)).get(0).getId()) {//tweet berriak deskargatzeko
 					helmuga = idBerri;
 					while (true) {
+						helmuga=idBerri;
 						int size = list.size();
-						Paging page = new Paging(pageno++, 20, idBerri);
-						list.addAll(twitter.getUserTimeline(page));
-						if (list.size()==size) {
-							azkenDeskarga = gorde(list);
+						Paging page = new Paging(pageno++, 20, idBerri+1);
+						//list.addAll(twitter.getUserTimeline(page));
+						list = twitter.getUserTimeline(page);
+						azkenDeskarga = gorde(list);
+						if (list.size()==0) {
+							//azkenDeskarga = gorde(list);
+							System.out.println("Tweet guztiak deskargatuta dituzu");
 							break;
 						}
 					}
@@ -169,9 +177,12 @@ public class TwitterConect {
 						while (true) {
 							int size = list.size();
 							Paging page = new Paging(pageno++, 20, tarteak[1], tarteak[0]);
-							list.addAll(twitter.getUserTimeline(page));
-							if (list.size()==size) {
-								azkenDeskarga = gorde(list);
+							//list.addAll(twitter.getUserTimeline(page));
+							list = twitter.getUserTimeline(page);
+							azkenDeskarga = gorde(list);
+							if (list.size()==0) {
+								//azkenDeskarga = gorde(list);
+								System.out.println("Tweet guztiak deskargatuta dituzu");
 								break;
 							}
 						}
@@ -179,8 +190,12 @@ public class TwitterConect {
 				}
 			} catch (TwitterException e) {//tweetak eta tarteak datubasean gorde
 				System.out.println("application's rate limit, please wait 15m a retry");
-				azkenDeskarga = gorde(list);
-				TwitterController.getTwitterController().tarteaSartu(user, "MyTweets", azkenDeskarga-1, helmuga);
+				System.out.println(azkenDeskarga);
+				//azkenDeskarga = gorde(list);
+				System.out.println(azkenDeskarga);
+				System.out.println(helmuga);
+				if (azkenDeskarga!=0)
+					TwitterController.getTwitterController().tarteaSartu(user, "MyTweets", azkenDeskarga-1, helmuga);
 			}
 		} catch (IllegalStateException | TwitterException e) {//lehena, getscreenname
 			e.printStackTrace();

@@ -137,6 +137,7 @@ public class DB {
 		try {
 			PreparedStatement statement= conn.prepareStatement(query);
 			for (int i=0;i<parameters.length; i++){
+				//System.out.println(parameters[i]);
 				if ("class java.lang.Integer".equals(parameters[i].getClass().toString())){
 		    		//System.out.println(parameters[i]);
 		    		statement.setInt(i+1, (int) parameters[i]);
