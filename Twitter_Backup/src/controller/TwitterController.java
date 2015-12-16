@@ -28,7 +28,7 @@ public class TwitterController {
 		return instantzia;
 	}
 	
-	public Long tweetBerriZahar(String tUser, String posizioa){
+	public Long tweetBerriZahar(String taula, String tUser, String posizioa){
 		//datubasean sartutako id-a zaharrena edo berriena itzultzen du deskargak kudeatzeko
 		Object[] params = new Object[1];
 		params[0] = tUser;
@@ -39,7 +39,7 @@ public class TwitterController {
 			mota = "ASC";
 		}
 		try {			
-			ResultSet request = DB.getDb().select("SELECT id FROM MyTweets WHERE twitterUser=? ORDER BY id "+mota+" LIMIT 1",params);	
+			ResultSet request = DB.getDb().select("SELECT id FROM "+taula+" WHERE twitterUser=? ORDER BY id "+mota+" LIMIT 1",params);	
 			request.next();
 			return new Long(request.getLong(1));
 		} catch (Exception e) {
