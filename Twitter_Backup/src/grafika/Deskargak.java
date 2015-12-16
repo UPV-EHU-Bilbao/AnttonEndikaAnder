@@ -95,8 +95,7 @@ public class Deskargak extends JDialog implements ActionListener{
 				tc.tweetakDeskargatu();
 			}
 			if(chckbxFav.isSelected()){
-				tc.getFavs();
-//				tc.favDeskargatu();
+				tc.favDeskargatu();
 			}
 			if(chckbxFollowers.isSelected()){
 				tc.getFollowers();
@@ -110,9 +109,9 @@ public class Deskargak extends JDialog implements ActionListener{
 			if(chckbxList.isSelected()){
 				tc.getLists();
 			}
-			
+
 		}
-		JDialog info =new InformazioMezua("Dena ondo deskargatu da!");
+		JDialog info =new InformazioMezua("DEskarga bukatu da.");
 		info.setVisible(true);
 		this.dispose();
 	}

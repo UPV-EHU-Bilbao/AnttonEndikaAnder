@@ -310,6 +310,9 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 				Deskargak dialog = new Deskargak(this.twitterUser);
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				dialog.setVisible(true);
+			}else{
+				JDialog info =new InformazioMezua("Ez dago Twitterrreko erabiltzailerik hautatua.");
+				info.setVisible(true);
 			}
 		}else if(event.getActionCommand().equals("excel")){
 			JDialog export=new ExportToExcel(twitterUser);

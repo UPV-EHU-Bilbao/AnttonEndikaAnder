@@ -63,7 +63,8 @@ public class TwitterConect {
 	                        }
 	                    } catch (TwitterException te) {
 	                        if (401 == te.getStatusCode()) {
-	                            System.out.println("Unable to get the access token.");
+	                            JDialog info =new InformazioMezua("Unable to get the access token.");
+	            				info.setVisible(true);
 	                        } else {
 	                            te.printStackTrace();
 	                        }
@@ -72,7 +73,8 @@ public class TwitterConect {
 	                TwitterSesionController.getTwitterSesionController().newTwitterSession(twitter.getScreenName(),User.getUser().getId(), accessToken.getTokenSecret().toString(), accessToken.getToken().toString());
 	            } catch (IllegalStateException ie) {
 	                if (!twitter.getAuthorization().isEnabled()) {
-	                    System.out.println("OAuth consumer key/secret is not set.");
+	                    JDialog info =new InformazioMezua("OAuth consumer key/secret is not set.");
+        				info.setVisible(true);
 	                }
 	            } catch (TwitterException e1) {
 					e1.printStackTrace();
@@ -119,12 +121,10 @@ public class TwitterConect {
 				if (taula.equals("MyTweets")) {
 					TwitterController.getTwitterController().tweetaGorde(erab, status);
 					azkenDeskarga = status.getId();
-					System.out.println(azkenDeskarga);
 				}
 				else if (taula.equals("Fav")) {
 					TwitterController.getTwitterController().favGorde(erab, status);
 					azkenDeskarga = status.getId();
-					System.out.println(azkenDeskarga);
 				}
 			}
 			return azkenDeskarga;
@@ -157,7 +157,6 @@ public class TwitterConect {
 						azkenDeskarga = gorde(list,"MyTweets");
 						if (list.size()==0) {
 							//azkenDeskarga = gorde(list);
-							System.out.println("Tweet guztiak deskargatuta dituzu");
 							break;
 						}
 					}
@@ -173,7 +172,6 @@ public class TwitterConect {
 						azkenDeskarga = gorde(list,"MyTweets");
 						if (list.size()==0) {
 							//azkenDeskarga = gorde(list);
-							System.out.println("Tweet guztiak deskargatuta dituzu");
 							break;
 						}
 					}
@@ -181,7 +179,6 @@ public class TwitterConect {
 				else {//tarteak deskargatu
 					Long[] tarteak = TwitterController.getTwitterController().tarteaLortu(user, "MyTweets");
 					if (tarteak==null) {
-						System.out.println("Tweet guztiak deskargatuta dituzu");
 					}else {
 						helmuga = tarteak[1];
 						//azkenDeskarga = tarteak[0]; lehen buelta baino lehenago eten daiteke?
@@ -194,20 +191,14 @@ public class TwitterConect {
 							azkenDeskarga = gorde(list,"MyTweets");
 							if (list.size()==0) {
 								//azkenDeskarga = gorde(list);
-								System.out.println("Tweet guztiak deskargatuta dituzu");
 								break;
 							}
 						}
 					}
 				}
 			} catch (TwitterException e) {//tweetak eta tarteak datubasean gorde
-				//System.out.println("application's rate limit, please wait 15m a retry");
 				JDialog info =new InformazioMezua("application's rate limit, please wait 15m a retry");
 				info.setVisible(true);
-				System.out.println(azkenDeskarga);
-				//azkenDeskarga = gorde(list);
-				System.out.println(azkenDeskarga);
-				System.out.println(helmuga);
 				if (azkenDeskarga!=0)
 					TwitterController.getTwitterController().tarteaSartu(user, "MyTweets", azkenDeskarga-1, helmuga);
 			}
@@ -240,7 +231,6 @@ public class TwitterConect {
 						azkenDeskarga = gorde(list,"Fav");
 						if (list.size()==0) {
 							//azkenDeskarga = gorde(list);
-							System.out.println("Favorite guztiak deskargatuta dituzu");
 							break;
 						}
 					}
@@ -256,7 +246,6 @@ public class TwitterConect {
 						azkenDeskarga = gorde(list,"Fav");
 						if (list.size()==0) {
 							//azkenDeskarga = gorde(list);
-							System.out.println("Favorite guztiak deskargatuta dituzu");
 							break;
 						}
 					}
@@ -264,7 +253,6 @@ public class TwitterConect {
 				else {//tarteak deskargatu
 					Long[] tarteak = TwitterController.getTwitterController().tarteaLortu(user, "Fav");
 					if (tarteak==null) {
-						System.out.println("Favorite guztiak deskargatuta dituzu");
 					}else {
 						helmuga = tarteak[1];
 						TwitterController.getTwitterController().tarteaEzabatu(user, "Fav", tarteak[1]);
@@ -276,20 +264,14 @@ public class TwitterConect {
 							azkenDeskarga = gorde(list,"Fav");
 							if (list.size()==0) {
 								//azkenDeskarga = gorde(list);
-								System.out.println("Favorite guztiak deskargatuta dituzu");
 								break;
 							}
 						}
 					}
 				}
 			} catch (TwitterException e) {//tweetak eta tarteak datubasean gorde
-				//System.out.println("application's rate limit, please wait 15m a retry");
 				JDialog info =new InformazioMezua("application's rate limit, please wait 15m a retry");
 				info.setVisible(true);
-				System.out.println(azkenDeskarga);
-				//azkenDeskarga = gorde(list);
-				System.out.println(azkenDeskarga);
-				System.out.println(helmuga);
 				if (azkenDeskarga!=0)
 					TwitterController.getTwitterController().tarteaSartu(user, "Fav", azkenDeskarga-1, helmuga);
 			}
@@ -298,39 +280,7 @@ public class TwitterConect {
 		}
 	}
 	
-	/**
-	 * Fav-ak jaitsi eta gordetzen ditu
-	 */
-	public void getFavs(){
-		getFavs(new Long("1"));
-	}
 	
-	/**
-	 * Fav-ak jaitsi eta gordetzen ditu
-	 * @param sinceId deskargatu nahi den azken tweeta
-	 */
-	public void getFavs(long sinceId){
-		int pageno = 1;
-		List<Status> statuses = new ArrayList<Status>();
-		while (true) {
-			try {
-				int size = statuses.size();
-				Paging page = new Paging(pageno++, 100, sinceId);
-				statuses.addAll(twitter.getFavorites(page));
-				if (statuses.size()==size) {
-					for (Status status : statuses) {
-						TwitterController.getTwitterController().favGorde(twitter.getScreenName(), status);
-					}
-					break;
-				}
-			} catch (TwitterException te) {
-				//te.printStackTrace();
-				System.out.println("Failed to get favorites: " + te.getMessage());
-				//System.exit(-1);
-			}
-		}
-		
-	}
 	
 	/**
 	 * Followerrak jaitsi eta gordetzen ditu
@@ -340,23 +290,17 @@ public class TwitterConect {
             
             long cursor = -1;
             IDs ids;
-            //System.out.println("Listing followers's ids.");
             do {
                
                 ids = twitter.getFollowersIDs(cursor);
                 
                 for (long id : ids.getIDs()) {
-                    //System.out.println(id);
-                    //System.out.println(twitter.showUser(id).getScreenName());
-                    TwitterController.getTwitterController().followerakGorde(Long.toString(id), twitter.showUser(id).getScreenName(), twitter.getScreenName());
-                    
+                 TwitterController.getTwitterController().followerakGorde(Long.toString(id), twitter.showUser(id).getScreenName(), twitter.getScreenName());
                 }
             } while (((cursor = ids.getNextCursor()) != 0) && (ids.getIDs().length!=0));
-            //System.exit(0);
         } catch (TwitterException te) {
-            te.printStackTrace();
-            System.out.println("Failed to get followers' ids: " + te.getMessage());
-            //System.exit(-1);
+            JDialog info =new InformazioMezua("application's rate limit, please wait 15m a retry");
+			info.setVisible(true);
         }
 	}
 	
@@ -368,24 +312,18 @@ public class TwitterConect {
             
             long cursor = -1;
             IDs ids;
-            //System.out.println("Listing followers's ids.");
             do {
                
                 ids = twitter.getFriendsIDs(cursor);
                 
                 for (long id : ids.getIDs()) {
-                    //System.out.println(id);
-                    //System.out.println(twitter.showUser(id).getScreenName());
                     TwitterController.getTwitterController().followakGorde(Long.toString(id), twitter.showUser(id).getScreenName(), twitter.getScreenName());
                     
                 }
-                System.out.println(ids.getIDs().length);
             } while (((cursor = ids.getNextCursor()) != 0) && (ids.getIDs().length!=0));
-            //System.exit(0);
         } catch (TwitterException te) {
-            te.printStackTrace();
-            System.out.println("Failed to get followers' ids: " + te.getMessage());
-            //System.exit(-1);
+        	 JDialog info =new InformazioMezua("application's rate limit, please wait 15m a retry");
+ 			info.setVisible(true);
         }
 	}
 	
@@ -396,7 +334,6 @@ public class TwitterConect {
 		try {
             ResponseList<UserList> lists = twitter.getUserLists(twitter.getScreenName());
             for (UserList list : lists) {
-                //System.out.println("id:" + list.getId() + ", name:" + list.getName() + ", description:" + list.getDescription() + ", slug:" + list.getSlug() + "");
 
                 //get members of a list
                 long cursor = -1;
@@ -404,7 +341,6 @@ public class TwitterConect {
                 do {
                     usres = twitter.getUserListMembers(list.getId(), cursor);
                     for (twitter4j.User lista : usres) {
-                        //System.out.println("@" + lista.getScreenName());
                     	TwitterController.getTwitterController().listakGorde(list.getId(),list.getName(),lista.getScreenName(),twitter.getScreenName());
                     }
                 } while (((cursor = usres.getNextCursor()) != 0) && (!usres.isEmpty()));
@@ -412,9 +348,8 @@ public class TwitterConect {
             }
             
         } catch (TwitterException te) {
-            te.printStackTrace();
-            System.out.println("Failed to list the lists: " + te.getMessage());
-            //System.exit(-1);
+        	 JDialog info =new InformazioMezua("application's rate limit, please wait 15m a retry");
+ 			info.setVisible(true);
         }
 	}
 	
@@ -429,7 +364,6 @@ public class TwitterConect {
             do {
                 messages = twitter.getDirectMessages(page);
                 for (DirectMessage message : messages) {
-                    System.out.println("From: @" + message.getSenderScreenName() + " id:" + message.getId() + " - " + message.getText());
                 	TwitterController.getTwitterController().mezuaGorde(Long.toString(message.getId()), message.getSenderScreenName(), twitter.getScreenName(), message.getText(), twitter.getScreenName());
                 }
                 page.setPage(page.getPage() + 1);
@@ -440,15 +374,14 @@ public class TwitterConect {
             do {
                 messages = twitter.getSentDirectMessages(page);
                 for (DirectMessage message : messages) {
-                    System.out.println("To: @" + message.getRecipientScreenName() + " id:" + message.getId() + " - " + message.getText());
                 	TwitterController.getTwitterController().mezuaGorde(Long.toString(message.getId()), twitter.getScreenName(), message.getRecipientScreenName(), message.getText(), twitter.getScreenName());
                 }
                 page.setPage(page.getPage() + 1);
             } while (messages.size() > 0 /*&& page.getPage() < 10*/);
             
         } catch (TwitterException te) {
-            te.printStackTrace();
-            System.out.println("Failed to get messages: " + te.getMessage()); 
+        	 JDialog info =new InformazioMezua("application's rate limit, please wait 15m a retry");
+ 			info.setVisible(true);
         }
 	}
 	
