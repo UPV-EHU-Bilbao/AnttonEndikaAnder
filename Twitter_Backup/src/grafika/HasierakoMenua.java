@@ -3,6 +3,7 @@ package grafika;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -11,13 +12,18 @@ import javax.swing.JDialog;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu; 
 import javax.swing.JMenuItem;
+import javax.swing.JTextField;
+
 import java.awt.Dimension;
+
 import model.TwitterConect;
 import model.User;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+
 import controller.TwitterController;
 
 
@@ -64,6 +70,9 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		gehiago.setEnabled(false);
 		gehiago.addActionListener(this);
 		gehiago.setActionCommand("20+");
+//		
+//		JTextField txiotu=new JTextField();
+//		contentPane.add(txiotu, BorderLayout.SOUTH);
 
 
 		JPanel contentPane1 = new JPanel();
@@ -124,6 +133,8 @@ public class HasierakoMenua extends JFrame implements ActionListener{
 		menuUser =new JMenu("Users");
 		menuUser.setMinimumSize(new Dimension(50, 20));
 		menuBar.add(menuUser);
+		
+		
 
 		//users botioaren inplementazioa
 		newUserMenua();

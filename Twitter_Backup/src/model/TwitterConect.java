@@ -209,48 +209,6 @@ public class TwitterConect {
 		}
 	}
 	
-	/**
-	 * Tweetak jaitsi eta gordetzen ditu
-	 */
-	public void getTwitts(){
-        try {
-        	ResponseList<Status> list = twitter.getUserTimeline();
-        	for (Status status : list) {
-        		TwitterController.getTwitterController().tweetaGorde(twitter.getScreenName(),status);
-			}
-        	getTwitts(Long.toString(list.get(list.size()-1).getId()-(new Long("1"))));
-        } catch (TwitterException te) {
-            //System.out.println("application's rate limit, please wait 15m a retry");
-            JDialog info =new InformazioMezua("application's rate limit, please wait 15m a retry");
-			info.setVisible(true);
-        	//te.printStackTrace();
-            //System.out.println("Failed to show status: " + te.getMessage());
-        }
-        
-	}
-	
-	/**
-	 * Tweetak jaitsi eta gordetzen ditu
-	 * @param lastAdded deskargatu nahi den lehen tweeta
-	 */
-	public void getTwitts(String lastAdded){
-	    try {
-	    	ResponseList<Status> list = twitter.getUserTimeline(new Paging(1,20,Long.parseLong("1"),Long.parseLong(lastAdded)));
-	    	if(list.size()!=0 && !list.get(0).equals(Long.parseLong(lastAdded))){
-		    	for (Status status : list) {
-		    		TwitterController.getTwitterController().tweetaGorde(twitter.getScreenName(),status);
-				}
-		    	getTwitts(Long.toString(list.get(list.size()-1).getId()-(new Long("1"))));
-	    	}
-	    } catch (TwitterException te) {
-//	    	System.out.println("application's rate limit, please wait 15m a retry");
-	    	JDialog info =new InformazioMezua("application's rate limit, please wait 15m a retry");
-			info.setVisible(true);
-	        //te.printStackTrace();
-	        //System.out.println("Failed to show status: " + te.getMessage());
-	    }
-	    
-	}
 	
 	/**
 	 * Fav-ak jaitsi eta gordetzen ditu

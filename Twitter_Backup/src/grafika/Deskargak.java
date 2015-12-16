@@ -92,7 +92,7 @@ public class Deskargak extends JDialog implements ActionListener{
 				deskargatzen.setVisible(true);
 			}
 			if(chckbxTweet.isSelected()){
-				tc.getTwitts();
+				tc.tweetakDeskargatu();
 			}
 			if(chckbxFav.isSelected()){
 				tc.getFavs();
